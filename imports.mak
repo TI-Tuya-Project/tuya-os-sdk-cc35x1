@@ -18,14 +18,14 @@
 # will build using each non-empty *_ARMCOMPILER cgtool.
 #
 
-SYSCONFIG_TOOL         ?= C:/ti/ccs2010/ccs/utils/sysconfig_1.26.0/sysconfig_cli.bat
-SIMPLELINK_WIFI_TOOLBOX_INSTALL_DIR ?= C:/ti/simplelink_wifi_toolbox_4_0_2
+SYSCONFIG_TOOL         ?= C:/ti/sysconfig_1.26.0/sysconfig_cli.bat
+SIMPLELINK_WIFI_TOOLBOX_INSTALL_DIR ?= C:/ti/simplelink_wifi_toolbox_4_0_13
 
 CMAKE                  ?= C:/cmake-3.21.3/bin/cmake
 PYTHON                 ?= python
 
-TICLANG_ARMCOMPILER    ?= C:/ti/ccs2010/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS
-GCC_ARMCOMPILER        ?= C:/arm-none-eabi-gcc/12.3.Rel1-0-win32
+TICLANG_ARMCOMPILER    ?= C:/ti/ccs2031/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS
+GCC_ARMCOMPILER        ?= C:/arm-gnu-toolchain-12.3.rel1-x86_64-arm-none-eabi
 
 ifeq ("$(SHELL)","sh.exe")
     # for Windows/DOS shell
