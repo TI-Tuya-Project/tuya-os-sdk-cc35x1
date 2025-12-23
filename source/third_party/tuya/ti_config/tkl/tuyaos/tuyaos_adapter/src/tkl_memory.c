@@ -42,7 +42,7 @@ void *tkl_system_malloc(size_t size)
 void tkl_system_free(void *ptr)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 

@@ -24,7 +24,7 @@
 void tkl_system_reset(void)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 
@@ -94,7 +94,7 @@ TUYA_RESET_REASON_E tkl_system_get_reset_reason(char **describe)
 void tkl_system_sleep(uint32_t num_ms)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 
@@ -110,7 +110,7 @@ void tkl_system_sleep(uint32_t num_ms)
 void tkl_system_delay(uint32_t num_ms)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 

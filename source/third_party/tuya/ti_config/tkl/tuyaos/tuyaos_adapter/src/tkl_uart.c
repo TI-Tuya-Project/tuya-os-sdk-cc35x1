@@ -89,7 +89,7 @@ int tkl_uart_write(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 void tkl_uart_rx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB rx_cb)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 
@@ -111,7 +111,7 @@ void tkl_uart_rx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB rx_cb)
 void tkl_uart_tx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB tx_cb)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 

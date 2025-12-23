@@ -26,7 +26,7 @@
 void tkl_log_output(const char *format, ...)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return;
     // --- END: user implements ---
 }
 
