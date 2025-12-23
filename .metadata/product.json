@@ -1,0 +1,31 @@
+{
+    "name": "simplelink_wifi_sdk",
+    "displayName": "SimpleLink WiFi SDK",
+    "version": "9.21.00.15",
+    "documentationPath": "../docs",
+    "includePaths": [
+        "../source",
+        "../kernel"
+    ],
+    "components": [
+        "/ti/devices/devices.component.js",
+        "/ti/drivers/drivers.component.js",
+        "/ti/drivers/secure_drivers.component.js",
+        "/ti/log/drivers.component.js",
+        "/ti/log/utils.component.js",
+        "/ti/posix/tiposix.component.js",
+        "/ti/utils/tiutils.component.js",
+        "/ti/utils/build/build.component.js",
+        "/ti/utils/rov/rov.component.js",
+        "/freertos/freertos.component.js"
+    ],
+    "devices": [
+        "CC35.*"
+    ],
+    "rtos": [
+        "freertos",
+        "none",
+        "nortos"
+    ],
+    "minToolVersion": "1.26.0"
+}

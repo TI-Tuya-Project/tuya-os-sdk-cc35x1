@@ -1,0 +1,38 @@
+[
+    {
+        "files": [
+            "+../../button_if.c -> button_if.c",
+            "+../../button_if.h -> button_if.h",
+            "+../../default_netif.h -> default_netif.h",
+            "+../../dns_if.c -> dns_if.c",
+            "+../../dns_if.h -> dns_if.h",
+            "+../../led_if.c -> led_if.c",
+            "+../../led_if.h -> led_if.h",
+            "+../../mqtt_client_app.c -> mqtt_client_app.c",
+            "+../../mqtt_client_app.h -> mqtt_client_app.h",
+            "+../../mqtt_if.c -> mqtt_if.c",
+            "+../../mqtt_if.h -> mqtt_if.h",
+            "+../../mqtt_settings.h -> mqtt_settings.h",
+            "+../../tcpip_if.c -> tcpip_if.c",
+            "+../../tcpip_if.h -> tcpip_if.h",
+            "+../../wifi_if.c -> wifi_if.c",
+            "+../../wifi_if.h -> wifi_if.h",
+            "+../../wifi_settings.h -> wifi_settings.h",
+            "+../../uart_term.h -> uart_term.h",
+            "+../../README.html -> README.html",
+            "+../../crc.c -> crc.c",
+            "+../../crc.h -> crc.h",
+            "+../../nvocmp_cc35xx.c -> nvocmp_cc35xx.c",
+            "+../../nvintf.h -> nvintf.h",
+            "+../../nvocmp.h -> nvocmp.h",
+            "+../../adaptation/osi_dpl.c -> adaptation/osi_dpl.c",
+            "+../../adaptation/osi_filesystem.c -> adaptation/osi_filesystem.c",
+            "+../../adaptation/uart_term.c -> adaptation/uart_term.c",
+            "+../../adaptation/syslog.c -> adaptation/syslog.c",
+            "+../main_freertos.c -> main_freertos.c",
+            "+../mqtt_client.syscfg -> mqtt_client.syscfg",
+            "+../../syscalls_stubs.c -> syscalls_stubs.c",
+            "+linker_GNU.lds -> linker_GNU.lds"
+        ]
+    }
+]

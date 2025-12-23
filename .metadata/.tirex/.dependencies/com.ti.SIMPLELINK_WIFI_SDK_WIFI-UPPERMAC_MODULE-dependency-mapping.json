@@ -1,0 +1,12 @@
+{
+    "../../../examples/rtos/LP_EM_CC35X1/demos/at_commands/freertos/gcc/at_commands_LP_EM_CC35X1_freertos_gcc.projectspec": "at_commands_LP_EM_CC35X1_freertos_gcc_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/at_commands/freertos/ticlang/at_commands_LP_EM_CC35X1_freertos_ticlang.projectspec": "at_commands_LP_EM_CC35X1_freertos_ticlang_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/ble_wifi_provisioning/freertos/gcc/ble_wifi_provisioning_LP_EM_CC35X1_freertos_gcc.projectspec": "ble_wifi_provisioning_LP_EM_CC35X1_freertos_gcc_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/ble_wifi_provisioning/freertos/ticlang/ble_wifi_provisioning_LP_EM_CC35X1_freertos_ticlang.projectspec": "ble_wifi_provisioning_LP_EM_CC35X1_freertos_ticlang_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/indigo/freertos/gcc/indigo_LP_EM_CC35X1_freertos_gcc.projectspec": "indigo_LP_EM_CC35X1_freertos_gcc_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/indigo/freertos/ticlang/indigo_LP_EM_CC35X1_freertos_ticlang.projectspec": "indigo_LP_EM_CC35X1_freertos_ticlang_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/mqtt_client/freertos/gcc/mqtt_client_LP_EM_CC35X1_freertos_gcc.projectspec": "mqtt_client_LP_EM_CC35X1_freertos_gcc_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/mqtt_client/freertos/ticlang/mqtt_client_LP_EM_CC35X1_freertos_ticlang.projectspec": "mqtt_client_LP_EM_CC35X1_freertos_ticlang_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/network_terminal/freertos/gcc/network_terminal_LP_EM_CC35X1_freertos_gcc.projectspec": "network_terminal_LP_EM_CC35X1_freertos_gcc_0.dependency.tirex.json",
+    "../../../examples/rtos/LP_EM_CC35X1/demos/network_terminal/freertos/ticlang/network_terminal_LP_EM_CC35X1_freertos_ticlang.projectspec": "network_terminal_LP_EM_CC35X1_freertos_ticlang_0.dependency.tirex.json"
+}

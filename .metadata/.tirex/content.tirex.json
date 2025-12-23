@@ -1,0 +1,1762 @@
+[
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/adcsinglechannel/README.html",
+        "resourceType": "categoryInfo",
+        "name": "adcsinglechannel",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/adcsinglechannel/freertos/ticlang/adcsinglechannel_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "adcsinglechannel",
+        "description": "adcsinglechannel",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "adcsinglechannel",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/adcsinglechannel/freertos/gcc/adcsinglechannel_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "adcsinglechannel",
+        "description": "adcsinglechannel",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "adcsinglechannel",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/empty/README.html",
+        "resourceType": "categoryInfo",
+        "name": "empty",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/empty/freertos/ticlang/empty_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "empty",
+        "description": "empty",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "empty",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/empty/freertos/gcc/empty_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "empty",
+        "description": "empty",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "empty",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/exception/README.html",
+        "resourceType": "categoryInfo",
+        "name": "exception",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/exception/freertos/ticlang/exception_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "exception",
+        "description": "exception",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "exception",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/exception/freertos/gcc/exception_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "exception",
+        "description": "exception",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "exception",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/gpiointerrupt/README.html",
+        "resourceType": "categoryInfo",
+        "name": "gpiointerrupt",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/gpiointerrupt/freertos/ticlang/gpiointerrupt_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "gpiointerrupt",
+        "description": "gpiointerrupt",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "gpiointerrupt",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/gpiointerrupt/freertos/gcc/gpiointerrupt_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "gpiointerrupt",
+        "description": "gpiointerrupt",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "gpiointerrupt",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/i2secho/README.html",
+        "resourceType": "categoryInfo",
+        "name": "i2secho",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/i2secho/freertos/ticlang/i2secho_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "i2secho",
+        "description": "i2secho",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "i2secho",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/i2secho/freertos/gcc/i2secho_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "i2secho",
+        "description": "i2secho",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "i2secho",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/itmwrite/README.html",
+        "resourceType": "categoryInfo",
+        "name": "itmwrite",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/itmwrite/freertos/ticlang/itmwrite_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "itmwrite",
+        "description": "itmwrite",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "itmwrite",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/itmwrite/freertos/gcc/itmwrite_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "itmwrite",
+        "description": "itmwrite",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "itmwrite",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaAeadEncrypt/README.html",
+        "resourceType": "categoryInfo",
+        "name": "psaAeadEncrypt",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaAeadEncrypt/freertos/ticlang/psaAeadEncrypt_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "psaAeadEncrypt",
+        "description": "psaAeadEncrypt",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaAeadEncrypt",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaAeadEncrypt/freertos/gcc/psaAeadEncrypt_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "psaAeadEncrypt",
+        "description": "psaAeadEncrypt",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaAeadEncrypt",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaKeyDerivation/README.html",
+        "resourceType": "categoryInfo",
+        "name": "psaKeyDerivation",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaKeyDerivation/freertos/ticlang/psaKeyDerivation_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "psaKeyDerivation",
+        "description": "psaKeyDerivation",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaKeyDerivation",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaKeyDerivation/freertos/gcc/psaKeyDerivation_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "psaKeyDerivation",
+        "description": "psaKeyDerivation",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaKeyDerivation",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaRawKeyAgreement/README.html",
+        "resourceType": "categoryInfo",
+        "name": "psaRawKeyAgreement",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaRawKeyAgreement/freertos/ticlang/psaRawKeyAgreement_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "psaRawKeyAgreement",
+        "description": "psaRawKeyAgreement",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaRawKeyAgreement",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaRawKeyAgreement/freertos/gcc/psaRawKeyAgreement_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "psaRawKeyAgreement",
+        "description": "psaRawKeyAgreement",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaRawKeyAgreement",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaSignVerify/README.html",
+        "resourceType": "categoryInfo",
+        "name": "psaSignVerify",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaSignVerify/freertos/ticlang/psaSignVerify_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "psaSignVerify",
+        "description": "psaSignVerify",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaSignVerify",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/psaSignVerify/freertos/gcc/psaSignVerify_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "psaSignVerify",
+        "description": "psaSignVerify",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "psaSignVerify",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/pwmled1/README.html",
+        "resourceType": "categoryInfo",
+        "name": "pwmled1",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/pwmled1/freertos/ticlang/pwmled1_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "pwmled1",
+        "description": "pwmled1",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "pwmled1",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/pwmled1/freertos/gcc/pwmled1_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "pwmled1",
+        "description": "pwmled1",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "pwmled1",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/sha2hash/README.html",
+        "resourceType": "categoryInfo",
+        "name": "sha2hash",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/sha2hash/freertos/ticlang/sha2hash_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "sha2hash",
+        "description": "sha2hash",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "sha2hash",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/sha2hash/freertos/gcc/sha2hash_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "sha2hash",
+        "description": "sha2hash",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "sha2hash",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/spicontroller/README.html",
+        "resourceType": "categoryInfo",
+        "name": "spicontroller",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/spicontroller/freertos/ticlang/spicontroller_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "spicontroller",
+        "description": "spicontroller",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "spicontroller",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/spicontroller/freertos/gcc/spicontroller_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "spicontroller",
+        "description": "spicontroller",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "spicontroller",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/spiperipheral/README.html",
+        "resourceType": "categoryInfo",
+        "name": "spiperipheral",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/spiperipheral/freertos/ticlang/spiperipheral_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "spiperipheral",
+        "description": "spiperipheral",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "spiperipheral",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/spiperipheral/freertos/gcc/spiperipheral_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "spiperipheral",
+        "description": "spiperipheral",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "spiperipheral",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/uart2echo/README.html",
+        "resourceType": "categoryInfo",
+        "name": "uart2echo",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/uart2echo/freertos/ticlang/uart2echo_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "uart2echo",
+        "description": "uart2echo",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "uart2echo",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/uart2echo/freertos/gcc/uart2echo_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "uart2echo",
+        "description": "uart2echo",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "uart2echo",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/watchdog/README.html",
+        "resourceType": "categoryInfo",
+        "name": "watchdog",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/watchdog/freertos/ticlang/watchdog_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "watchdog",
+        "description": "watchdog",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "watchdog",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/drivers/watchdog/freertos/gcc/watchdog_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "watchdog",
+        "description": "watchdog",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "TI Drivers",
+            "watchdog",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    }
+]

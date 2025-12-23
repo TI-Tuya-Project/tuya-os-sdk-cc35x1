@@ -1,0 +1,18 @@
+[
+    {
+        "metadataVersion": "3.1.0",
+        "id": "com.ti.SIMPLELINK_WIFI_SDK_WIFI-UPPERMAC_MODULE",
+        "name": "TI WiFi Stack",
+        "version": "9.21.00.15",
+        "type": "software",
+        "devices": [
+            "CC35x0"
+        ],
+        "image": "wff3-tirex.png",
+        "description": "TI WiFi Stack",
+        "moduleOf": {
+            "packageId": "com.ti.SIMPLELINK_WIFI_SDK",
+            "semver": "9.21.0"
+        }
+    }
+]

@@ -1,0 +1,552 @@
+[
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/at_commands/README.html",
+        "resourceType": "categoryInfo",
+        "name": "at_commands",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/at_commands/freertos/ticlang/at_commands_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "at_commands",
+        "description": "at_commands",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "at_commands",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/at_commands/freertos/gcc/at_commands_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "at_commands",
+        "description": "at_commands",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "at_commands",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/ble_wifi_provisioning/README.html",
+        "resourceType": "categoryInfo",
+        "name": "ble_wifi_provisioning",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/ble_wifi_provisioning/freertos/ticlang/ble_wifi_provisioning_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "ble_wifi_provisioning",
+        "description": "ble_wifi_provisioning",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "ble_wifi_provisioning",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/ble_wifi_provisioning/freertos/gcc/ble_wifi_provisioning_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "ble_wifi_provisioning",
+        "description": "ble_wifi_provisioning",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "ble_wifi_provisioning",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/indigo/README.html",
+        "resourceType": "categoryInfo",
+        "name": "indigo",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/indigo/freertos/ticlang/indigo_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "indigo",
+        "description": "indigo",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "indigo",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/indigo/freertos/gcc/indigo_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "indigo",
+        "description": "indigo",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "indigo",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/mqtt_client/README.html",
+        "resourceType": "categoryInfo",
+        "name": "mqtt_client",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/mqtt_client/freertos/ticlang/mqtt_client_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "mqtt_client",
+        "description": "mqtt_client",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "mqtt_client",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/mqtt_client/freertos/gcc/mqtt_client_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "mqtt_client",
+        "description": "mqtt_client",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "mqtt_client",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    },
+    {
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/network_terminal/README.html",
+        "resourceType": "categoryInfo",
+        "name": "network_terminal",
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos"
+        ],
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/network_terminal/freertos/ticlang/network_terminal_LP_EM_CC35X1_freertos_ticlang.projectspec",
+        "name": "network_terminal",
+        "description": "network_terminal",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "ticlang"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "network_terminal",
+            "FreeRTOS",
+            "TI Clang Compiler"
+        ]
+    },
+    {
+        "resourceType": "project.ccs",
+        "advanced": {
+            "overrideProjectSpecDeviceId": true
+        },
+        "resourceClass": [
+            "example"
+        ],
+        "resourceSubClass": [
+            "example.general"
+        ],
+        "devices": [
+            "CC35X1"
+        ],
+        "coreTypes": [
+            "Cortex M.CC35X1"
+        ],
+        "devtools": [
+            "LP_EM_CC35X1"
+        ],
+        "location": "../../examples/rtos/LP_EM_CC35X1/demos/network_terminal/freertos/gcc/network_terminal_LP_EM_CC35X1_freertos_gcc.projectspec",
+        "name": "network_terminal",
+        "description": "network_terminal",
+        "kernel": [
+            "freertos"
+        ],
+        "compiler": [
+            "gcc"
+        ],
+        "mainCategories": [
+            [
+                "Examples",
+                "Development Tools"
+            ]
+        ],
+        "subCategories": [
+            "Demos",
+            "network_terminal",
+            "FreeRTOS",
+            "GCC Compiler"
+        ]
+    }
+]

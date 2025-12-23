@@ -1,0 +1,26 @@
+[
+    {
+        "metadataVersion": "3.1.0",
+        "id": "com.ti.SIMPLELINK_WIFI_SDK",
+        "name": "SimpleLink™ Wi-Fi SDK",
+        "version": "9.21.00.15",
+        "type": "software",
+        "devices": [
+            "CC35x0"
+        ],
+        "image": "wff3-tirex.png",
+        "description": "Welcome to the SimpleLink™ Wi-Fi SDK",
+        "dependencies": [
+            {
+                "packageId": "sysconfig",
+                "version": "1.26.0",
+                "require": "mandatory"
+            },
+            {
+                "packageId": "ti_cgt_tiarmclang",
+                "version": "4.0.4",
+                "require": "optional"
+            }
+        ]
+    }
+]
