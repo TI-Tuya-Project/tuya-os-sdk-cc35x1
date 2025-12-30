@@ -12,6 +12,19 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_system.h"
 #include "tuya_error_code.h"
+#include <FreeRTOS.h>
+#include <task.h>
+#include <stdlib.h>
+#include <ti/devices/DeviceFamily.h>
+
+// Note: We removed the explicit include of driverlib/sys_ctrl.h 
+// because it causes path resolution errors and is not strictly needed 
+// if we use the standard CMSIS reset function.
+
+// Define core reset function for Cortex-M if not already defined
+#ifndef NVIC_SystemReset
+extern void NVIC_SystemReset(void);
+#endif
 // --- END: user defines and implements ---
 
 /**
@@ -24,7 +37,14 @@
 void tkl_system_reset(void)
 {
     // --- BEGIN: user implements ---
-    return;
+    // Disable interrupts to ensure safe reset
+    __asm(" cpsid i ");
+    
+    // Request System Reset via Cortex-M standard function
+    NVIC_SystemReset();
+    
+    // Loop forever in case reset takes a moment
+    while(1) {}
     // --- END: user implements ---
 }
 
@@ -38,7 +58,10 @@ void tkl_system_reset(void)
 SYS_TICK_T tkl_system_get_tick_count(void)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    if (xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED) {
+        return 0;
+    }
+    return (SYS_TICK_T)xTaskGetTickCount();
     // --- END: user implements ---
 }
 
@@ -52,7 +75,11 @@ SYS_TICK_T tkl_system_get_tick_count(void)
 SYS_TIME_T tkl_system_get_millisecond(void)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    if (xTaskGetSchedulerState() == taskSCHEDULER_NOT_STARTED) {
+        return 0;
+    }
+    // Assuming 1 tick = 1 ms (Standard in TI SDK)
+    return (SYS_TIME_T)xTaskGetTickCount();
     // --- END: user implements ---
 }
 
@@ -66,7 +93,8 @@ SYS_TIME_T tkl_system_get_millisecond(void)
 int tkl_system_get_random(uint32_t range)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    if (range == 0) return 0;
+    return (int)(rand() % range);
     // --- END: user implements ---
 }
 
@@ -80,7 +108,7 @@ int tkl_system_get_random(uint32_t range)
 TUYA_RESET_REASON_E tkl_system_get_reset_reason(char **describe)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return TUYA_RESET_REASON_POWERON;
     // --- END: user implements ---
 }
 
@@ -94,7 +122,11 @@ TUYA_RESET_REASON_E tkl_system_get_reset_reason(char **describe)
 void tkl_system_sleep(uint32_t num_ms)
 {
     // --- BEGIN: user implements ---
-    return;
+    uint32_t ticks = num_ms / portTICK_PERIOD_MS;
+    if (ticks == 0 && num_ms > 0) {
+        ticks = 1;
+    }
+    vTaskDelay(ticks);
     // --- END: user implements ---
 }
 
@@ -110,7 +142,7 @@ void tkl_system_sleep(uint32_t num_ms)
 void tkl_system_delay(uint32_t num_ms)
 {
     // --- BEGIN: user implements ---
-    return;
+    tkl_system_sleep(num_ms);
     // --- END: user implements ---
 }
 
