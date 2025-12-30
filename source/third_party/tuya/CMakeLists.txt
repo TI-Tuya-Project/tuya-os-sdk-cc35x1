@@ -48,74 +48,87 @@ set(${TARGET_NAME}_SOURCES
 # --- 2. DEFINE INCLUDES ---
 
 set(${TARGET_NAME}_INCLUDES
-    # Tuya Core SDK Headers
+    # 1. Compiler Toolchain Includes (MUST BE FIRST)
+    "C:/ti/ccs2031/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/include/c"
+
+    # 2. Custom and Local Configs
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config
+
+    # 3. Tuya Core SDK Headers (High priority)
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/common
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/include
+    
+    # --- FIXED: Added missing libraries for mqtt_client_interface.h ---
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libmqtt
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libhttp
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libutils
+    # ------------------------------------------------------------------
+
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/include
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_network/include
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_wifi/include
-    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/include
-    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config
 
-    # Cloud Service Subfolders (Updated for netmgr.h, tuya_iot.h, dp_schema.h)
+    # 4. FreeRTOS Core & Config
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/freertos/include"
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/freertos/portable/GCC/ARM_CM33_NTZ/non_secure"
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/kernel/freertos/builds/.meta/cc35xx/release/pregenerated_configuration"
+    
+    # 5. TI SDK Base (CRUCIAL FIX: Removed 'source/ti/posix/gcc' to avoid time.h conflict)
+    # "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/posix/gcc"  <-- DELETED THIS LINE
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source"
+
+    # 6. Cloud Service Subfolders
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/netmgr
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/schema
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/protocol
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/tls
 
-    # Utilities (Fixed for crc32i.h)
+    # 7. Utilities, Security & Storage
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities
-
-    # Security & TLS Headers (Fixed for cipher_wrapper.h and openssl)
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/include
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/port
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/include
     ${CMAKE_CURRENT_LIST_DIR}/third_party/hostap/src/openssl/include
-
-    # Core Tuya Libraries (Fixed for libmqtt)
-    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libmqtt
-    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libhttp
-    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libutils
-
-    # Storage & JSON
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_kv/littlefs
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libcjson/cJSON
 
-    # TAL Subfolders
+    # 8. TAL Subfolders & Utilities
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/tal_cli
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/tal_bluetooth
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/tal_cellular
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/tal_driver
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/tal_kv
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/tal_security
-
-    # Backoff Algorithm
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/backoffAlgorithm/source/include
 
-    # TI Adaptation Headers (TKL)
+    # 9. TI Adaptation Headers (TKL)
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/include
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/system
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wifi
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/network
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/uart
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/adc
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/bluetooth
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/flash
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/gpio
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2s
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/network
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/pwm
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/rtc
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/security
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/spi
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/system
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/timer
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/uart
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wifi
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/include
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include
 
-    # Explicit TI SDK Includes
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source"
+    # 10. Explicit TI SDK Base Includes
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi"
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/kernel/freertos/posix"
+    
+    # 11. Property-based Includes
+    $<TARGET_PROPERTY:wifi_host_driver,INCLUDE_DIRECTORIES>
 )
 
 # --- 3. COMPILER SETTINGS ---

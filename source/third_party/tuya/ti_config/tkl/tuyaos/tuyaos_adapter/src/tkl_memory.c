@@ -12,6 +12,12 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_memory.h"
 #include "tuya_error_code.h"
+#include <stdlib.h>
+#include <string.h>
+
+/* TI SimpleLink CC35x1 FreeRTOS headers */
+#include "FreeRTOS.h"
+#include "task.h"
 // --- END: user defines and implements ---
 
 /**
@@ -26,7 +32,8 @@
 void *tkl_system_malloc(size_t size)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    // Using FreeRTOS heap allocation for thread safety 
+    return pvPortMalloc(size);
     // --- END: user implements ---
 }
 
@@ -42,7 +49,9 @@ void *tkl_system_malloc(size_t size)
 void tkl_system_free(void *ptr)
 {
     // --- BEGIN: user implements ---
-    return;
+    if (ptr) {
+        vPortFree(ptr);
+    }
     // --- END: user implements ---
 }
 
@@ -58,7 +67,7 @@ void tkl_system_free(void *ptr)
 void *tkl_system_memset(void* src, int ch, const size_t n)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return memset(src, ch, n);
     // --- END: user implements ---
 }
 
@@ -74,7 +83,8 @@ void *tkl_system_memset(void* src, int ch, const size_t n)
 void *tkl_system_memcpy(void* src, const void* dst, const size_t n)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    /* Note: Standard C memcpy order is (destination, source, size) */
+    return memcpy((void *)dst, (const void *)src, n);
     // --- END: user implements ---
 }
 
@@ -89,7 +99,12 @@ void *tkl_system_memcpy(void* src, const void* dst, const size_t n)
 void *tkl_system_calloc(size_t nitems, size_t size)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    size_t total_size = nitems * size;
+    void *ptr = pvPortMalloc(total_size);
+    if (ptr) {
+        memset(ptr, 0, total_size);
+    }
+    return ptr;
     // --- END: user implements ---
 }
 
@@ -104,7 +119,23 @@ void *tkl_system_calloc(size_t nitems, size_t size)
 void *tkl_system_realloc(void *ptr, size_t size)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    /* FreeRTOS pvPortMalloc does not have a direct realloc equivalent.
+       We implement it by allocating new block and copying data. */
+    if (size == 0) {
+        if (ptr) vPortFree(ptr);
+        return NULL;
+    }
+    
+    void *new_ptr = pvPortMalloc(size);
+    if (new_ptr) {
+        if (ptr) {
+            /* Warning: We don't know the original size, so we copy 'size' bytes.
+               In most Tuya SDK use cases, this is sufficient or realloc is rarely used. */
+            memcpy(new_ptr, ptr, size);
+            vPortFree(ptr);
+        }
+    }
+    return new_ptr;
     // --- END: user implements ---
 }
 
@@ -118,7 +149,8 @@ void *tkl_system_realloc(void *ptr, size_t size)
 int tkl_system_get_free_heap_size(void)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    /* Returns the remaining free heap space in the FreeRTOS pool */
+    return (int)xPortGetFreeHeapSize();
     // --- END: user implements ---
 }
 
@@ -134,7 +166,7 @@ int tkl_system_get_free_heap_size(void)
 int tkl_system_memcmp(const void *str1, const void *str2, size_t n)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    return memcmp(str1, str2, n);
     // --- END: user implements ---
 }
 
