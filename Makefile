@@ -56,10 +56,10 @@ RM = C:\cmake-3.21.3\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
+CMAKE_SOURCE_DIR = C:\ti\simplelink_wifi_sdk_tuya
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
+CMAKE_BINARY_DIR = C:\ti\simplelink_wifi_sdk_tuya
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -117,23 +117,11 @@ list_install_components:
 list_install_components/fast: list_install_components
 .PHONY : list_install_components/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\TI_Project\simplelink_wifi_sdk_tuya\CMakeFiles C:\TI_Project\simplelink_wifi_sdk_tuya\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\ti\simplelink_wifi_sdk_tuya\CMakeFiles C:\ti\simplelink_wifi_sdk_tuya\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\TI_Project\simplelink_wifi_sdk_tuya\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\ti\simplelink_wifi_sdk_tuya\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -430,7 +418,7 @@ tuya: cmake_check_build_system
 
 # fast build rule for target.
 tuya/fast:
-	$(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/build
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/build
 .PHONY : tuya/fast
 
 #=============================================================================
@@ -494,7 +482,6 @@ help:
 	@echo ... edit_cache
 	@echo ... install
 	@echo ... install/local
-	@echo ... install/strip
 	@echo ... list_install_components
 	@echo ... rebuild_cache
 	@echo ... ble_interface

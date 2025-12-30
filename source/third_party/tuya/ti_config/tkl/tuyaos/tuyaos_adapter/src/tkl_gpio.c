@@ -11,7 +11,7 @@
 
 // --- BEGIN: user defines and implements ---
 #include "tkl_gpio.h"
-#include "tuya_error_code.h"    
+#include "tuya_error_code.h"
 // --- END: user defines and implements ---
 
 /**

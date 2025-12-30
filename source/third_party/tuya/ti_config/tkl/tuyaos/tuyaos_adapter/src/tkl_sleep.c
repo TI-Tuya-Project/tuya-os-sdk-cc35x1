@@ -12,8 +12,6 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_sleep.h"
 #include "tuya_error_code.h"
-#include <FreeRTOS.h>
-#include <task.h>
 // --- END: user defines and implements ---
 
 /**
@@ -23,16 +21,10 @@
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-
-
-static TUYA_SLEEP_CB_T *g_sleep_cb = NULL;
- 
 OPERATE_RET tkl_cpu_sleep_callback_register(TUYA_SLEEP_CB_T *sleep_cb)
 {
     // --- BEGIN: user implements ---
-    g_sleep_cb = sleep_cb;
-    
-    return OPRT_OK;
+    return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
 
@@ -77,7 +69,7 @@ void tkl_cpu_force_wakeup(void)
 OPERATE_RET tkl_cpu_sleep_mode_set(BOOL_T enable, TUYA_CPU_SLEEP_MODE_E mode)
 {
     // --- BEGIN: user implements ---
-    return OPRT_OK;
+    return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
 
