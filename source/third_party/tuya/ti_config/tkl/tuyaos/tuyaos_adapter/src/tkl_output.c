@@ -10,28 +10,64 @@
  */
 
 // --- BEGIN: user defines and implements ---
+// YUYA
 #include "tkl_output.h"
 #include "tuya_error_code.h"
+
+// TI
+#include <ti/drivers/UART2.h>
+
+// We are not using SysCfg
+#ifndef CONFIG_UART2_0
+#define CONFIG_UART2_0 0
+#endif
+
+UART2_Handle uartHandle = 0;
 // --- END: user defines and implements ---
 
 /**
  * @brief Output log information
  *
- * @param[in] format: log information
+ * @pre     tkl_log_open has been called
+ * @pre     There are no ongoing read or write calls.  Any ongoing read
+ *          or write calls can be cancelled with UART2_readCancel() or
+ *          UART2_writeCancel().
+ *
+ * @param[in] str: log information
  *
  * @note This API is used for outputing log information
  *
  * @return
  */
-void tkl_log_output(const char *format, ...)
+void tkl_log_output(const char *str, ...)
 {
     // --- BEGIN: user implements ---
+    if (str == NULL) {
+        return;
+    }
+
+    if (uartHandle == 0){
+        // UART needs to be opened
+        // Option: Try to auto-open if closed? [TODO TKL]
+        tkl_log_open();
+        return;
+    }
+
+    size_t bytesWritten = 0;
+    // TODO: might be a problem with strlen if '/0' is not found
+    UART2_write(uartHandle, str, strlen(str), &bytesWritten);
+    
     return;
     // --- END: user implements ---
 }
 
 /**
  * @brief Close log port
+ *
+ *  @pre    tkl_log_open has been called.
+ *  @pre    There are no ongoing read or write calls.  Any ongoing read
+ *          or write calls can be cancelled with UART2_readCancel() or
+ *          UART2_writeCancel().
  *
  * @param void
  *
@@ -42,6 +78,11 @@ void tkl_log_output(const char *format, ...)
 OPERATE_RET tkl_log_close(void)
 {
     // --- BEGIN: user implements ---
+    // TODO Optional: Cancel all ongoing read/write
+    // UART2_readCancel(uartHandle)
+    // UART2_writeCancel(uartHandle)
+
+    UART2_close(uartHandle);
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -58,7 +99,15 @@ OPERATE_RET tkl_log_close(void)
 OPERATE_RET tkl_log_open(void)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    UART2_Params params;
+    UART2_Params_init(&params);
+
+    // TODO TKL : Look object like in uart_temn and osi_dpl
+    // osi_LockObjCreate(&LockObj);
+
+    uartHandle = UART2_open(CONFIG_UART2_0, &params);
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
