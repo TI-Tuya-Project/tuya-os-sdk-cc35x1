@@ -69,6 +69,7 @@ set(${TARGET_NAME}_INCLUDES
 
     # Security & TLS Headers (Fixed for cipher_wrapper.h and openssl)
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/include
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/port
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/include
     ${CMAKE_CURRENT_LIST_DIR}/third_party/hostap/src/openssl/include
 
@@ -125,6 +126,7 @@ set(${TARGET_NAME}_LIBRARIES ${CMAKE_COMMON_LIBRARY})
 set(${TARGET_NAME}_DEFINITIONS 
     -D_TUYA_TI_PLATFORM_
     -DTUYA_GW_OPERATING_SYSTEM=1
+    -DDeviceFamily_CC35XX
 )
 
 set(${TARGET_NAME}_COMPILER_FLAGS -Ofast -Wno-error)
