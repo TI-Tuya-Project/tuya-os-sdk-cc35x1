@@ -1,6 +1,0 @@
-C:/ti/TUYA_TI_PORT/simplelink_wifi_sdk_tuya/source/third_party/tuya/build/CMakeFiles/install/local.dir
-C:/ti/TUYA_TI_PORT/simplelink_wifi_sdk_tuya/source/third_party/tuya/build/CMakeFiles/install.dir
-C:/ti/TUYA_TI_PORT/simplelink_wifi_sdk_tuya/source/third_party/tuya/build/CMakeFiles/edit_cache.dir
-C:/ti/TUYA_TI_PORT/simplelink_wifi_sdk_tuya/source/third_party/tuya/build/CMakeFiles/tuya.dir
-C:/ti/TUYA_TI_PORT/simplelink_wifi_sdk_tuya/source/third_party/tuya/build/CMakeFiles/rebuild_cache.dir
-C:/ti/TUYA_TI_PORT/simplelink_wifi_sdk_tuya/source/third_party/tuya/build/CMakeFiles/list_install_components.dir
