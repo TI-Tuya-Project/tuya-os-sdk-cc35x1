@@ -18,7 +18,6 @@
 /* * We assume UART Index 0 is used for Tuya logs/communication.
  * This typically maps to the XDS110 UART on LaunchPads.
  */
-#define TUYA_UART_INDEX 0
 
 // Handle for the TI UART driver
 static UART2_Handle uartHandle = NULL;
@@ -86,7 +85,7 @@ OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
     }
 
     // Open UART with index 0
-    uartHandle = UART2_open(TUYA_UART_INDEX, &uartParams);
+    uartHandle = UART2_open(port_id, &uartParams);
 
     if (uartHandle == NULL) {
         return OPRT_COM_ERROR;
