@@ -10,8 +10,17 @@
  */
 
 // --- BEGIN: user defines and implements ---
+// Tuya
 #include "tkl_thread.h"
 #include "tuya_error_code.h"
+
+// TI
+/* FreeRTOS header file */
+#include "FreeRTOS.h"
+#include "task.h"
+#include "mpu_wrappers.h"
+#include "portmacro.h"
+#include "projdefs.h"
 // --- END: user defines and implements ---
 
 /**
@@ -32,7 +41,29 @@ OPERATE_RET tkl_thread_create(TKL_THREAD_HANDLE *thread, const char *name, uint3
                               const THREAD_FUNC_T func, void *const arg)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (!thread || !func) {
+        return OPRT_INVALID_PARM;
+    }
+    
+    // Convert Stack Size from BYTES to WORDS
+    // Tuya sends bytes (e.g., 4096), FreeRTOS on ARM needs words (e.g., 1024)
+    uint32_t stack_depth = stack_size / sizeof(portSTACK_TYPE);
+
+    // Create the task using Standard FreeRTOS
+    BaseType_t ret = xTaskCreate(
+        (TaskFunction_t)func,       // Function pointer
+        name,                       // Debug name
+        (uint16_t)stack_depth,      // Stack size in words
+        arg,                        // Argument
+        (UBaseType_t)priority,      // Priority
+        (TaskHandle_t *)thread      // Handle output
+    );
+    
+    if (ret != pdPASS) {
+        return OPRT_OS_ADAPTER_THRD_CREAT_FAILED;
+    }
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -48,7 +79,13 @@ OPERATE_RET tkl_thread_create(TKL_THREAD_HANDLE *thread, const char *name, uint3
 OPERATE_RET tkl_thread_release(const TKL_THREAD_HANDLE thread)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (!thread) {
+        return OPRT_INVALID_PARM;
+    }
+
+    vTaskDelete((TaskHandle_t)thread);
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -65,7 +102,8 @@ OPERATE_RET tkl_thread_release(const TKL_THREAD_HANDLE thread)
 OPERATE_RET tkl_thread_get_watermark(const TKL_THREAD_HANDLE thread, uint32_t *watermark)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    *watermark = uxTaskGetStackHighWaterMark(thread) * sizeof( StackType_t );
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -81,7 +119,8 @@ OPERATE_RET tkl_thread_get_watermark(const TKL_THREAD_HANDLE thread, uint32_t *w
 OPERATE_RET tkl_thread_get_id(TKL_THREAD_HANDLE *thread)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    *thread = xTaskGetCurrentTaskHandle();
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -97,7 +136,13 @@ OPERATE_RET tkl_thread_get_id(TKL_THREAD_HANDLE *thread)
 OPERATE_RET tkl_thread_set_self_name(const char *name)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (!name) {
+        return OPRT_INVALID_PARM;
+    }
+
+    // FreeRTOS does not support changing task names at runtime.
+    // We return OK to satisfy the caller.
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -114,7 +159,18 @@ OPERATE_RET tkl_thread_set_self_name(const char *name)
 OPERATE_RET tkl_thread_is_self(TKL_THREAD_HANDLE thread, BOOL_T *is_self)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (NULL == thread || NULL == is_self) {
+        return OPRT_INVALID_PARM;
+    }
+
+    TKL_THREAD_HANDLE self_handle = xTaskGetCurrentTaskHandle();
+    if (NULL == self_handle) {
+        return OPRT_OS_ADAPTER_THRD_JUDGE_SELF_FAILED;
+    }
+
+    *is_self = (thread == self_handle);
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -131,7 +187,15 @@ OPERATE_RET tkl_thread_is_self(TKL_THREAD_HANDLE thread, BOOL_T *is_self)
 OPERATE_RET tkl_thread_get_priority(TKL_THREAD_HANDLE thread, int *priority)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (priority == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+
+    // uxTaskPriorityGet automatically handles NULL (returns current task priority)
+    // We cast the handle and the result to match types
+    *priority = (int)uxTaskPriorityGet((TaskHandle_t)thread);
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -148,7 +212,11 @@ OPERATE_RET tkl_thread_get_priority(TKL_THREAD_HANDLE thread, int *priority)
 OPERATE_RET tkl_thread_set_priority(TKL_THREAD_HANDLE thread, int priority)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    // vTaskPrioritySet automatically handles NULL as "Current Task"
+    // It also safely caps the priority if 'priority' > configMAX_PRIORITIES
+    vTaskPrioritySet((TaskHandle_t)thread, (UBaseType_t)priority);
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
