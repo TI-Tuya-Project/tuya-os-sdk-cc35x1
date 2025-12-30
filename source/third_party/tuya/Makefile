@@ -56,10 +56,10 @@ RM = C:\cmake-3.21.3\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
+CMAKE_SOURCE_DIR = C:\ti\simplelink_wifi_sdk_tuya
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
+CMAKE_BINARY_DIR = C:\ti\simplelink_wifi_sdk_tuya
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -117,28 +117,16 @@ list_install_components:
 list_install_components/fast: list_install_components
 .PHONY : list_install_components/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -E cmake_progress_start C:\TI_Project\simplelink_wifi_sdk_tuya\CMakeFiles C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\Tuya\\CMakeFiles\progress.marks
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/Tuya/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\TI_Project\simplelink_wifi_sdk_tuya\CMakeFiles 0
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -E cmake_progress_start C:\ti\simplelink_wifi_sdk_tuya\CMakeFiles C:\ti\simplelink_wifi_sdk_tuya\source\third_party\tuya\\CMakeFiles\progress.marks
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/tuya/all
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\ti\simplelink_wifi_sdk_tuya\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/Tuya/clean
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/tuya/clean
 .PHONY : clean
 
 # The main clean target
@@ -147,31 +135,31 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/Tuya/preinstall
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/tuya/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/Tuya/preinstall
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/tuya/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-source/third_party/Tuya/CMakeFiles/tuya.dir/rule:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/Tuya/CMakeFiles/tuya.dir/rule
-.PHONY : source/third_party/Tuya/CMakeFiles/tuya.dir/rule
+source/third_party/tuya/CMakeFiles/tuya.dir/rule:
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 source/third_party/tuya/CMakeFiles/tuya.dir/rule
+.PHONY : source/third_party/tuya/CMakeFiles/tuya.dir/rule
 
 # Convenience name for target.
-tuya: source/third_party/Tuya/CMakeFiles/tuya.dir/rule
+tuya: source/third_party/tuya/CMakeFiles/tuya.dir/rule
 .PHONY : tuya
 
 # fast build rule for target.
 tuya/fast:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/build
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/build
 .PHONY : tuya/fast
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.obj: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.obj
@@ -179,7 +167,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.obj: ti_co
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.i: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.i
@@ -187,7 +175,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.i: ti_conf
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.s: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.s
@@ -195,7 +183,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.s: ti_conf
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.obj: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.obj
@@ -203,7 +191,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.obj: ti_con
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.i: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.i
@@ -211,7 +199,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.i: ti_confi
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.s: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.s
@@ -219,7 +207,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.s: ti_confi
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.obj: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.obj
@@ -227,7 +215,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.obj: ti_confi
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.i: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.i
@@ -235,7 +223,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.i: ti_config/
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.s: ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.s
@@ -243,7 +231,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.s: ti_config/
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.obj
@@ -251,7 +239,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.obj: ti_config/tkl/tuyaos/tuya
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.i
@@ -259,7 +247,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.i: ti_config/tkl/tuyaos/tuyaos
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.s
@@ -267,7 +255,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.s: ti_config/tkl/tuyaos/tuyaos
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.obj
@@ -275,7 +263,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.obj: ti_config/tkl/tuyaos/tuyao
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.i
@@ -283,7 +271,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.i: ti_config/tkl/tuyaos/tuyaos_
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.s
@@ -291,7 +279,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.s: ti_config/tkl/tuyaos/tuyaos_
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.obj
@@ -299,7 +287,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.obj: ti_config/tkl/tuyaos/tuy
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.i
@@ -307,7 +295,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.i: ti_config/tkl/tuyaos/tuyao
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.s
@@ -315,7 +303,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.s: ti_config/tkl/tuyaos/tuyao
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_memory.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.obj
@@ -323,7 +311,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.obj: ti_config/tkl/tuyaos/tuya
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.i
@@ -331,7 +319,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.i: ti_config/tkl/tuyaos/tuyaos
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.s
@@ -339,7 +327,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.s: ti_config/tkl/tuyaos/tuyaos
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_mutex.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.obj
@@ -347,7 +335,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.obj: ti_config/tkl/tuyaos/tu
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.i
@@ -355,7 +343,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.i: ti_config/tkl/tuyaos/tuya
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.s
@@ -363,7 +351,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.s: ti_config/tkl/tuyaos/tuya
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_network.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.obj
@@ -371,7 +359,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.obj: ti_config/tkl/tuyaos/tuy
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.i
@@ -379,7 +367,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.i: ti_config/tkl/tuyaos/tuyao
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.s
@@ -387,7 +375,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.s: ti_config/tkl/tuyaos/tuyao
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.obj
@@ -395,7 +383,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.obj: ti_config/tkl/tuyaos/
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.i
@@ -403,7 +391,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.i: ti_config/tkl/tuyaos/tu
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.s
@@ -411,7 +399,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.s: ti_config/tkl/tuyaos/tu
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.obj
@@ -419,7 +407,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.obj: ti_config/tkl/tuyaos/tuy
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.i
@@ -427,7 +415,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.i: ti_config/tkl/tuyaos/tuyao
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.s
@@ -435,7 +423,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.s: ti_config/tkl/tuyaos/tuyao
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.obj
@@ -443,7 +431,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.obj: ti_config/tkl/tuyaos/tuy
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.i
@@ -451,7 +439,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.i: ti_config/tkl/tuyaos/tuyao
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.s
@@ -459,7 +447,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.s: ti_config/tkl/tuyaos/tuyao
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.obj
@@ -467,7 +455,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.obj: ti_config/tkl/tuyaos/tuyao
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.i
@@ -475,7 +463,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.i: ti_config/tkl/tuyaos/tuyaos_
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.s
@@ -483,7 +471,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.s: ti_config/tkl/tuyaos/tuyaos_
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c.s
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.obj: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.obj
@@ -491,7 +479,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.obj: ti_config/tkl/tuyaos/tuyao
 
 # target to build an object file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.obj
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.obj
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.i: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.i
@@ -499,7 +487,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.i: ti_config/tkl/tuyaos/tuyaos_
 
 # target to preprocess a source file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.i
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.i
 
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.s: ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.s
@@ -507,7 +495,7 @@ ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.s: ti_config/tkl/tuyaos/tuyaos_
 
 # target to generate assembly for a file
 ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.s
 .PHONY : ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wifi.c.s
 
 tuya_src/common/backoffAlgorithm/source/backoff_algorithm.obj: tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.obj
@@ -515,7 +503,7 @@ tuya_src/common/backoffAlgorithm/source/backoff_algorithm.obj: tuya_src/common/b
 
 # target to build an object file
 tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.obj
 .PHONY : tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.obj
 
 tuya_src/common/backoffAlgorithm/source/backoff_algorithm.i: tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.i
@@ -523,7 +511,7 @@ tuya_src/common/backoffAlgorithm/source/backoff_algorithm.i: tuya_src/common/bac
 
 # target to preprocess a source file
 tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.i
 .PHONY : tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.i
 
 tuya_src/common/backoffAlgorithm/source/backoff_algorithm.s: tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.s
@@ -531,7 +519,7 @@ tuya_src/common/backoffAlgorithm/source/backoff_algorithm.s: tuya_src/common/bac
 
 # target to generate assembly for a file
 tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.s
 .PHONY : tuya_src/common/backoffAlgorithm/source/backoff_algorithm.c.s
 
 tuya_src/common/utilities/crc32i.obj: tuya_src/common/utilities/crc32i.c.obj
@@ -539,7 +527,7 @@ tuya_src/common/utilities/crc32i.obj: tuya_src/common/utilities/crc32i.c.obj
 
 # target to build an object file
 tuya_src/common/utilities/crc32i.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/crc32i.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/crc32i.c.obj
 .PHONY : tuya_src/common/utilities/crc32i.c.obj
 
 tuya_src/common/utilities/crc32i.i: tuya_src/common/utilities/crc32i.c.i
@@ -547,7 +535,7 @@ tuya_src/common/utilities/crc32i.i: tuya_src/common/utilities/crc32i.c.i
 
 # target to preprocess a source file
 tuya_src/common/utilities/crc32i.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/crc32i.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/crc32i.c.i
 .PHONY : tuya_src/common/utilities/crc32i.c.i
 
 tuya_src/common/utilities/crc32i.s: tuya_src/common/utilities/crc32i.c.s
@@ -555,7 +543,7 @@ tuya_src/common/utilities/crc32i.s: tuya_src/common/utilities/crc32i.c.s
 
 # target to generate assembly for a file
 tuya_src/common/utilities/crc32i.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/crc32i.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/crc32i.c.s
 .PHONY : tuya_src/common/utilities/crc32i.c.s
 
 tuya_src/common/utilities/uni_random.obj: tuya_src/common/utilities/uni_random.c.obj
@@ -563,7 +551,7 @@ tuya_src/common/utilities/uni_random.obj: tuya_src/common/utilities/uni_random.c
 
 # target to build an object file
 tuya_src/common/utilities/uni_random.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/uni_random.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/uni_random.c.obj
 .PHONY : tuya_src/common/utilities/uni_random.c.obj
 
 tuya_src/common/utilities/uni_random.i: tuya_src/common/utilities/uni_random.c.i
@@ -571,7 +559,7 @@ tuya_src/common/utilities/uni_random.i: tuya_src/common/utilities/uni_random.c.i
 
 # target to preprocess a source file
 tuya_src/common/utilities/uni_random.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/uni_random.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/uni_random.c.i
 .PHONY : tuya_src/common/utilities/uni_random.c.i
 
 tuya_src/common/utilities/uni_random.s: tuya_src/common/utilities/uni_random.c.s
@@ -579,7 +567,7 @@ tuya_src/common/utilities/uni_random.s: tuya_src/common/utilities/uni_random.c.s
 
 # target to generate assembly for a file
 tuya_src/common/utilities/uni_random.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/uni_random.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/common/utilities/uni_random.c.s
 .PHONY : tuya_src/common/utilities/uni_random.c.s
 
 tuya_src/libcjson/cJSON/cJSON.obj: tuya_src/libcjson/cJSON/cJSON.c.obj
@@ -587,7 +575,7 @@ tuya_src/libcjson/cJSON/cJSON.obj: tuya_src/libcjson/cJSON/cJSON.c.obj
 
 # target to build an object file
 tuya_src/libcjson/cJSON/cJSON.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/libcjson/cJSON/cJSON.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/libcjson/cJSON/cJSON.c.obj
 .PHONY : tuya_src/libcjson/cJSON/cJSON.c.obj
 
 tuya_src/libcjson/cJSON/cJSON.i: tuya_src/libcjson/cJSON/cJSON.c.i
@@ -595,7 +583,7 @@ tuya_src/libcjson/cJSON/cJSON.i: tuya_src/libcjson/cJSON/cJSON.c.i
 
 # target to preprocess a source file
 tuya_src/libcjson/cJSON/cJSON.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/libcjson/cJSON/cJSON.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/libcjson/cJSON/cJSON.c.i
 .PHONY : tuya_src/libcjson/cJSON/cJSON.c.i
 
 tuya_src/libcjson/cJSON/cJSON.s: tuya_src/libcjson/cJSON/cJSON.c.s
@@ -603,7 +591,7 @@ tuya_src/libcjson/cJSON/cJSON.s: tuya_src/libcjson/cJSON/cJSON.c.s
 
 # target to generate assembly for a file
 tuya_src/libcjson/cJSON/cJSON.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/libcjson/cJSON/cJSON.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/libcjson/cJSON/cJSON.c.s
 .PHONY : tuya_src/libcjson/cJSON/cJSON.c.s
 
 tuya_src/tal_network/src/tal_network.obj: tuya_src/tal_network/src/tal_network.c.obj
@@ -611,7 +599,7 @@ tuya_src/tal_network/src/tal_network.obj: tuya_src/tal_network/src/tal_network.c
 
 # target to build an object file
 tuya_src/tal_network/src/tal_network.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_network/src/tal_network.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_network/src/tal_network.c.obj
 .PHONY : tuya_src/tal_network/src/tal_network.c.obj
 
 tuya_src/tal_network/src/tal_network.i: tuya_src/tal_network/src/tal_network.c.i
@@ -619,7 +607,7 @@ tuya_src/tal_network/src/tal_network.i: tuya_src/tal_network/src/tal_network.c.i
 
 # target to preprocess a source file
 tuya_src/tal_network/src/tal_network.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_network/src/tal_network.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_network/src/tal_network.c.i
 .PHONY : tuya_src/tal_network/src/tal_network.c.i
 
 tuya_src/tal_network/src/tal_network.s: tuya_src/tal_network/src/tal_network.c.s
@@ -627,7 +615,7 @@ tuya_src/tal_network/src/tal_network.s: tuya_src/tal_network/src/tal_network.c.s
 
 # target to generate assembly for a file
 tuya_src/tal_network/src/tal_network.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_network/src/tal_network.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_network/src/tal_network.c.s
 .PHONY : tuya_src/tal_network/src/tal_network.c.s
 
 tuya_src/tal_system/src/tal_log.obj: tuya_src/tal_system/src/tal_log.c.obj
@@ -635,7 +623,7 @@ tuya_src/tal_system/src/tal_log.obj: tuya_src/tal_system/src/tal_log.c.obj
 
 # target to build an object file
 tuya_src/tal_system/src/tal_log.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_log.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_log.c.obj
 .PHONY : tuya_src/tal_system/src/tal_log.c.obj
 
 tuya_src/tal_system/src/tal_log.i: tuya_src/tal_system/src/tal_log.c.i
@@ -643,7 +631,7 @@ tuya_src/tal_system/src/tal_log.i: tuya_src/tal_system/src/tal_log.c.i
 
 # target to preprocess a source file
 tuya_src/tal_system/src/tal_log.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_log.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_log.c.i
 .PHONY : tuya_src/tal_system/src/tal_log.c.i
 
 tuya_src/tal_system/src/tal_log.s: tuya_src/tal_system/src/tal_log.c.s
@@ -651,7 +639,7 @@ tuya_src/tal_system/src/tal_log.s: tuya_src/tal_system/src/tal_log.c.s
 
 # target to generate assembly for a file
 tuya_src/tal_system/src/tal_log.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_log.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_log.c.s
 .PHONY : tuya_src/tal_system/src/tal_log.c.s
 
 tuya_src/tal_system/src/tal_sleep.obj: tuya_src/tal_system/src/tal_sleep.c.obj
@@ -659,7 +647,7 @@ tuya_src/tal_system/src/tal_sleep.obj: tuya_src/tal_system/src/tal_sleep.c.obj
 
 # target to build an object file
 tuya_src/tal_system/src/tal_sleep.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_sleep.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_sleep.c.obj
 .PHONY : tuya_src/tal_system/src/tal_sleep.c.obj
 
 tuya_src/tal_system/src/tal_sleep.i: tuya_src/tal_system/src/tal_sleep.c.i
@@ -667,7 +655,7 @@ tuya_src/tal_system/src/tal_sleep.i: tuya_src/tal_system/src/tal_sleep.c.i
 
 # target to preprocess a source file
 tuya_src/tal_system/src/tal_sleep.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_sleep.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_sleep.c.i
 .PHONY : tuya_src/tal_system/src/tal_sleep.c.i
 
 tuya_src/tal_system/src/tal_sleep.s: tuya_src/tal_system/src/tal_sleep.c.s
@@ -675,7 +663,7 @@ tuya_src/tal_system/src/tal_sleep.s: tuya_src/tal_system/src/tal_sleep.c.s
 
 # target to generate assembly for a file
 tuya_src/tal_system/src/tal_sleep.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_sleep.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_sleep.c.s
 .PHONY : tuya_src/tal_system/src/tal_sleep.c.s
 
 tuya_src/tal_system/src/tal_system.obj: tuya_src/tal_system/src/tal_system.c.obj
@@ -683,7 +671,7 @@ tuya_src/tal_system/src/tal_system.obj: tuya_src/tal_system/src/tal_system.c.obj
 
 # target to build an object file
 tuya_src/tal_system/src/tal_system.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_system.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_system.c.obj
 .PHONY : tuya_src/tal_system/src/tal_system.c.obj
 
 tuya_src/tal_system/src/tal_system.i: tuya_src/tal_system/src/tal_system.c.i
@@ -691,7 +679,7 @@ tuya_src/tal_system/src/tal_system.i: tuya_src/tal_system/src/tal_system.c.i
 
 # target to preprocess a source file
 tuya_src/tal_system/src/tal_system.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_system.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_system.c.i
 .PHONY : tuya_src/tal_system/src/tal_system.c.i
 
 tuya_src/tal_system/src/tal_system.s: tuya_src/tal_system/src/tal_system.c.s
@@ -699,7 +687,7 @@ tuya_src/tal_system/src/tal_system.s: tuya_src/tal_system/src/tal_system.c.s
 
 # target to generate assembly for a file
 tuya_src/tal_system/src/tal_system.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_system.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_system.c.s
 .PHONY : tuya_src/tal_system/src/tal_system.c.s
 
 tuya_src/tal_system/src/tal_thread.obj: tuya_src/tal_system/src/tal_thread.c.obj
@@ -707,7 +695,7 @@ tuya_src/tal_system/src/tal_thread.obj: tuya_src/tal_system/src/tal_thread.c.obj
 
 # target to build an object file
 tuya_src/tal_system/src/tal_thread.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_thread.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_thread.c.obj
 .PHONY : tuya_src/tal_system/src/tal_thread.c.obj
 
 tuya_src/tal_system/src/tal_thread.i: tuya_src/tal_system/src/tal_thread.c.i
@@ -715,7 +703,7 @@ tuya_src/tal_system/src/tal_thread.i: tuya_src/tal_system/src/tal_thread.c.i
 
 # target to preprocess a source file
 tuya_src/tal_system/src/tal_thread.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_thread.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_thread.c.i
 .PHONY : tuya_src/tal_system/src/tal_thread.c.i
 
 tuya_src/tal_system/src/tal_thread.s: tuya_src/tal_system/src/tal_thread.c.s
@@ -723,7 +711,7 @@ tuya_src/tal_system/src/tal_thread.s: tuya_src/tal_system/src/tal_thread.c.s
 
 # target to generate assembly for a file
 tuya_src/tal_system/src/tal_thread.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_thread.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_system/src/tal_thread.c.s
 .PHONY : tuya_src/tal_system/src/tal_thread.c.s
 
 tuya_src/tal_wifi/src/tal_wifi.obj: tuya_src/tal_wifi/src/tal_wifi.c.obj
@@ -731,7 +719,7 @@ tuya_src/tal_wifi/src/tal_wifi.obj: tuya_src/tal_wifi/src/tal_wifi.c.obj
 
 # target to build an object file
 tuya_src/tal_wifi/src/tal_wifi.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_wifi/src/tal_wifi.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_wifi/src/tal_wifi.c.obj
 .PHONY : tuya_src/tal_wifi/src/tal_wifi.c.obj
 
 tuya_src/tal_wifi/src/tal_wifi.i: tuya_src/tal_wifi/src/tal_wifi.c.i
@@ -739,7 +727,7 @@ tuya_src/tal_wifi/src/tal_wifi.i: tuya_src/tal_wifi/src/tal_wifi.c.i
 
 # target to preprocess a source file
 tuya_src/tal_wifi/src/tal_wifi.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_wifi/src/tal_wifi.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_wifi/src/tal_wifi.c.i
 .PHONY : tuya_src/tal_wifi/src/tal_wifi.c.i
 
 tuya_src/tal_wifi/src/tal_wifi.s: tuya_src/tal_wifi/src/tal_wifi.c.s
@@ -747,7 +735,7 @@ tuya_src/tal_wifi/src/tal_wifi.s: tuya_src/tal_wifi/src/tal_wifi.c.s
 
 # target to generate assembly for a file
 tuya_src/tal_wifi/src/tal_wifi.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tal_wifi/src/tal_wifi.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tal_wifi/src/tal_wifi.c.s
 .PHONY : tuya_src/tal_wifi/src/tal_wifi.c.s
 
 tuya_src/tuya_cloud_service/cloud/mqtt_service.obj: tuya_src/tuya_cloud_service/cloud/mqtt_service.c.obj
@@ -755,7 +743,7 @@ tuya_src/tuya_cloud_service/cloud/mqtt_service.obj: tuya_src/tuya_cloud_service/
 
 # target to build an object file
 tuya_src/tuya_cloud_service/cloud/mqtt_service.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/mqtt_service.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/mqtt_service.c.obj
 .PHONY : tuya_src/tuya_cloud_service/cloud/mqtt_service.c.obj
 
 tuya_src/tuya_cloud_service/cloud/mqtt_service.i: tuya_src/tuya_cloud_service/cloud/mqtt_service.c.i
@@ -763,7 +751,7 @@ tuya_src/tuya_cloud_service/cloud/mqtt_service.i: tuya_src/tuya_cloud_service/cl
 
 # target to preprocess a source file
 tuya_src/tuya_cloud_service/cloud/mqtt_service.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/mqtt_service.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/mqtt_service.c.i
 .PHONY : tuya_src/tuya_cloud_service/cloud/mqtt_service.c.i
 
 tuya_src/tuya_cloud_service/cloud/mqtt_service.s: tuya_src/tuya_cloud_service/cloud/mqtt_service.c.s
@@ -771,7 +759,7 @@ tuya_src/tuya_cloud_service/cloud/mqtt_service.s: tuya_src/tuya_cloud_service/cl
 
 # target to generate assembly for a file
 tuya_src/tuya_cloud_service/cloud/mqtt_service.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/mqtt_service.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/mqtt_service.c.s
 .PHONY : tuya_src/tuya_cloud_service/cloud/mqtt_service.c.s
 
 tuya_src/tuya_cloud_service/cloud/tuya_iot.obj: tuya_src/tuya_cloud_service/cloud/tuya_iot.c.obj
@@ -779,7 +767,7 @@ tuya_src/tuya_cloud_service/cloud/tuya_iot.obj: tuya_src/tuya_cloud_service/clou
 
 # target to build an object file
 tuya_src/tuya_cloud_service/cloud/tuya_iot.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/tuya_iot.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/tuya_iot.c.obj
 .PHONY : tuya_src/tuya_cloud_service/cloud/tuya_iot.c.obj
 
 tuya_src/tuya_cloud_service/cloud/tuya_iot.i: tuya_src/tuya_cloud_service/cloud/tuya_iot.c.i
@@ -787,7 +775,7 @@ tuya_src/tuya_cloud_service/cloud/tuya_iot.i: tuya_src/tuya_cloud_service/cloud/
 
 # target to preprocess a source file
 tuya_src/tuya_cloud_service/cloud/tuya_iot.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/tuya_iot.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/tuya_iot.c.i
 .PHONY : tuya_src/tuya_cloud_service/cloud/tuya_iot.c.i
 
 tuya_src/tuya_cloud_service/cloud/tuya_iot.s: tuya_src/tuya_cloud_service/cloud/tuya_iot.c.s
@@ -795,7 +783,7 @@ tuya_src/tuya_cloud_service/cloud/tuya_iot.s: tuya_src/tuya_cloud_service/cloud/
 
 # target to generate assembly for a file
 tuya_src/tuya_cloud_service/cloud/tuya_iot.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/tuya_iot.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/cloud/tuya_iot.c.s
 .PHONY : tuya_src/tuya_cloud_service/cloud/tuya_iot.c.s
 
 tuya_src/tuya_cloud_service/protocol/tuya_protocol.obj: tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.obj
@@ -803,7 +791,7 @@ tuya_src/tuya_cloud_service/protocol/tuya_protocol.obj: tuya_src/tuya_cloud_serv
 
 # target to build an object file
 tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.obj:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.obj
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.obj
 .PHONY : tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.obj
 
 tuya_src/tuya_cloud_service/protocol/tuya_protocol.i: tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.i
@@ -811,7 +799,7 @@ tuya_src/tuya_cloud_service/protocol/tuya_protocol.i: tuya_src/tuya_cloud_servic
 
 # target to preprocess a source file
 tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.i:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.i
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.i
 .PHONY : tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.i
 
 tuya_src/tuya_cloud_service/protocol/tuya_protocol.s: tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.s
@@ -819,7 +807,7 @@ tuya_src/tuya_cloud_service/protocol/tuya_protocol.s: tuya_src/tuya_cloud_servic
 
 # target to generate assembly for a file
 tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.s:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\Tuya\CMakeFiles\tuya.dir\build.make source/third_party/Tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.s
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.s
 .PHONY : tuya_src/tuya_cloud_service/protocol/tuya_protocol.c.s
 
 # Help Target
@@ -831,7 +819,6 @@ help:
 	@echo ... edit_cache
 	@echo ... install
 	@echo ... install/local
-	@echo ... install/strip
 	@echo ... list_install_components
 	@echo ... rebuild_cache
 	@echo ... tuya
@@ -927,6 +914,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
+	cd /d C:\ti\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
