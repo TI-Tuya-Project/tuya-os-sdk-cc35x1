@@ -1,8 +1,8 @@
-# Install script for directory: C:/ti/simplelink_wifi_sdk_tuya/source/third_party/tuya
+# Install script for directory: C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/ti/simplelink_wifi_sdk_tuya")
+  set(CMAKE_INSTALL_PREFIX "C:/TI_Project/simplelink_wifi_sdk_tuya")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,18 +34,18 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "CMAKE_OBJDUMP-NOTFOUND")
+  set(CMAKE_OBJDUMP "C:/mingw64/bin/objdump.exe")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "C:/ti/simplelink_wifi_sdk_tuya/source/third_party/tuya/lib/ticlang/tuya.a")
+   "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/lib/ticlang/tuya.a")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "C:/ti/simplelink_wifi_sdk_tuya/source/third_party/tuya/lib/ticlang" TYPE STATIC_LIBRARY FILES "C:/ti/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya.a")
+  file(INSTALL DESTINATION "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/lib/ticlang" TYPE STATIC_LIBRARY FILES "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya.a")
 endif()
 
