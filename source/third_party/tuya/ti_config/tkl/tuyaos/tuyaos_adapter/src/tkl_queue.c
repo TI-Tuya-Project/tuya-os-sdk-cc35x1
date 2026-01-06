@@ -10,8 +10,18 @@
  */
 
 // --- BEGIN: user defines and implements ---
+// Tuya
 #include "tkl_queue.h"
 #include "tuya_error_code.h"
+
+// FreeRTOS
+#include "FreeRTOS.h"
+#include "queue.h"
+#include "task.h"
+
+// TI Driver Portability Layer (For HwiP_inISR)
+// safer then a direct (SCB_ICSR & 0x1FF) check.
+#include "ti/drivers/dpl/HwiP.h"
 // --- END: user defines and implements ---
 
 /**
@@ -26,7 +36,22 @@
 OPERATE_RET tkl_queue_create_init(TKL_QUEUE_HANDLE *queue, int msgsize, int msgcount)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    // 1. Safety Check: Ensure the pointer where we will store the handle is valid
+    if (!queue || msgsize <= 0 || msgcount <= 0) {
+        return OPRT_INVALID_PARM;
+    }
+
+    *queue = NULL;
+
+    // 2. Call FreeRTOS to allocate memory
+    *queue = (TKL_QUEUE_HANDLE)xQueueCreate((UBaseType_t)msgsize, (UBaseType_t)msgcount);
+
+    // 3. Check for Out of Memory
+    if (*queue == NULL) {
+        return OPRT_OS_ADAPTER_QUEUE_CREAT_FAILED;
+    }
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -42,7 +67,39 @@ OPERATE_RET tkl_queue_create_init(TKL_QUEUE_HANDLE *queue, int msgsize, int msgc
 OPERATE_RET tkl_queue_post(const TKL_QUEUE_HANDLE queue, void *data, uint32_t timeout)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (!queue || !data) {
+        return OPRT_INVALID_PARM;
+    }
+
+    BaseType_t ret;
+
+    // Check if we are in an ISR (Interrupt)
+    if (HwiP_inISR()) {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        
+        // ISRs cannot block, so timeout is ignored (effectively 0)
+        ret = xQueueSendFromISR((QueueHandle_t)queue, data, &xHigherPriorityTaskWoken);
+        
+        // Force context switch if needed
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    } 
+    else {
+        // Normal Thread Context
+        TickType_t ticks;
+        if (timeout == TKL_WAIT_FOREVER) {
+            ticks = portMAX_DELAY;
+        } else {
+            ticks = pdMS_TO_TICKS(timeout);
+        }
+
+        ret = xQueueSend((QueueHandle_t)queue, data, ticks);
+    }
+
+    if (ret != pdPASS) {
+        return OPRT_OS_ADAPTER_QUEUE_SEND_FAIL;
+    }
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -58,7 +115,46 @@ OPERATE_RET tkl_queue_post(const TKL_QUEUE_HANDLE queue, void *data, uint32_t ti
 OPERATE_RET tkl_queue_fetch(const TKL_QUEUE_HANDLE queue, void *msg, uint32_t timeout)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (!queue) {
+        return OPRT_INVALID_PARM;
+    }
+
+    // TODO: dangerous dummy, ditch the whole NULL option?
+    // Support NULL msg if user just wants to wait for a signal
+    uint8_t dummy_buffer[16]; 
+    void* p_dest = (msg != NULL) ? msg : dummy_buffer;
+
+    BaseType_t ret;
+
+    // TODO: we wanted to assume thread context, cause timeout is illegal for interrupt, but we can't control if this function
+    // will be called from inside an interrupt or not. We chose the safer way. Removing the first 'if' and assumng thread context will be faster.
+    // OPTION 1: Interrupt Context
+    if (HwiP_inISR()) {
+        BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+        
+        // ISRs CANNOT WAIT. Timeout is ignored (treated as 0).
+        ret = xQueueReceiveFromISR((QueueHandle_t)queue, p_dest, &xHigherPriorityTaskWoken);
+        
+        // If we successfully grabbed an item and it woke up a high-priority task
+        portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+    } 
+    // OPTION 2: Thread Context
+    else {
+        TickType_t ticks;
+        if (timeout == TKL_WAIT_FOREVER) {
+            ticks = portMAX_DELAY;
+        } else {
+            ticks = pdMS_TO_TICKS(timeout);
+        }
+
+        ret = xQueueReceive((QueueHandle_t)queue, p_dest, ticks);
+    }
+
+    if (ret != pdPASS) {
+        return OPRT_OS_ADAPTER_QUEUE_RECV_FAIL;
+    }
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -72,7 +168,10 @@ OPERATE_RET tkl_queue_fetch(const TKL_QUEUE_HANDLE queue, void *msg, uint32_t ti
 void tkl_queue_free(const TKL_QUEUE_HANDLE queue)
 {
     // --- BEGIN: user implements ---
-    return 0;
+    if (queue) {
+        // vQueueDelete automatically frees the memory allocated by xQueueCreate
+        vQueueDelete((QueueHandle_t)queue);
+    }
     // --- END: user implements ---
 }
 
