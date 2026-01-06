@@ -44,7 +44,7 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/mqtt_service.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c
 )
-
+    set(TI_SYSCONFIG_TOOL "C:/ti/sysconfig_1.26.0/sysconfig_cli.bat")
 # --- 2. DEFINE INCLUDES ---
 
 set(${TARGET_NAME}_INCLUDES
