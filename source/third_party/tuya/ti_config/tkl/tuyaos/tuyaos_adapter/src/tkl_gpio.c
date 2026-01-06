@@ -1,10 +1,41 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_gpio.h"
 #include "tuya_error_code.h"
-#include <ti_drivers_config.h> // Program Will compile at the time of the app generation
 #include <ti/drivers/gpio/GPIOWFF3.h>
 #include <stdbool.h>
 #include <string.h> // Required for memset
+
+/*
+ * -------------------------------------------------------------------------
+ * TI Drivers Config - Conditional Inclusion
+ * -------------------------------------------------------------------------
+ * This block allows the Tuya TKL to compile as a standalone library 
+ * (where SysConfig has not generated the header) by providing fallback 
+ * definitions for the GPIO indices.
+ */
+
+// 1. Try to include the header if it exists
+#if defined(__has_include)
+    #if __has_include(<ti_drivers_config.h>)
+        #include <ti_drivers_config.h>
+    #endif
+#endif
+
+// 2. Provide Fallback Defaults if the header was missing or the specific pins weren't defined.
+//    These checks ensure we don't overwrite real values if the header WAS found.
+
+#ifndef CONFIG_GPIO_BUTTON_0
+    // Defaulting to 0 allows compilation, but assumes index 0 is valid in HW
+    #define CONFIG_GPIO_BUTTON_0    0 
+#endif
+
+#ifndef CONFIG_GPIO_BUTTON_1
+    #define CONFIG_GPIO_BUTTON_1    1
+#endif
+
+#ifndef CONFIG_GPIO_LED_0
+    #define CONFIG_GPIO_LED_0       2
+#endif
 
 // [OPTIMIZATION] Define a safe upper bound for TI GPIO Indices (CC32xx usually has < 64)
 // This prevents magic numbers in array declarations.
@@ -22,9 +53,9 @@ typedef struct {
 
 // [USER CONFIG] Add as many buttons as needed here. Logic adapts automatically.
 static pin_dev_map_t cb_gpio_map[] = {
-    {CONFIG_GPIO_BUTTON_0, {0}}, // GPIO_0 changed to TI CONFIG name for safety
-    {CONFIG_GPIO_BUTTON_1, {0}},
-    {CONFIG_GPIO_LED_0,    {0}},
+    {CONFIG_GPIO_BUTTON_0, {0}}, // Uses Real TI Config if available, else 0
+    {CONFIG_GPIO_BUTTON_1, {0}}, // Uses Real TI Config if available, else 1
+    {CONFIG_GPIO_LED_0,    {0}}, // Uses Real TI Config if available, else 2
     // Add more entries here...
 };
 
@@ -46,7 +77,7 @@ static void ti_gpio_callback_bridge(uint_least8_t ti_index)
     // If valid mapping exists (-1 means invalid)
     if (tuya_pin_id >= 0 && tuya_pin_id < TUYA_GPIO_MAP_SIZE) {
         if (cb_gpio_map[tuya_pin_id].callback.cb != NULL) {
-            cb_gpio_map[tuya_pin_id].callback.cb(cb_gpio_map[tuya_pin_id].callback.args);
+            cb_gpio_map[tuya_pin_id].callback.cb(cb_gpio_map[tuya_pin_id].callback.arg);
         }
     }
 }
@@ -68,7 +99,7 @@ static void ensure_lookup_table_init(void) {
 
 // --- END: user defines and implements ---
 
- * @brief gpio init
+/* @brief gpio init
  */
 OPERATE_RET tkl_gpio_init(TUYA_GPIO_NUM_E pin_id, const TUYA_GPIO_BASE_CFG_T *cfg)
 {
@@ -205,7 +236,6 @@ OPERATE_RET tkl_gpio_irq_init(TUYA_GPIO_NUM_E pin_id, const TUYA_GPIO_IRQ_T *cfg
     }
 
     // 1. Save the Tuya callback into our map
-    // [FIX] Use pin_id here, not gpio_index!
     cb_gpio_map[pin_id].callback = *cfg;
 
     // 2. Map Tuya Trigger Mode to TI trigger mode
@@ -224,7 +254,7 @@ OPERATE_RET tkl_gpio_irq_init(TUYA_GPIO_NUM_E pin_id, const TUYA_GPIO_IRQ_T *cfg
     GPIO_setInterruptConfig(gpio_index, ti_irq_mode);
     GPIO_setCallback(gpio_index, ti_gpio_callback_bridge);
 
-    return OPRT_OK; // [FIX] Changed from NOT_SUPPORTED to OK
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -246,9 +276,8 @@ OPERATE_RET tkl_gpio_irq_enable(TUYA_GPIO_NUM_E pin_id)
 OPERATE_RET tkl_gpio_irq_disable(TUYA_GPIO_NUM_E pin_id)
 {
     // --- BEGIN: user implements ---
-    CHECK_BOUNDED(pin_id); // [FIX] Macro var name matches passed arg
+    CHECK_BOUNDED(pin_id); 
     
-    // [FIX] Typo fix: cd_gpio_map -> cb_gpio_map
     GPIO_disableInt(cb_gpio_map[pin_id].gpio_id);
     
     return OPRT_OK;
