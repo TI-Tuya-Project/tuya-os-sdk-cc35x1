@@ -42,14 +42,13 @@ UART2_Handle uartHandle = 0;
 void tkl_log_output(const char *str, ...)
 {
     // --- BEGIN: user implements ---
+    // TODO REPORT!
     if (str == NULL) {
         return;
     }
 
     if (uartHandle == 0){
         // UART needs to be opened
-        // Option: Try to auto-open if closed? [TODO TKL]
-        tkl_log_open();
         return;
     }
 
@@ -102,7 +101,7 @@ OPERATE_RET tkl_log_open(void)
     UART2_Params params;
     UART2_Params_init(&params);
 
-    // TODO TKL : Look object like in uart_temn and osi_dpl
+    // TODO TKL : Lock object like in uart_temn and osi_dpl
     // osi_LockObjCreate(&LockObj);
 
     uartHandle = UART2_open(CONFIG_UART2_0, &params);
