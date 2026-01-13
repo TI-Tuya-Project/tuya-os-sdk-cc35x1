@@ -12,6 +12,7 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_bluetooth.h"
 #include "tuya_error_code.h"
+
 // --- END: user defines and implements ---
 
 /**
@@ -25,7 +26,17 @@
 OPERATE_RET tkl_ble_stack_init(uint8_t role)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+
+
+    // 1. init TI transport
+    BleIf_OpenTransport();
+
+    // 2. Enable BLE Hardware 
+    BleIf_EnableBLE();
+
+    // 3. Register the callback so Tuya receives BLE events
+    BleIf_EventCbRegister()
+
     // --- END: user implements ---
 }
 
