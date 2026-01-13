@@ -11,6 +11,7 @@
 #include "tuya_error_code.h"
 #include <ti/drivers/NVS.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* * NVS Index 0 corresponds to CONFIG_NVS_0 defined in the SysConfig.
  * Ensure you have added an NVS instance in your .syscfg file.
@@ -171,7 +172,6 @@ OPERATE_RET tkl_flash_get_one_type_info(TUYA_FLASH_TYPE_E type, TUYA_FLASH_BASE_
     info->partition[0].block_size = regionAttrs.sectorSize;
     
     // Currently mapping all types to the start of the NVS region (Offset 0).
-    // Future improvement: Implement logic to separate KV and User Data areas.
     info->partition[0].start_addr = 0; 
     info->partition[0].size       = regionAttrs.regionSize;
 
