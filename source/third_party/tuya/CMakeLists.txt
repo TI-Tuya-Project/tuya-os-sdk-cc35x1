@@ -48,22 +48,19 @@ set(${TARGET_NAME}_SOURCES
 # --- 2. DEFINE INCLUDES ---
 
 set(${TARGET_NAME}_INCLUDES
-    # 1. Compiler Toolchain Includes (MUST BE FIRST)
+    # 1. Compiler Toolchain Includes
     "C:/ti/ccs2031/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/include/c"
 
     # 2. Custom and Local Configs
     ${CMAKE_CURRENT_LIST_DIR}/ti_config
 
-    # 3. Tuya Core SDK Headers (High priority)
+    # 3. Tuya Core SDK Headers
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/common
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/include
-    
-    # --- FIXED: Added missing libraries for mqtt_client_interface.h ---
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libmqtt
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libhttp
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/include/libutils
-    # ------------------------------------------------------------------
 
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/include
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_network/include
@@ -74,8 +71,7 @@ set(${TARGET_NAME}_INCLUDES
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/freertos/portable/GCC/ARM_CM33_NTZ/non_secure"
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/kernel/freertos/builds/.meta/cc35xx/release/pregenerated_configuration"
     
-    # 5. TI SDK Base (CRUCIAL FIX: Removed 'source/ti/posix/gcc' to avoid time.h conflict)
-    # "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/posix/gcc"  <-- DELETED THIS LINE
+    # 5. TI SDK Base
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/source"
 
     # 6. Cloud Service Subfolders
@@ -123,10 +119,18 @@ set(${TARGET_NAME}_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/timer
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include
 
-    # 10. Explicit TI SDK Base Includes
+    # 10. Explicit TI SDK Base & LwIP Includes
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi"
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/kernel/freertos/posix"
+
+    # --- LwIP Stack Headers ---
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/lwip/lwip-stack/src/include"
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/net/lwip"
     
+    # --- ADDED: LwIP Config/Opts for FreeRTOS (Fixes lwipopts.h error) ---
+    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/lwip/ti_config/lwip-port/freertos/include"
+    # ---------------------------------------------------------------------
+
     # 11. Property-based Includes
     $<TARGET_PROPERTY:wifi_host_driver,INCLUDE_DIRECTORIES>
 )
@@ -138,6 +142,7 @@ set(${TARGET_NAME}_LIBRARIES ${CMAKE_COMMON_LIBRARY})
 set(${TARGET_NAME}_DEFINITIONS 
     -D_TUYA_TI_PLATFORM_
     -DTUYA_GW_OPERATING_SYSTEM=1
+    -DDeviceFamily_CC35XX
 )
 
 set(${TARGET_NAME}_COMPILER_FLAGS -Ofast -Wno-error)
