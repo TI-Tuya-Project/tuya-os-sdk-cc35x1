@@ -11,7 +11,6 @@
 #include "tuya_error_code.h"
 #include <ti/drivers/NVS.h>
 #include <string.h>
-#include <stdbool.h>
 
 /* * NVS Index 0 corresponds to CONFIG_NVS_0 defined in the SysConfig.
  * Ensure you have added an NVS instance in your .syscfg file.
