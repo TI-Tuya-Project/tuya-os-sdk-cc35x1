@@ -44,7 +44,7 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/mqtt_service.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c
 )
-
+    set(TI_SYSCONFIG_TOOL "C:/ti/sysconfig_1.26.0/sysconfig_cli.bat")
 # --- 2. DEFINE INCLUDES ---
 
 set(${TARGET_NAME}_INCLUDES
@@ -138,6 +138,7 @@ set(${TARGET_NAME}_LIBRARIES ${CMAKE_COMMON_LIBRARY})
 set(${TARGET_NAME}_DEFINITIONS 
     -D_TUYA_TI_PLATFORM_
     -DTUYA_GW_OPERATING_SYSTEM=1
+    -DDeviceFamily_CC35XX
 )
 
 set(${TARGET_NAME}_COMPILER_FLAGS -Ofast -Wno-error)
