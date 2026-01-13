@@ -12,6 +12,36 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_flash.h"
 #include "tuya_error_code.h"
+<<<<<<< Updated upstream
+=======
+#include <ti/drivers/NVS.h>
+#include <string.h>
+#include <stdbool.h>
+
+static uint8_t TUYA_NVS_INDEX = 0;
+
+static NVS_Handle nvsHandle = NULL;
+static NVS_Attrs regionAttrs;
+
+// Helper to ensure NVS is open before operation
+static OPERATE_RET _ensure_nvs_open(void) {
+    if (nvsHandle != NULL) {
+        return OPRT_OK;
+    }
+
+    NVS_init();
+    
+    // Open NVS using the determined index
+    nvsHandle = NVS_open(TUYA_NVS_INDEX, NULL);
+
+    if (nvsHandle == NULL) {
+        return OPRT_COM_ERROR;
+    }
+
+    NVS_getAttrs(nvsHandle, &regionAttrs);
+    return OPRT_OK;
+}
+>>>>>>> Stashed changes
 // --- END: user defines and implements ---
 
 /**
