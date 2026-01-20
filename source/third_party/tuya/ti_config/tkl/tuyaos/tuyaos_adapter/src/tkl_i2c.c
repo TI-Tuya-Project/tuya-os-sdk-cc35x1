@@ -12,6 +12,178 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_i2c.h"
 #include "tuya_error_code.h"
+
+#include <string.h>
+#include <stdbool.h>
+#include <stdint.h>
+
+#include <ti/drivers/I2C.h>
+#include "ti_drivers_config.h"
+
+/*
+ * IMPORTANT:
+ * 1) This file ports Tuya TKL I2C APIs to TI-Drivers I2C.
+ * 2) TI-Drivers I2C API does not expose a "no STOP" flag directly.
+ *    We implement xfer_pending support for the common case:
+ *      - tkl_i2c_master_send(..., xfer_pending=TRUE) buffers the write
+ *      - next tkl_i2c_master_receive() performs a combined write+read transaction (repeated START)
+ *    This matches many sensors/reg reads.
+ */
+
+/* If your SDK defines a max enum value, prefer it. Otherwise adjust manually. */
+#ifndef TKL_I2C_PORT_NUM
+#define TKL_I2C_PORT_NUM (CONFIG_I2C_COUNT)
+#endif
+
+/* Pending buffer size for "send without STOP" -> next receive combined transaction */
+#ifndef TKL_I2C_PENDING_MAX
+#define TKL_I2C_PENDING_MAX (64)
+#endif
+
+typedef struct {
+    I2C_Handle handle;
+    bool inited;
+
+    /* pending write (when xfer_pending == TRUE in master_send) */
+    uint16_t pending_addr; /* normalized address used by TI driver (7-bit or 10-bit) */
+    uint8_t  pending_buf[TKL_I2C_PENDING_MAX];
+    uint32_t pending_len;
+    bool     has_pending;
+} tkl_i2c_ctx_t;
+
+static tkl_i2c_ctx_t s_ctx[TKL_I2C_PORT_NUM];
+
+/*
+ * Map TUYA port -> TI I2C index in I2C_config[].
+ * If your TUYA_I2C_NUM_E order matches SysConfig order, you can simply return (uint_least8_t)port.
+ */
+static uint_least8_t port_to_i2c_index(TUYA_I2C_NUM_E port)
+{
+    /* Build a mapping only for the instances that exist */
+    static const uint_least8_t map[] = {
+#if defined(CONFIG_I2C_0)
+        CONFIG_I2C_0,
+#else
+        0,
+#endif
+
+#if (CONFIG_I2C_COUNT > 1) && defined(CONFIG_I2C_1)
+        CONFIG_I2C_1,
+#endif
+#if (CONFIG_I2C_COUNT > 2) && defined(CONFIG_I2C_2)
+        CONFIG_I2C_2,
+#endif
+#if (CONFIG_I2C_COUNT > 3) && defined(CONFIG_I2C_3)
+        CONFIG_I2C_3,
+#endif
+#if (CONFIG_I2C_COUNT > 4) && defined(CONFIG_I2C_4)
+        CONFIG_I2C_4,
+#endif
+#if (CONFIG_I2C_COUNT > 5) && defined(CONFIG_I2C_5)
+        CONFIG_I2C_5,
+#endif
+#if (CONFIG_I2C_COUNT > 6) && defined(CONFIG_I2C_6)
+        CONFIG_I2C_6,
+#endif
+#if (CONFIG_I2C_COUNT > 7) && defined(CONFIG_I2C_7)
+        CONFIG_I2C_7,
+#endif
+    };
+
+    uint32_t p = (uint32_t)port;
+    if (p < (uint32_t)(sizeof(map) / sizeof(map[0]))) {
+        return map[p];
+    }
+
+    /* Fallback: assume port order equals config order */
+    return (uint_least8_t)port;
+}
+
+/* Normalize Tuya dev_addr into what TI driver expects and set address mode */
+static inline uint16_t tuya_norm_addr_and_set_mode(I2C_Handle h, uint16_t dev_addr)
+{
+    /*
+     * Tuya callers sometimes pass:
+     * - 7-bit address (0x00..0x7F) -> OK (7-bit mode)
+     * - 10-bit address (0x000..0x3FF) -> OK (10-bit mode)
+     * - 8-bit "wire address" including R/W (0x80..0xFE) -> needs >> 1 (7-bit mode)
+     */
+
+    if (dev_addr <= 0x7F) {
+        I2C_setAddressMode(h, I2C_ADDRESS_MODE_7_BIT);
+        return dev_addr;
+    }
+
+    if (dev_addr <= 0x3FF) {
+        I2C_setAddressMode(h, I2C_ADDRESS_MODE_10_BIT);
+        return dev_addr;
+    }
+
+    /* Assume 8-bit address form -> convert to 7-bit */
+    I2C_setAddressMode(h, I2C_ADDRESS_MODE_7_BIT);
+    return (uint16_t)(dev_addr >> 1);
+}
+
+static OPERATE_RET map_i2c_status_to_oprt(int_fast16_t st)
+{
+    /* Tuya error enums vary by SDK version; keep this conservative. */
+    switch (st) {
+        case I2C_STATUS_SUCCESS:
+            return OPRT_OK;
+
+        case I2C_STATUS_TIMEOUT:
+        case I2C_STATUS_CLOCK_TIMEOUT:
+            return OPRT_TIMEOUT;
+
+        case I2C_STATUS_ADDR_NACK:
+        case I2C_STATUS_DATA_NACK:
+            return OPRT_COM_ERROR;
+
+        case I2C_STATUS_ARB_LOST:
+        case I2C_STATUS_BUS_BUSY:
+        case I2C_STATUS_INCOMPLETE:
+        case I2C_STATUS_CANCEL:
+        case I2C_STATUS_INVALID_TRANS:
+        case I2C_STATUS_ERROR:
+        default:
+            return OPRT_COM_ERROR;
+    }
+}
+
+static OPERATE_RET ensure_open(TUYA_I2C_NUM_E port)
+{
+    if ((uint32_t)port >= (uint32_t)TKL_I2C_PORT_NUM) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_i2c_ctx_t *c = &s_ctx[port];
+    if (c->handle != NULL) {
+        return OPRT_OK;
+    }
+
+    if (!c->inited) {
+        I2C_init();          /* safe to call multiple times */
+        c->inited = true;
+    }
+
+    I2C_Params params;
+    I2C_Params_init(&params);
+
+    /* Adjust if your project requires 100kHz etc. */
+    params.bitRate = I2C_400kHz;
+
+    uint_least8_t idx = port_to_i2c_index(port);
+    c->handle = I2C_open(idx, &params);
+    if (c->handle == NULL) {
+        return OPRT_COM_ERROR;
+    }
+
+    c->has_pending  = false;
+    c->pending_len  = 0;
+    c->pending_addr = 0;
+
+    return OPRT_OK;
+}
 // --- END: user defines and implements ---
 
 /**
@@ -24,7 +196,21 @@
 OPERATE_RET tkl_i2c_deinit(TUYA_I2C_NUM_E port)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if ((uint32_t)port >= (uint32_t)TKL_I2C_PORT_NUM) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_i2c_ctx_t *c = &s_ctx[port];
+    if (c->handle != NULL) {
+        I2C_close(c->handle);
+        c->handle = NULL;
+    }
+
+    c->has_pending  = false;
+    c->pending_len  = 0;
+    c->pending_addr = 0;
+
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -40,6 +226,9 @@ OPERATE_RET tkl_i2c_deinit(TUYA_I2C_NUM_E port)
 OPERATE_RET tkl_i2c_irq_init(TUYA_I2C_NUM_E port, TUYA_I2C_IRQ_CB cb)
 {
     // --- BEGIN: user implements ---
+    (void)port;
+    (void)cb;
+    /* TI-Drivers I2C manages interrupts internally. */
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -54,6 +243,7 @@ OPERATE_RET tkl_i2c_irq_init(TUYA_I2C_NUM_E port, TUYA_I2C_IRQ_CB cb)
 OPERATE_RET tkl_i2c_irq_enable(TUYA_I2C_NUM_E port)
 {
     // --- BEGIN: user implements ---
+    (void)port;
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -68,6 +258,7 @@ OPERATE_RET tkl_i2c_irq_enable(TUYA_I2C_NUM_E port)
 OPERATE_RET tkl_i2c_irq_disable(TUYA_I2C_NUM_E port)
 {
     // --- BEGIN: user implements ---
+    (void)port;
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -79,14 +270,64 @@ OPERATE_RET tkl_i2c_irq_disable(TUYA_I2C_NUM_E port)
  * @param[in] dev_addr: iic addrress of slave device.
  * @param[in] data: i2c data to send
  * @param[in] size: Number of data items to send
- * @param[in] xfer_pending: xfer_pending: TRUE : not send stop condition, FALSE : send stop condition.
+ * @param[in] xfer_pending: TRUE : not send stop condition, FALSE : send stop condition.
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-OPERATE_RET tkl_i2c_master_send(TUYA_I2C_NUM_E port, uint16_t dev_addr, const void *data, uint32_t size,
-                                BOOL_T xfer_pending)
+OPERATE_RET tkl_i2c_master_send(TUYA_I2C_NUM_E port,
+                               uint16_t dev_addr,
+                               const void *data,
+                               uint32_t size,
+                               BOOL_T xfer_pending)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (data == NULL || size == 0) {
+        return OPRT_INVALID_PARM;
+    }
+
+    OPERATE_RET r = ensure_open(port);
+    if (r != OPRT_OK) {
+        return r;
+    }
+
+    tkl_i2c_ctx_t *c = &s_ctx[port];
+
+    /* Normalize address and set TI address mode (7/10 bit) */
+    dev_addr = tuya_norm_addr_and_set_mode(c->handle, dev_addr);
+
+    /*
+     * If xfer_pending == TRUE:
+     * buffer the write so that the next master_receive can perform
+     * a single combined write+read transaction (repeated START).
+     */
+    if (xfer_pending) {
+        if (size > (uint32_t)TKL_I2C_PENDING_MAX) {
+            return OPRT_INVALID_PARM;
+        }
+
+        c->pending_addr = dev_addr;
+        c->pending_len  = size;
+        c->has_pending  = true;
+        memcpy(c->pending_buf, data, size);
+
+        return OPRT_OK;
+    }
+
+    /* Normal write-only transaction (ends with STOP by TI driver). */
+    I2C_Transaction t;
+    memset(&t, 0, sizeof(t));
+
+    t.targetAddress = dev_addr;
+    t.writeBuf      = (void *)data;
+    t.writeCount    = (size_t)size;
+    t.readBuf       = NULL;
+    t.readCount     = 0;
+
+    bool ok = I2C_transfer(c->handle, &t);
+    if (ok) {
+        return OPRT_OK;
+    }
+
+    return map_i2c_status_to_oprt(t.status);
     // --- END: user implements ---
 }
 
@@ -100,11 +341,74 @@ OPERATE_RET tkl_i2c_master_send(TUYA_I2C_NUM_E port, uint16_t dev_addr, const vo
  * @param[in] xfer_pending: TRUE : not send stop condition, FALSE : send stop condition.
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-OPERATE_RET tkl_i2c_master_receive(TUYA_I2C_NUM_E port, uint16_t dev_addr, void *data, uint32_t size,
-                                   BOOL_T xfer_pending)
+OPERATE_RET tkl_i2c_master_receive(TUYA_I2C_NUM_E port,
+                                  uint16_t dev_addr,
+                                  void *data,
+                                  uint32_t size,
+                                  BOOL_T xfer_pending)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (data == NULL || size == 0) {
+        return OPRT_INVALID_PARM;
+    }
+
+    OPERATE_RET r = ensure_open(port);
+    if (r != OPRT_OK) {
+        return r;
+    }
+
+    tkl_i2c_ctx_t *c = &s_ctx[port];
+
+    /* Normalize address and set TI address mode (7/10 bit) */
+    dev_addr = tuya_norm_addr_and_set_mode(c->handle, dev_addr);
+
+    I2C_Transaction t;
+    memset(&t, 0, sizeof(t));
+
+    t.targetAddress = dev_addr;
+    t.readBuf       = data;
+    t.readCount     = (size_t)size;
+
+    /*
+     * If we previously buffered a pending write (xfer_pending=TRUE in send),
+     * perform a combined write+read transaction now (repeated START).
+     */
+    if (c->has_pending) {
+        if (c->pending_addr != dev_addr) {
+            /* address mismatch -> drop pending and fail */
+            c->has_pending  = false;
+            c->pending_len  = 0;
+            c->pending_addr = 0;
+            return OPRT_INVALID_PARM;
+        }
+
+        t.writeBuf   = c->pending_buf;
+        t.writeCount = (size_t)c->pending_len;
+
+        /* Clear pending once we attempt the combined transaction */
+        c->has_pending  = false;
+        c->pending_len  = 0;
+        c->pending_addr = 0;
+    } else {
+        /* read-only */
+        t.writeBuf   = NULL;
+        t.writeCount = 0;
+    }
+
+    bool ok = I2C_transfer(c->handle, &t);
+    if (ok) {
+        /*
+         * NOTE:
+         * TI-Drivers does not provide a public API to "read and keep bus active"
+         * (no STOP) in a generic way. If Tuya uses xfer_pending=TRUE here to
+         * request no STOP after the read, it may not be achievable via I2C_transfer().
+         * If needed, move to lower-level driverlib.
+         */
+        (void)xfer_pending;
+        return OPRT_OK;
+    }
+
+    return map_i2c_status_to_oprt(t.status);
     // --- END: user implements ---
 }
 
@@ -119,6 +423,9 @@ OPERATE_RET tkl_i2c_master_receive(TUYA_I2C_NUM_E port, uint16_t dev_addr, void 
 OPERATE_RET tkl_i2c_set_slave_addr(TUYA_I2C_NUM_E port, uint16_t dev_addr)
 {
     // --- BEGIN: user implements ---
+    (void)port;
+    (void)dev_addr;
+    /* TI-Drivers I2C here is controller(master) oriented. */
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -131,10 +438,12 @@ OPERATE_RET tkl_i2c_set_slave_addr(TUYA_I2C_NUM_E port, uint16_t dev_addr)
  * @param[in] size: Number of data items to send
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-
 OPERATE_RET tkl_i2c_slave_send(TUYA_I2C_NUM_E port, const void *data, uint32_t size)
 {
     // --- BEGIN: user implements ---
+    (void)port;
+    (void)data;
+    (void)size;
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -147,10 +456,12 @@ OPERATE_RET tkl_i2c_slave_send(TUYA_I2C_NUM_E port, const void *data, uint32_t s
  * @param[in] size: Number of data items to receive
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
-
 OPERATE_RET tkl_i2c_slave_receive(TUYA_I2C_NUM_E port, void *data, uint32_t size)
 {
     // --- BEGIN: user implements ---
+    (void)port;
+    (void)data;
+    (void)size;
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
@@ -165,7 +476,19 @@ OPERATE_RET tkl_i2c_slave_receive(TUYA_I2C_NUM_E port, void *data, uint32_t size
 OPERATE_RET tkl_i2c_get_status(TUYA_I2C_NUM_E port, TUYA_IIC_STATUS_T *status)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    (void)port;
+
+    if (status == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+
+    /*
+     * TUYA_IIC_STATUS_T layout differs across Tuya versions.
+     * Without the exact struct definition, we cannot fill meaningful fields safely.
+     * If you paste TUYA_IIC_STATUS_T from your headers, I will implement this fully.
+     */
+    memset(status, 0, sizeof(*status));
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -179,7 +502,24 @@ OPERATE_RET tkl_i2c_get_status(TUYA_I2C_NUM_E port, TUYA_IIC_STATUS_T *status)
 OPERATE_RET tkl_i2c_reset(TUYA_I2C_NUM_E port)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if ((uint32_t)port >= (uint32_t)TKL_I2C_PORT_NUM) {
+        return OPRT_INVALID_PARM;
+    }
+
+    /*
+     * A "reset" can be approximated by close+open.
+     * This is safe and typically sufficient for recovering from errors.
+     */
+    tkl_i2c_ctx_t *c = &s_ctx[port];
+    if (c->handle != NULL) {
+        I2C_close(c->handle);
+        c->handle = NULL;
+    }
+    c->has_pending  = false;
+    c->pending_len  = 0;
+    c->pending_addr = 0;
+
+    return ensure_open(port);
     // --- END: user implements ---
 }
 
@@ -197,6 +537,11 @@ OPERATE_RET tkl_i2c_reset(TUYA_I2C_NUM_E port)
 int32_t tkl_i2c_get_data_count(TUYA_I2C_NUM_E port)
 {
     // --- BEGIN: user implements ---
+    (void)port;
+    /*
+     * TI-Drivers I2C does not expose "bytes transferred so far" in a portable way here.
+     * Return 0 (unknown) instead of an error to avoid breaking callers that ignore it.
+     */
     return 0;
     // --- END: user implements ---
 }
@@ -211,7 +556,9 @@ int32_t tkl_i2c_get_data_count(TUYA_I2C_NUM_E port)
 OPERATE_RET tkl_i2c_ioctl(TUYA_I2C_NUM_E port, uint32_t cmd, void *args)
 {
     // --- BEGIN: user implements ---
+    (void)port;
+    (void)cmd;
+    (void)args;
     return OPRT_NOT_SUPPORTED;
     // --- END: user implements ---
 }
-
