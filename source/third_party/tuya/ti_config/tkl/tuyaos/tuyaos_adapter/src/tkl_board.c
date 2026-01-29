@@ -14,6 +14,10 @@ static int g_is_initialized = 0;
 static void _init_defaults(void) {
     if (!g_is_initialized) {
         memset(&g_board_config, -1, sizeof(g_board_config));
+
+        // Default to CC32xx standard if not initialized
+        g_board_config.timer_freq = 80000000U;
+
         g_is_initialized = 1;
     }
 }
@@ -30,6 +34,13 @@ void tkl_hw_board_init(const TKL_BOARD_CONFIG_T *config)
 }
 
 // --- Getters ---
+
+uint32_t tkl_hw_get_board_timer_freq(void)
+{
+    _init_defaults();
+    // Safety: prevent divide-by-zero if user sent 0
+    return (g_board_config.timer_freq > 0) ? g_board_config.timer_freq : 80000000U;
+}
 
 int16_t tkl_hw_get_adc_index(uint8_t port_num)
 {
@@ -71,4 +82,11 @@ int16_t tkl_hw_get_i2s_index(uint8_t port)
     _init_defaults();
     if (port >= TKL_HW_MAX_I2S_PORTS) return -1;
     return g_board_config.i2s_map[port];
+}
+
+int16_t tkl_hw_get_timer_index(uint8_t port)
+{
+    _init_defaults();
+    if (port >= TKL_HW_MAX_TIMER_PORTS) return -1;
+    return g_board_config.timer_map[port];
 }

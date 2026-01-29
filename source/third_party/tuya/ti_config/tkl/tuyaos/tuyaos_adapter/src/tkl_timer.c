@@ -18,11 +18,6 @@
 // Dependency Injection
 #include "tkl_board_config.h"
 
-// Define max timers supported by the board config
-// Note: We need a new macro in tkl_board_config.h for TKL_HW_MAX_TIMERS if not present,
-// but for now we can assume 4 or add it. Let's assume 4.
-#define MAX_TUYA_TIMERS 4
-
 // Context structure - Structure to hold the Tuya callback context per timer
 typedef struct {
     Timer_Handle handle;
@@ -31,14 +26,14 @@ typedef struct {
     uint32_t current_period_us;
 } tuya_timer_ctx_t;
 
-static tuya_timer_ctx_t g_timer_ctx[MAX_TUYA_TIMERS] = {0};
+static tuya_timer_ctx_t g_timer_ctx[TKL_HW_MAX_TIMER_PORTS] = {0};
 
 /* TI Timer Callback Wrapper
  * TI passes the handle, Tuya expects the user argument.
  */
 static void _ti_timer_callback_fxn(Timer_Handle handle, int_fast16_t status)
 {
-    for (int i = 0; i < MAX_TUYA_TIMERS; i++) {
+    for (int i = 0; i < TKL_HW_MAX_TIMER_PORTS; i++) {
         if (g_timer_ctx[i].handle == handle) {
             if (g_timer_ctx[i].cb != NULL) {
                 g_timer_ctx[i].cb(g_timer_ctx[i].args);
@@ -60,19 +55,13 @@ static void _ti_timer_callback_fxn(Timer_Handle handle, int_fast16_t status)
 OPERATE_RET tkl_timer_init(TUYA_TIMER_NUM_E timer_id, TUYA_TIMER_BASE_CFG_T *cfg)
 {
     // --- BEGIN: user implements ---
-    if (timer_id >= MAX_TUYA_TIMERS || cfg == NULL) {
+    if (timer_id >= TKL_HW_MAX_TIMER_PORTS || cfg == NULL) {
         return OPRT_INVALID_PARM;
     }
 
     // [DYNAMIC LOOKUP]
-    // Since we didn't add "Timer" to tkl_board_config.h earlier, 
-    // we assume a 1:1 mapping if the user didn't request a specific mapping feature for Timers.
-    // However, to be consistent, we SHOULD have added it. 
-    // For now, I will use a direct cast assuming the Tuya ID matches the TI Index, 
-    // OR we can add `tkl_hw_get_timer_index` to board_config later.
-    //
-    // Strategy: Use direct ID for now as Timers are often virtual or scarce.
-    int16_t ti_index = (int16_t)timer_id; 
+    int16_t ti_index = tkl_hw_get_timer_index(timer_id);
+    if (ti_index < 0) return OPRT_NOT_SUPPORTED;
 
     // If already open, close it to re-configure
     if (g_timer_ctx[timer_id].handle != NULL) {
@@ -121,7 +110,7 @@ OPERATE_RET tkl_timer_init(TUYA_TIMER_NUM_E timer_id, TUYA_TIMER_BASE_CFG_T *cfg
 OPERATE_RET tkl_timer_start(TUYA_TIMER_NUM_E timer_id, uint32_t us)
 {
     // --- BEGIN: user implements ---
-    if (timer_id >= MAX_TUYA_TIMERS || g_timer_ctx[timer_id].handle == NULL) {
+    if (timer_id >= TKL_HW_MAX_TIMER_PORTS || g_timer_ctx[timer_id].handle == NULL) {
         return OPRT_INVALID_PARM;
     }
 
@@ -150,7 +139,7 @@ OPERATE_RET tkl_timer_start(TUYA_TIMER_NUM_E timer_id, uint32_t us)
 OPERATE_RET tkl_timer_stop(TUYA_TIMER_NUM_E timer_id)
 {
     // --- BEGIN: user implements ---
-    if (timer_id >= MAX_TUYA_TIMERS || g_timer_ctx[timer_id].handle == NULL) {
+    if (timer_id >= TKL_HW_MAX_TIMER_PORTS || g_timer_ctx[timer_id].handle == NULL) {
         return OPRT_INVALID_PARM;
     }
 
@@ -169,7 +158,7 @@ OPERATE_RET tkl_timer_stop(TUYA_TIMER_NUM_E timer_id)
 OPERATE_RET tkl_timer_deinit(TUYA_TIMER_NUM_E timer_id)
 {
     // --- BEGIN: user implements ---
-    if (timer_id >= MAX_TUYA_TIMERS) {
+    if (timer_id >= TKL_HW_MAX_TIMER_PORTS) {
         return OPRT_INVALID_PARM;
     }
 
@@ -197,20 +186,14 @@ OPERATE_RET tkl_timer_deinit(TUYA_TIMER_NUM_E timer_id)
 OPERATE_RET tkl_timer_get_current_value(TUYA_TIMER_NUM_E timer_id, uint32_t *us)
 {
     // --- BEGIN: user implements ---
-    if (timer_id >= MAX_TUYA_TIMERS || g_timer_ctx[timer_id].handle == NULL || us == NULL) {
+    if (timer_id >= TKL_HW_MAX_TIMER_PORTS || g_timer_ctx[timer_id].handle == NULL || us == NULL) {
         return OPRT_INVALID_PARM;
     }
 
     uint32_t counts = Timer_getCount(g_timer_ctx[timer_id].handle);
     
-    // Note: This function might need converting depending on driver version, 
-    // usually Timer_getCount returns ticks.
-    // For simplicity in porting, currently assuming returning raw or not supported for high precision logic yet.
-    // However, for proper implementation we should use:
-    // *us = (counts converted to microsecs based on freq);
-    
-    // Stub for now to allow compilation, usually acceptable for basic keepalive
-    *us = counts; 
+    uint32_t freq = tkl_hw_get_board_timer_freq();
+    *us = (uint32_t)(((uint64_t)counts * 1000000U) / freq);
 
     return OPRT_OK;
     // --- END: user implements ---
@@ -227,7 +210,7 @@ OPERATE_RET tkl_timer_get_current_value(TUYA_TIMER_NUM_E timer_id, uint32_t *us)
 OPERATE_RET tkl_timer_get(TUYA_TIMER_NUM_E timer_id, uint32_t *us)
 {
     // --- BEGIN: user implements ---
-    if (timer_id >= MAX_TUYA_TIMERS || us == NULL) {
+    if (timer_id >= TKL_HW_MAX_TIMER_PORTS || us == NULL) {
         return OPRT_INVALID_PARM;
     }
     
