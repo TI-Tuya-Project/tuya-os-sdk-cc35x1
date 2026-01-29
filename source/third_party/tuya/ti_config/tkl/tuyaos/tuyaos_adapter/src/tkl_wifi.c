@@ -17,7 +17,16 @@
 #include <lwip/netif.h>
 #include <lwip/ip_addr.h>
 
-/* --- Absolute Path to TI SDK Header --- */
+// TODO: fix absolute path... try:
+/*
+#if defined __has_include
+#  if __has_include (<ti/drivers/net/wifi/simplelink.h>)
+#    include <ti/drivers/net/wifi/simplelink.h>
+#  endif
+# else
+    include <wlan_if.h>
+#endif
+*/
 #include "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi/wifi_host_driver/inc_adapt/wlan_if.h"
 
 /* --- Macros & Constants --- */
