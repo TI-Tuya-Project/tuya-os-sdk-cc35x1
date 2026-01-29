@@ -10,19 +10,18 @@
  */
 
 // --- BEGIN: user defines and implements ---
-// YUYA
 #include "tkl_output.h"
 #include "tuya_error_code.h"
-
-// TI
 #include <ti/drivers/UART2.h>
+#include <string.h>
 
-// We are not using SysCfg
-#ifndef CONFIG_UART2_0
-#define CONFIG_UART2_0 0
-#endif
+// Dependency Injection
+#include "tkl_board_config.h"
 
-UART2_Handle uartHandle = 0;
+// We assume Tuya Log is always Port 0
+#define TUYA_LOG_PORT 0
+
+static UART2_Handle g_log_uart = NULL;
 // --- END: user defines and implements ---
 
 /**
@@ -43,20 +42,13 @@ void tkl_log_output(const char *str, ...)
 {
     // --- BEGIN: user implements ---
     // TODO REPORT!
-    if (str == NULL) {
-        return;
-    }
-
-    if (uartHandle == 0){
-        // UART needs to be opened
+    if (str == NULL || g_log_uart == NULL) {
         return;
     }
 
     size_t bytesWritten = 0;
-    // TODO: might be a problem with strlen if '/0' is not found
-    UART2_write(uartHandle, str, strlen(str), &bytesWritten);
-    
-    return;
+    // Note: Might be a problem with strlen if '/0' is not found, but Tuya Core formats string before calling this.
+    UART2_write(g_log_uart, str, strlen(str), &bytesWritten);
     // --- END: user implements ---
 }
 
@@ -78,11 +70,14 @@ OPERATE_RET tkl_log_close(void)
 {
     // --- BEGIN: user implements ---
     // TODO Optional: Cancel all ongoing read/write
-    // UART2_readCancel(uartHandle)
-    // UART2_writeCancel(uartHandle)
+    // UART2_readCancel(g_log_uart)
+    // UART2_writeCancel(g_log_uart)
 
-    UART2_close(uartHandle);
-    return OPRT_NOT_SUPPORTED;
+    if (g_log_uart != NULL) {
+        UART2_close(g_log_uart);
+        g_log_uart = NULL;
+    }
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -98,13 +93,30 @@ OPERATE_RET tkl_log_close(void)
 OPERATE_RET tkl_log_open(void)
 {
     // --- BEGIN: user implements ---
+    if (g_log_uart != NULL) {
+        return OPRT_OK; 
+    }
+
+    // Get TI Hardware Index from Board Config
+    int16_t ti_index = tkl_hw_get_uart_index(TUYA_LOG_PORT);
+    
+    if (ti_index < 0) {
+        // App didn't map a log port!
+        return OPRT_COM_ERROR;
+    }
+
     UART2_Params params;
     UART2_Params_init(&params);
+    params.baudRate = 115200;
+    params.writeMode = UART2_Mode_BLOCKING; // Blocking is safer for logs
 
     // TODO TKL : Lock object like in uart_temn and osi_dpl
     // osi_LockObjCreate(&LockObj);
+    g_log_uart = UART2_open(ti_index, &params);
 
-    uartHandle = UART2_open(CONFIG_UART2_0, &params);
+    if (g_log_uart == NULL) {
+        return OPRT_COM_ERROR;
+    }
 
     return OPRT_OK;
     // --- END: user implements ---
