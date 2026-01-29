@@ -97,3 +97,10 @@ int16_t tkl_hw_get_timer_index(uint8_t port)
     if (port >= TKL_HW_MAX_TIMER_PORTS) return -1;
     return g_board_config.timer_map[port];
 }
+
+int16_t tkl_hw_get_watchdog_index(uint8_t port)
+{
+    _init_defaults();
+    if (port >= TKL_HW_MAX_WDOG_PORTS) return -1;
+    return g_board_config.watchdog_map[port];
+}

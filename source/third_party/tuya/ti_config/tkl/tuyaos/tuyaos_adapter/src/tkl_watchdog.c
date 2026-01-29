@@ -13,15 +13,11 @@
 #include "tkl_watchdog.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/Watchdog.h>
+#include "tkl_board_config.h"
 
 // Global handle to store the watchdog instance
 static Watchdog_Handle g_watchdog_handle = NULL;
 
-// In a full TI project, this is defined in "ti_drivers_config.h".
-// Since we are building a library, we assume the first watchdog index (0).
-#ifndef CONFIG_WATCHDOG_0
-#define CONFIG_WATCHDOG_0 0
-#endif
 // --- END: user defines and implements ---
 
 /**
@@ -34,37 +30,31 @@ static Watchdog_Handle g_watchdog_handle = NULL;
 uint32_t tkl_watchdog_init(TUYA_WDOG_BASE_CFG_T *cfg)
 {
     // --- BEGIN: user implements ---
-    if (cfg == NULL) {
-        return 0;
-    }
+    if (cfg == NULL) return 0;
 
-    // HARDWARE LIMIT CHECK
-    // TI CC32xx Watchdog maxes out around ~53 seconds (at 80MHz).
-    // T5AI clamped to 30s. We do the same to prevent overflow.
+    // 1. HARDWARE LIMIT CHECK
+    /*  TI CC32xx Watchdog maxes out around ~53 seconds (at 80MHz).
+        Tuya's T5AI clamped to 30s. We do the same to prevent overflow. */
     const uint32_t MAX_WDOG_MS = 30000; 
-    
-    if (cfg->interval_ms > MAX_WDOG_MS) {
-        cfg->interval_ms = MAX_WDOG_MS;
-    }
+    if (cfg->interval_ms > MAX_WDOG_MS) cfg->interval_ms = MAX_WDOG_MS;
 
     // If already initialized, return the EXISTING config, but clamped
-    if (g_watchdog_handle != NULL) {
-        return cfg->interval_ms;
-    }
+    if (g_watchdog_handle != NULL) return cfg->interval_ms;
 
     Watchdog_init();
+
+    // 2. DYNAMIC LOOKUP (Index 0 is standard for System Watchdog)
+    int16_t ti_index = tkl_hw_get_watchdog_index(0);
+    if (ti_index < 0) return 0; // Not mapped
 
     Watchdog_Params params;
     Watchdog_Params_init(&params);
     // Tuya expects the system to reset if the watchdog isn't fed
     params.resetMode = Watchdog_RESET_ON;
 
-    // Open the generic Watchdog (Index 0)
-    g_watchdog_handle = Watchdog_open(CONFIG_WATCHDOG_0, &params);
+    g_watchdog_handle = Watchdog_open(ti_index, &params);
 
-    if (g_watchdog_handle == NULL) {
-        return 0;
-    }
+    if (g_watchdog_handle == NULL) return 0;
 
     // Convert requested MS to hardware Ticks
     uint32_t tickValue = Watchdog_convertMsToTicks(g_watchdog_handle, cfg->interval_ms);
@@ -79,6 +69,7 @@ uint32_t tkl_watchdog_init(TUYA_WDOG_BASE_CFG_T *cfg)
 
     // Apply the timeout
     if (Watchdog_setReload(g_watchdog_handle, tickValue) != Watchdog_STATUS_SUCCESS) {
+        // Fallback to default if setReload fails
         // TODO
         // If dynamic reloading isn't supported, we are stuck with the SysConfig default.
         // There isn't much we can do here except log it.
