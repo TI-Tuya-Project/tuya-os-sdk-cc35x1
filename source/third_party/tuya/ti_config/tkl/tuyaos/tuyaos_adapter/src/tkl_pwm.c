@@ -7,11 +7,15 @@
 #include "tkl_pwm.h"
 #include "tuya_error_code.h"
 #include "PWMTimerWFF3.h"
-#include <ti/drivers/PWM.h> // REQUIRED: Defines PWM_open, PWM_start, PWM_setDuty, etc.
+#include <ti/drivers/PWM.h> 
+
+// [DEPENDENCY INJECTION] Include Board Config
+#include "tkl_board_config.h"
 
 /* Define the maximum number of PWM channels supported by the board configuration.
-   Set to 10 as a safe buffer. */
-#define MAX_PWM_CHANNELS 10
+   Set to safe buffer from board config. */
+// NO MAGIC NUMBER: Using constant from board config
+#define MAX_PWM_CHANNELS TKL_BOAD_MAX_PWM_CHANNELS
 
 // Global array to store TI PWM handles so we can reference them later
 static PWM_Handle g_pwm_handles[MAX_PWM_CHANNELS] = {NULL};
@@ -52,6 +56,14 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
     CHECK_PWM_ID(ch_id); // Macro replaces manual check
     CHECK_PWM_PTR(cfg);  // Macro replaces manual check
 
+    // [MAPPING] Get Real Hardware Index from Board Config
+    int16_t ti_pwm_index = tkl_hw_get_pwm_index((uint8_t)ch_id);
+
+    // If result is negative, the Application did not map this PWM channel.
+    if (ti_pwm_index < 0) {
+        return OPRT_NOT_SUPPORTED;
+    }
+
     // Initialize TI PWM parameters with default values
     PWM_Params_init(&params);
 
@@ -73,9 +85,9 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
         params.idleLevel = PWM_IDLE_HIGH; // If active low, idle is high
     }
 
-    // 4. Open the TI Driver
+    // 4. Open the TI Driver using the Mapped Index
     if (g_pwm_handles[ch_id] == NULL) {
-         g_pwm_handles[ch_id] = PWM_open(ch_id, &params);
+         g_pwm_handles[ch_id] = PWM_open(ti_pwm_index, &params);
     }
     
     if(g_pwm_handles[ch_id] == NULL){
