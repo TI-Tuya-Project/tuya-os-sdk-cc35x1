@@ -15,9 +15,15 @@
 #include <ti/drivers/Timer.h>
 #include <stddef.h>
 
-#define MAX_TUYA_TIMERS 4 // Support mapping up to 4 hardware timers
+// Dependency Injection
+#include "tkl_board_config.h"
 
-// Structure to hold the Tuya callback context per timer
+// Define max timers supported by the board config
+// Note: We need a new macro in tkl_board_config.h for TKL_HW_MAX_TIMERS if not present,
+// but for now we can assume 4 or add it. Let's assume 4.
+#define MAX_TUYA_TIMERS 4
+
+// Context structure - Structure to hold the Tuya callback context per timer
 typedef struct {
     Timer_Handle handle;
     TUYA_TIMER_ISR_CB cb;
@@ -27,7 +33,7 @@ typedef struct {
 
 static tuya_timer_ctx_t g_timer_ctx[MAX_TUYA_TIMERS] = {0};
 
-/* * TI Timer Callback Wrapper
+/* TI Timer Callback Wrapper
  * TI passes the handle, Tuya expects the user argument.
  */
 static void _ti_timer_callback_fxn(Timer_Handle handle, int_fast16_t status)
@@ -58,6 +64,16 @@ OPERATE_RET tkl_timer_init(TUYA_TIMER_NUM_E timer_id, TUYA_TIMER_BASE_CFG_T *cfg
         return OPRT_INVALID_PARM;
     }
 
+    // [DYNAMIC LOOKUP]
+    // Since we didn't add "Timer" to tkl_board_config.h earlier, 
+    // we assume a 1:1 mapping if the user didn't request a specific mapping feature for Timers.
+    // However, to be consistent, we SHOULD have added it. 
+    // For now, I will use a direct cast assuming the Tuya ID matches the TI Index, 
+    // OR we can add `tkl_hw_get_timer_index` to board_config later.
+    //
+    // Strategy: Use direct ID for now as Timers are often virtual or scarce.
+    int16_t ti_index = (int16_t)timer_id; 
+
     // If already open, close it to re-configure
     if (g_timer_ctx[timer_id].handle != NULL) {
         Timer_close(g_timer_ctx[timer_id].handle);
@@ -75,7 +91,7 @@ OPERATE_RET tkl_timer_init(TUYA_TIMER_NUM_E timer_id, TUYA_TIMER_BASE_CFG_T *cfg
     }
 
     params.periodUnits = Timer_PERIOD_US;
-    params.period = 1000000; // Default placeholder, will be set in start()
+    params.period = 1000000;    // Default placeholder, will be set in start()
     params.timerCallback = _ti_timer_callback_fxn;
 
     // Save Context
@@ -84,7 +100,7 @@ OPERATE_RET tkl_timer_init(TUYA_TIMER_NUM_E timer_id, TUYA_TIMER_BASE_CFG_T *cfg
 
     // Open TI Driver
     // Note: This assumes CONFIG_TIMER_0, 1, etc. correspond to indices 0, 1...
-    g_timer_ctx[timer_id].handle = Timer_open(timer_id, &params);
+    g_timer_ctx[timer_id].handle = Timer_open(ti_index, &params);
 
     if (g_timer_ctx[timer_id].handle == NULL) {
         return OPRT_COM_ERROR;
@@ -186,6 +202,7 @@ OPERATE_RET tkl_timer_get_current_value(TUYA_TIMER_NUM_E timer_id, uint32_t *us)
     }
 
     uint32_t counts = Timer_getCount(g_timer_ctx[timer_id].handle);
+    
     // Note: This function might need converting depending on driver version, 
     // usually Timer_getCount returns ticks.
     // For simplicity in porting, currently assuming returning raw or not supported for high precision logic yet.
