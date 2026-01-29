@@ -72,3 +72,10 @@ int16_t tkl_hw_get_i2s_index(uint8_t port)
     if (port >= TKL_HW_MAX_I2S_PORTS) return -1;
     return g_board_config.i2s_map[port];
 }
+
+int16_t tkl_hw_get_spi_index(uint8_t port)
+{
+    _init_defaults();
+    if (port >= TKL_HW_MAX_SPI_PORTS) return -1;
+    return g_board_config.spi_map[port];
+}

@@ -1,8 +1,6 @@
 /**
  * @file tkl_wifi.c
  * @brief Wi-Fi driver implementation for TI CC35xx (SimpleLink)
- * @version Final + RSSI + Status
- * @note Implements Scan, Connect, Disconnect, MAC, RSSI, and Connection Status.
  */
 
 #include "tkl_wifi.h"
@@ -13,12 +11,14 @@
 #include <string.h>
 #include <stdio.h>
 
-/* --- LwIP Includes for IP Address Handling --- */
 #include <lwip/netif.h>
 #include <lwip/ip_addr.h>
 
-/* --- Absolute Path to TI SDK Header --- */
-#include "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi/wifi_host_driver/inc_adapt/wlan_if.h"
+// [FIX] Changed from absolute C:/ti/... to relative.
+// Ensure your compiler include paths point to the TI SimpleLink SDK "source" directory.
+#include <ti/drivers/net/wifi/simplelink.h>
+// If "wlan_if.h" is a custom wrapper not in the SDK, ensure it's in your project includes.
+// For standard TI Wi-Fi, we mostly use sl_ calls.
 
 /* --- Macros & Constants --- */
 #ifndef WLAN_MAX_SCAN_COUNT
