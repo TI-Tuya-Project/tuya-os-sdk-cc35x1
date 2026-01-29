@@ -15,12 +15,15 @@
 #include <ti/drivers/UART2.h>
 #include <stddef.h>
 
-/* * We assume UART Index 0 is used for Tuya logs/communication.
- * This typically maps to the XDS110 UART on LaunchPads.
- */
+// Dependency Injection
+#include "tkl_board_config.h"
 
-// Handle for the TI UART driver
-static UART2_Handle uartHandle = NULL;
+// Array to store handles. Uses the max defined in board config.
+static UART2_Handle g_uart_handles[TKL_HW_MAX_UART_PORTS] = {NULL};
+
+#define CHECK_UART_ID(port) \
+    if ((port) >= TKL_HW_MAX_UART_PORTS) return OPRT_INVALID_PARM;
+
 // --- END: user defines and implements ---
 
 /**
@@ -39,13 +42,15 @@ static UART2_Handle uartHandle = NULL;
 OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
 {
     // --- BEGIN: user implements ---
+    CHECK_UART_ID(port_id);
+    if (cfg == NULL) return OPRT_INVALID_PARM;
+
+    // 1. Get Mapped Index
+    int16_t ti_index = tkl_hw_get_uart_index(port_id);
+    if (ti_index < 0) return OPRT_NOT_SUPPORTED;
+
+    // 2. Prepare Config
     UART2_Params uartParams;
-
-    if (cfg == NULL) {
-        return OPRT_INVALID_PARM;
-    }
-
-    // Initialize default parameters
     UART2_Params_init(&uartParams);
 
     // Map Tuya Config to TI UART2 Params
@@ -74,20 +79,20 @@ OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
         uartParams.dataLength = UART2_DataLen_7;
     }
 
-    // Mode: Blocking is used for stability during initial porting/logging
+    // Mode: Blocking is used for stability
     uartParams.readMode = UART2_Mode_BLOCKING;
     uartParams.writeMode = UART2_Mode_BLOCKING;
     
-    // If handle exists, close it first to allow re-init
-    if (uartHandle != NULL) {
-        UART2_close(uartHandle);
-        uartHandle = NULL;
+    // 3. Close if already open, to allow re-init
+    if (g_uart_handles[port_id] != NULL) {
+        UART2_close(g_uart_handles[port_id]);
+        g_uart_handles[port_id] = NULL;
     }
 
-    // Open UART with index 0
-    uartHandle = UART2_open(port_id, &uartParams);
+    // 4. Open with Mapped Index
+    g_uart_handles[port_id] = UART2_open(ti_index, &uartParams);
 
-    if (uartHandle == NULL) {
+    if (g_uart_handles[port_id] == NULL) {
         return OPRT_COM_ERROR;
     }
 
@@ -109,9 +114,10 @@ OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
 OPERATE_RET tkl_uart_deinit(TUYA_UART_NUM_E port_id)
 {
     // --- BEGIN: user implements ---
-    if (uartHandle != NULL) {
-        UART2_close(uartHandle);
-        uartHandle = NULL;
+    CHECK_UART_ID(port_id);
+    if (g_uart_handles[port_id] != NULL) {
+        UART2_close(g_uart_handles[port_id]);
+        g_uart_handles[port_id] = NULL;
     }
     return OPRT_OK;
     // --- END: user implements ---
@@ -134,14 +140,11 @@ OPERATE_RET tkl_uart_deinit(TUYA_UART_NUM_E port_id)
 int tkl_uart_write(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 {
     // --- BEGIN: user implements ---
-    if (uartHandle == NULL) {
-        return -1;
-    }
+    if (port_id >= TKL_HW_MAX_UART_PORTS) return -1;
+    if (g_uart_handles[port_id] == NULL) return -1;
     
     size_t bytesWritten = 0;
-    
-    // UART2_write returns void in newer drivers, bytesWritten is output param
-    UART2_write(uartHandle, buff, (size_t)len, &bytesWritten);
+    UART2_write(g_uart_handles[port_id], buff, (size_t)len, &bytesWritten);
     
     return (int)bytesWritten;
     // --- END: user implements ---
@@ -209,13 +212,12 @@ void tkl_uart_tx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB tx_cb)
 int tkl_uart_read(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 {
     // --- BEGIN: user implements ---
-    if (uartHandle == NULL) {
-        return -1;
-    }
+    if (port_id >= TKL_HW_MAX_UART_PORTS) return -1;
+    if (g_uart_handles[port_id] == NULL) return -1;
 
     size_t bytesRead = 0;
-    // Reads are blocking based on init config
-    UART2_read(uartHandle, buff, (size_t)len, &bytesRead);
+    // reads are blocking based on init
+    UART2_read(g_uart_handles[port_id], buff, (size_t)len, &bytesRead);
     
     return (int)bytesRead;
     // --- END: user implements ---
