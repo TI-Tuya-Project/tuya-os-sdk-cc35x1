@@ -24,6 +24,7 @@ extern "C" {
 #define TKL_HW_MAX_PWM_CHANNELS 8
 #define TKL_HW_MAX_I2C_PORTS   2
 #define TKL_HW_MAX_I2S_PORTS   1
+#define TKL_HW_MAX_SPI_PORTS    2
 #define TKL_HW_MAX_TIMER_PORTS  4
 
 typedef struct {
@@ -48,6 +49,9 @@ typedef struct {
     // I2S Mapping
     int16_t i2s_map[TKL_HW_MAX_I2S_PORTS];
 
+    // SPI Mapping: Tuya Port -> TI Driver Index
+    int16_t spi_map[TKL_HW_MAX_SPI_PORTS];
+
     // Timer Mapping: Tuya Timer ID -> TI Driver Index (CONFIG_TIMER_x)
     int16_t timer_map[TKL_HW_MAX_TIMER_PORTS];
 
@@ -67,6 +71,7 @@ int16_t tkl_hw_get_uart_index(uint8_t port_id);
 int16_t tkl_hw_get_pwm_index(uint8_t channel);
 int16_t tkl_hw_get_i2c_index(uint8_t port);
 int16_t tkl_hw_get_i2s_index(uint8_t port);
+int16_t tkl_hw_get_spi_index(uint8_t port);
 int16_t tkl_hw_get_timer_index(uint8_t port);
 
 #ifdef __cplusplus
