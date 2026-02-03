@@ -21,7 +21,7 @@
  * CC32xx/CC26xx usually have 4-8 user accessible ADC pins.
  * We define 8 to be safe and avoid magic numbers.
  */
-#define MAX_ADC_CHANNEL TKL_BOAD_MAX_ADC_PORTS
+#define MAX_ADC_CHANNEL 8
 
 /* Array to store handles for multiple ADC channels */
 static ADC_Handle g_adc_handles[MAX_ADC_CHANNEL] = {NULL};
@@ -118,7 +118,6 @@ uint8_t tkl_adc_width_get(TUYA_ADC_NUM_E port_num)
 {
     // --- BEGIN: user implements ---
     // TI SimpleLink ADCs are typically 12-bit hardware
-    // NO MAGIC NUMBER: Using constant from board config
     return TKL_ADC_WIDTH_12BIT;
     // --- END: user implements ---
 }
@@ -136,7 +135,6 @@ uint32_t tkl_adc_ref_voltage_get(TUYA_ADC_NUM_E port_num)
     // Standard TI LaunchPads use 3.3V (3300mV) as VRef.
     // Dynamic retrieval from the driver is possible but requires an open handle.
     // 3300mV is the safe default for CC32xx.
-    // NO MAGIC NUMBER: Using constant from board config
     return TKL_ADC_REF_VOLTAGE_MV;
     // --- END: user implements ---
 }

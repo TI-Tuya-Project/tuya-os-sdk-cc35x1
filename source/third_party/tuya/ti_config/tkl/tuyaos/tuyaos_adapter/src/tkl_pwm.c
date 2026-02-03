@@ -13,9 +13,8 @@
 #include "tkl_board_config.h"
 
 /* Define the maximum number of PWM channels supported by the board configuration.
-   Set to safe buffer from board config. */
-// NO MAGIC NUMBER: Using constant from board config
-#define MAX_PWM_CHANNELS TKL_BOAD_MAX_PWM_CHANNELS
+   Set to 10 as a safe buffer. */
+#define MAX_PWM_CHANNELS TKL_MAX_PWM_CHANNELS
 
 // Global array to store TI PWM handles so we can reference them later
 static PWM_Handle g_pwm_handles[MAX_PWM_CHANNELS] = {NULL};
@@ -47,6 +46,10 @@ static PWM_Handle g_pwm_handles[MAX_PWM_CHANNELS] = {NULL};
 
 /**
  * @brief pwm init
+ * * @param[in] ch_id: pwm channal id
+ * @param[in] cfg: pwm config
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
 {
@@ -100,6 +103,9 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
 
 /**
  * @brief pwm deinit
+ * * @param[in] ch_id: pwm channal id
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_deinit(TUYA_PWM_NUM_E ch_id)
 {
@@ -116,6 +122,9 @@ OPERATE_RET tkl_pwm_deinit(TUYA_PWM_NUM_E ch_id)
 
 /**
  * @brief pwm start
+ * * @param[in] ch_id: pwm channal id
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_start(TUYA_PWM_NUM_E ch_id)
 {
@@ -130,6 +139,9 @@ OPERATE_RET tkl_pwm_start(TUYA_PWM_NUM_E ch_id)
 
 /**
  * @brief pwm stop
+ * * @param[in] ch_id: pwm channal id
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_stop(TUYA_PWM_NUM_E ch_id)
 {
@@ -144,6 +156,10 @@ OPERATE_RET tkl_pwm_stop(TUYA_PWM_NUM_E ch_id)
 
 /**
  * @brief multiple pwm channel start
+ * * @param[in] ch_id: pwm channal id list
+ * @param[in] num: pwm channal number
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_multichannel_start(TUYA_PWM_NUM_E *ch_id, uint8_t num)
 {
@@ -162,6 +178,10 @@ OPERATE_RET tkl_pwm_multichannel_start(TUYA_PWM_NUM_E *ch_id, uint8_t num)
 
 /**
  * @brief multiple pwm channel stop
+ * * @param[in] ch_id: pwm channal id list
+ * @param[in] num: pwm channal number
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_multichannel_stop(TUYA_PWM_NUM_E *ch_id, uint8_t num)
 {
@@ -179,6 +199,10 @@ OPERATE_RET tkl_pwm_multichannel_stop(TUYA_PWM_NUM_E *ch_id, uint8_t num)
 
 /**
  * @brief pwm duty set
+ * * @param[in] ch_id: pwm channal id
+ * @param[in] duty: pwm duty cycle
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_duty_set(TUYA_PWM_NUM_E ch_id, uint32_t duty)
 {
@@ -201,6 +225,10 @@ OPERATE_RET tkl_pwm_duty_set(TUYA_PWM_NUM_E ch_id, uint32_t duty)
 
 /**
  * @brief pwm frequency set
+ * * @param[in] ch_id: pwm channal id
+ * @param[in] frequency: pwm frequency
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_frequency_set(TUYA_PWM_NUM_E ch_id, uint32_t frequency)
 {
@@ -220,6 +248,10 @@ OPERATE_RET tkl_pwm_frequency_set(TUYA_PWM_NUM_E ch_id, uint32_t frequency)
 
 /**
  * @brief pwm polarity set
+ * * @param[in] ch_id: pwm channal id
+ * @param[in] polarity: pwm polarity
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_polarity_set(TUYA_PWM_NUM_E ch_id, TUYA_PWM_POLARITY_E polarity)
 {
@@ -230,6 +262,10 @@ OPERATE_RET tkl_pwm_polarity_set(TUYA_PWM_NUM_E ch_id, TUYA_PWM_POLARITY_E polar
 
 /**
  * @brief set pwm info
+ * * @param[in] ch_id: pwm channal id
+ * @param[in] info: pwm info
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_info_set(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *info)
 {
@@ -251,6 +287,10 @@ OPERATE_RET tkl_pwm_info_set(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *in
 
 /**
  * @brief get pwm info
+ * * @param[in] ch_id: pwm channal id
+ * @param[out] info: pwm info
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_info_get(TUYA_PWM_NUM_E ch_id, TUYA_PWM_BASE_CFG_T *info)
 {
@@ -262,6 +302,10 @@ OPERATE_RET tkl_pwm_info_get(TUYA_PWM_NUM_E ch_id, TUYA_PWM_BASE_CFG_T *info)
 
 /**
  * @brief pwm capture mode start
+ * * @param[in] ch_id: pwm channal id
+ * @param[in] cfg: pwm capture config
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_cap_start(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_CAP_IRQ_T *cfg)
 {
@@ -272,6 +316,9 @@ OPERATE_RET tkl_pwm_cap_start(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_CAP_IRQ_T *cf
 
 /**
  * @brief pwm capture mode stop
+ * * @param[in] ch_id: pwm channal id
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_pwm_cap_stop(TUYA_PWM_NUM_E ch_id)
 {

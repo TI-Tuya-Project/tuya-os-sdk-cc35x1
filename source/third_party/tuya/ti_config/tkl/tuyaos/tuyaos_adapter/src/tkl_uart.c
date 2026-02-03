@@ -11,9 +11,9 @@
 // [DEPENDENCY INJECTION] Include Board Config
 #include "tkl_board_config.h"
 
-// Support up to TKL_BOAD_MAX_UART_PORTS UARTs
+// Support up to TKL_MAX_UART_PORTS UARTs
 // NO MAGIC NUMBER: Using constant from board config
-#define MAX_UART_PORTS TKL_BOAD_MAX_UART_PORTS
+#define MAX_UART_PORTS TKL_MAX_UART_PORTS
 
 // Array to store handles for multiple ports
 static UART2_Handle g_uart_handles[MAX_UART_PORTS] = {NULL};
@@ -26,6 +26,10 @@ static bool is_valid_port(TUYA_UART_NUM_E port_id) {
 
 /**
  * @brief uart init
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] cfg: uart config
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
 {
@@ -94,6 +98,8 @@ OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
 
 /**
  * @brief uart deinit
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_uart_deinit(TUYA_UART_NUM_E port_id)
 {
@@ -112,6 +118,11 @@ OPERATE_RET tkl_uart_deinit(TUYA_UART_NUM_E port_id)
 
 /**
  * @brief uart write data
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] data: write buff
+ * @param[in] len:  buff len
+ *
+ * @return return > 0: number of data written; return <= 0: write errror
  */
 int tkl_uart_write(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 {
@@ -129,6 +140,11 @@ int tkl_uart_write(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 
 /**
  * @brief uart read data
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[out] data: read buff
+ * @param[in] len:  buff len
+ *
+ * @return return >= 0: number of data read; return < 0: read errror
  */
 int tkl_uart_read(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 {
@@ -146,6 +162,10 @@ int tkl_uart_read(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 
 /**
  * @brief enable uart rx interrupt and regist interrupt callback
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] rx_cb: receive callback
+ *
+ * @return none
  */
 void tkl_uart_rx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB rx_cb)
 {
@@ -159,6 +179,10 @@ void tkl_uart_rx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB rx_cb)
 
 /**
  * @brief regist uart tx interrupt callback
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] tx_cb: transmit callback
+ *
+ * @return none
  */
 void tkl_uart_tx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB tx_cb)
 {
@@ -169,6 +193,10 @@ void tkl_uart_tx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB tx_cb)
 
 /**
  * @brief set uart transmit interrupt status
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] enable: TRUE-enable tx interrupt, FALSE-disable tx interrupt
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_uart_set_tx_int(TUYA_UART_NUM_E port_id, BOOL_T enable)
 {
@@ -179,6 +207,10 @@ OPERATE_RET tkl_uart_set_tx_int(TUYA_UART_NUM_E port_id, BOOL_T enable)
 
 /**
  * @brief set uart receive flowcontrol
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] enable: TRUE-enable rx flowcontrol, FALSE-disable rx flowcontrol
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_uart_set_rx_flowctrl(TUYA_UART_NUM_E port_id, BOOL_T enable)
 {
@@ -189,6 +221,10 @@ OPERATE_RET tkl_uart_set_rx_flowctrl(TUYA_UART_NUM_E port_id, BOOL_T enable)
 
 /**
  * @brief wait for uart data
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] timeout_ms: the wait timeout, unit: ms
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_uart_wait_for_data(TUYA_UART_NUM_E port_id, int timeout_ms)
 {
@@ -199,6 +235,11 @@ OPERATE_RET tkl_uart_wait_for_data(TUYA_UART_NUM_E port_id, int timeout_ms)
 
 /**
  * @brief uart control
+ * * @param[in] port_id: uart port id, id index starts at 0
+ * @param[in] cmd: control command
+ * @param[in] arg: command argument
+ *
+ * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
 OPERATE_RET tkl_uart_ioctl(TUYA_UART_NUM_E port_id, uint32_t cmd, void *arg)
 {

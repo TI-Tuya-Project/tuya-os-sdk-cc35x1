@@ -44,10 +44,10 @@ typedef struct {
 } tkl_spi_ctx_t;
 
 // NO MAGIC NUMBER: Using constant from board config
-static tkl_spi_ctx_t g_spi[TKL_BOAD_MAX_SPI_PORTS] = {0};
+static tkl_spi_ctx_t g_spi[TKL_MAX_SPI_PORTS] = {0};
 
 static inline bool is_valid_port(TUYA_SPI_NUM_E port) {
-    return (port >= TUYA_SPI_NUM_0) && (port < TKL_BOAD_MAX_SPI_PORTS);
+    return (port >= TUYA_SPI_NUM_0) && (port < TKL_MAX_SPI_PORTS);
 }
 
 static inline size_t frame_bytes(const tkl_spi_ctx_t *ctx) {
@@ -59,6 +59,7 @@ static inline size_t frame_bytes(const tkl_spi_ctx_t *ctx) {
  * @brief spi init
  *
  * @param[in] port: spi port
+ * @param[in] cfg: spi config
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
  */
@@ -270,7 +271,7 @@ OPERATE_RET tkl_spi_recv(TUYA_SPI_NUM_E port, void *data, uint32_t size)
  *
  * @param[in] port: spi port
  * @param[in] send_buf: spi send buf
- * @param[out] send_buf:spi recv buf
+ * @param[out] receive_buf: spi recv buf
  * @param[in] length: spi msg length
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
@@ -303,12 +304,12 @@ OPERATE_RET tkl_spi_transfer(TUYA_SPI_NUM_E port, void *send_buf, void *receive_
 }
 
 /**
- * @brief spi transfer
+ * @brief spi transfer with length
  *
  * @param[in] port: spi port
  * @param[in] send_buf: spi send buf
  * @param[in] send_len: send_len
- * @param[out] receive_buf:spi recv buf
+ * @param[out] receive_buf: spi recv buf
  * @param[in] receive_len: receive_len
  *
  * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
@@ -468,24 +469,24 @@ OPERATE_RET tkl_spi_irq_enable(TUYA_SPI_NUM_E port)
 
     tkl_spi_ctx_t *ctx = &g_spi[port];
 
-    /* סימון לוגי */
+    /* Logical flag */
     ctx->irq_enabled = true;
 
-    /* אם לא פתוח עדיין - פשוט נשמור את הפרמטרים כך שכשתפתח ייכנס callback */
+    /* If not open yet - just save parameters so callback is used when opened */
     if (ctx->handle == NULL) {
         ctx->params.transferMode = SPI_MODE_CALLBACK;
         ctx->params.transferCallbackFxn = spi_internal_callback;
         return OPRT_OK;
     }
 
-    /* כבר פתוח - אם כבר במצב callback עם ה-wrapping cb, כל מה שצריך הוא להפעיל הדגל */
+    /* Already open - if already in callback mode with wrapping cb, just enable flag */
     if (ctx->params.transferMode == SPI_MODE_CALLBACK &&
         ctx->params.transferCallbackFxn == spi_internal_callback) {
         return OPRT_OK;
     }
 
-    /* צריך להחליף פתיחה נוכחית ל־callback mode.
-       שמור פרמטרים ישנים כדי לנסות לשחזר במקרה של בעיה. */
+    /* Need to switch current open to callback mode.
+       Save old params to try and restore in case of issue. */
     SPI_Params old_params;
     memcpy(&old_params, &ctx->params, sizeof(SPI_Params));
 
@@ -493,7 +494,7 @@ OPERATE_RET tkl_spi_irq_enable(TUYA_SPI_NUM_E port)
     int16_t ti_index = tkl_hw_get_spi_index((uint8_t)port);
     if (ti_index < 0) return OPRT_NOT_SUPPORTED;
 
-    /* סגור את ההתקן כרגע, שנה פרמטרים ונסה לפתוח מחדש */
+    /* Close device now, change params and try to reopen */
     SPI_close(ctx->handle);
     ctx->handle = NULL;
 
@@ -531,8 +532,8 @@ OPERATE_RET tkl_spi_irq_disable(TUYA_SPI_NUM_E port)
     tkl_spi_ctx_t *ctx = &g_spi[port];
     ctx->irq_enabled = false;
 
-    /* לא סוגרים או משנים את מצב ה-handle כדי לא לשבש העברות רצות.
-       אם תרצי לכפות מעבר ל-blocking mode, צריך לסגור ולפתוח מחדש כמו ב-enable. */
+    /* Do not close or change handle state to not disrupt running transfers.
+       If you want to force blocking mode, must close and reopen like in enable. */
     return OPRT_OK;
 }
 
@@ -570,11 +571,11 @@ OPERATE_RET tkl_spi_ioctl(TUYA_SPI_NUM_E port, uint32_t cmd, void *args)
     tkl_spi_ctx_t *ctx = &g_spi[port];
     if (ctx->handle == NULL) return OPRT_NOT_SUPPORTED;
 
-    /* העבר לקריאת ה־driver הרחבה אם קיימת */
+    /* Pass to extended driver call if exists */
     int_fast16_t rc = SPI_control(ctx->handle, (uint_fast16_t)cmd, args);
     if (rc >= 0) return OPRT_OK;
 
-    /* אם הדרייבר לא תומך בפקודה, החזר NOT_SUPPORTED - אפשר למפות פקודות TUYA ספציפיות כאן */
+    /* If driver doesn't support command, return NOT_SUPPORTED - can map specific TUYA commands here */
     return OPRT_NOT_SUPPORTED;
 }
 
@@ -591,7 +592,7 @@ uint32_t tkl_spi_get_max_dma_data_length(void)
   
 
 #ifdef SPICC26X2DMA_CMD_GET_MAX_XFER
-    for (int port = 0; port < TKL_BOAD_MAX_SPI_PORTS; ++port) {
+    for (int port = 0; port < TKL_MAX_SPI_PORTS; ++port) {
         tkl_spi_ctx_t *ctx = &g_spi[port];
         if (ctx->handle != NULL) {
             uint32_t mx = 0;
@@ -609,7 +610,7 @@ uint32_t tkl_spi_get_max_dma_data_length(void)
 static void spi_internal_callback(SPI_Handle handle, SPI_Transaction *transaction)
 {
   
-    for (int port = 0; port < TKL_BOAD_MAX_SPI_PORTS; ++port) {
+    for (int port = 0; port < TKL_MAX_SPI_PORTS; ++port) {
         tkl_spi_ctx_t *ctx = &g_spi[port];
         if (ctx->handle == handle) {
             ctx->last_count_frames = transaction ? (uint32_t)transaction->count : 0;
