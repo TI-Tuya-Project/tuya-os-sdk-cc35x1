@@ -6,155 +6,186 @@
  *           changes in other place will be overwrited and lost
  *
  * @copyright Copyright 2020-2021 Tuya Inc. All Rights Reserved.
- *
  */
 
 // --- BEGIN: user defines and implements ---
 #include "tkl_symmetry.h"
 #include "tuya_error_code.h"
+
+#include <string.h>
+#include <stdlib.h>
+
+#include "crypto/aes.h"
+
+#ifndef AES_BLOCK_SIZE
+#define AES_BLOCK_SIZE 16
+#endif
+
+typedef struct {
+    AES_KEY  enc_key;
+    AES_KEY  dec_key;
+    uint8_t  has_enc;
+    uint8_t  has_dec;
+    uint32_t keybits;
+} tkl_aes_ctx_t;
+
+static void* tkl_aes_alloc(size_t n) { return malloc(n); }
+static void  tkl_aes_dealloc(void* p) { free(p); }
+
+static OPERATE_RET tkl_map_setkey_ret(int r)
+{
+    return (r == 0) ? OPRT_OK : OPRT_COM_ERROR;
+}
 // --- END: user defines and implements ---
 
-/**
- * @brief This function Create&initializes a aes context.
- *
- * @param[out] ctx: aes handle
- *
- * @note This API is used to create and init aes.
- *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
- */
 OPERATE_RET tkl_aes_create_init(TKL_SYMMETRY_HANDLE *ctx)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (ctx == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_aes_ctx_t *c = (tkl_aes_ctx_t*)tkl_aes_alloc(sizeof(tkl_aes_ctx_t));
+    if (c == NULL) {
+#ifdef OPRT_MALLOC_FAILED
+        return OPRT_MALLOC_FAILED;
+#else
+        return OPRT_COM_ERROR;
+#endif
+    }
+
+    memset(c, 0, sizeof(*c));
+    *ctx = (TKL_SYMMETRY_HANDLE)c;
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
-/**
- * @brief This function releases and clears the specified AES context.
- *
- * @param[in] ctx: The AES context to clear.
- *
- * @note This API is used to release aes.
- *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
- */
 OPERATE_RET tkl_aes_free(TKL_SYMMETRY_HANDLE ctx)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (ctx == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_aes_ctx_t *c = (tkl_aes_ctx_t*)ctx;
+    memset(c, 0, sizeof(*c));
+    tkl_aes_dealloc(c);
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
-/**
- * @brief This function sets the encryption key.
- *
- * @param[in] ctx: The AES context to which the key should be bound.
- *                 It must be initialized.
- * @param[in] key:  The encryption key..
- * @param[in] keybits:  The size of data passed in bits. Valid options are:
- *                 <ul><li>128 bits</li>
- *                 <li>192 bits</li>
- *                 <li>256 bits</li></ul>
- *
- * @note This API is used to set aes key.
- *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
- */
 OPERATE_RET tkl_aes_setkey_enc(TKL_SYMMETRY_HANDLE ctx, const uint8_t *key, uint32_t keybits)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (ctx == NULL || key == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+    if (!(keybits == 128 || keybits == 192 || keybits == 256)) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_aes_ctx_t *c = (tkl_aes_ctx_t*)ctx;
+    int r = AES_set_encrypt_key((const unsigned char*)key, (int)keybits, &c->enc_key);
+    if (r == 0) {
+        c->has_enc = 1;
+        c->keybits = keybits;
+    }
+    return tkl_map_setkey_ret(r);
     // --- END: user implements ---
 }
 
-/**
- * @brief This function sets the decryption key.
- *
- * @param[in] ctx: The AES context to which the key should be bound.
- *                 It must be initialized.
- * @param[in] key:  The decryption key..
- * @param[in] keybits:  The size of data passed in bits. Valid options are:
- *                 <ul><li>128 bits</li>
- *                 <li>192 bits</li>
- *                 <li>256 bits</li></ul>
- *
- * @note This API is used to set aes key.
- *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
- */
 OPERATE_RET tkl_aes_setkey_dec(TKL_SYMMETRY_HANDLE ctx, const uint8_t *key, uint32_t keybits)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (ctx == NULL || key == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+    if (!(keybits == 128 || keybits == 192 || keybits == 256)) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_aes_ctx_t *c = (tkl_aes_ctx_t*)ctx;
+    int r = AES_set_decrypt_key((const unsigned char*)key, (int)keybits, &c->dec_key);
+    if (r == 0) {
+        c->has_dec = 1;
+        c->keybits = keybits;
+    }
+    return tkl_map_setkey_ret(r);
     // --- END: user implements ---
 }
 
-/**
- * @brief This function performs an AES encryption or decryption operation.
- *
- * @param[in] ctx:  The AES context to use for encryption or decryption.
- *                 It must be initialized and bound to a key.
- * @param[in] mode     The AES operation:
- * @param[in] length   The length of the input data in Bytes. This must be a
- *                 multiple of the block size (\c 16 Bytes).
- * @param[in] input    The buffer holding the input data.
- *                 It must be readable and of size \p length Bytes.
- * @param[in] output   The buffer where the output data will be written.
- *                 It must be writeable and of size \p length Bytes.
- * @note This function operates on full blocks, that is, the input size
- *         must be a multiple of the AES block size of \c 16 Bytes.
- *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
- */
-OPERATE_RET tkl_aes_crypt_ecb(TKL_SYMMETRY_HANDLE ctx, int32_t mode, size_t length, const uint8_t *input,
-                              uint8_t *output)
+OPERATE_RET tkl_aes_crypt_ecb(TKL_SYMMETRY_HANDLE ctx, int32_t mode, size_t length,
+                              const uint8_t *input, uint8_t *output)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (ctx == NULL || input == NULL || output == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+    if ((length % AES_BLOCK_SIZE) != 0) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_aes_ctx_t *c = (tkl_aes_ctx_t*)ctx;
+
+    if (mode == 1) {
+        if (!c->has_enc) return OPRT_INVALID_PARM;
+        for (size_t off = 0; off < length; off += AES_BLOCK_SIZE) {
+            AES_ecb_encrypt((const unsigned char*)(input + off),
+                            (unsigned char*)(output + off),
+                            &c->enc_key,
+                            AES_ENCRYPT);
+        }
+        return OPRT_OK;
+
+    } else if (mode == 0) {
+        if (!c->has_dec) return OPRT_INVALID_PARM;
+        for (size_t off = 0; off < length; off += AES_BLOCK_SIZE) {
+            AES_ecb_encrypt((const unsigned char*)(input + off),
+                            (unsigned char*)(output + off),
+                            &c->dec_key,
+                            AES_DECRYPT);
+        }
+        return OPRT_OK;
+    }
+
+    return OPRT_INVALID_PARM;
     // --- END: user implements ---
 }
 
-/**
- * @brief This function performs an AES-CBC encryption or decryption operation
- *         on full blocks.
- *
- *         It performs the operation defined in the \p mode
- *         parameter (encrypt/decrypt), on the input data buffer defined in
- *         the \p input parameter.
- *
- *         It can be called as many times as needed, until all the input
- *         data is processed. tkl_aes_init(), and either
- *         tkl_aes_setkey_enc() or tkl_aes_setkey_dec() must be called
- *         before the first call to this API with the same context.
- *
- * @param[in] ctx:  The AES context to use for encryption or decryption.
- *                 It must be initialized and bound to a key.
- * @param[in] mode     The AES operation:
- * @param[in] length   The length of the input data in Bytes. This must be a
- *                 multiple of the block size (\c 16 Bytes).
- * @param[in] iv       Initialization vector (updated after use).
- *                 It must be a readable and writeable buffer of \c 16 Bytes.
- * @param[in] input    The buffer holding the input data.
- *                 It must be readable and of size \p length Bytes.
- * @param[in] output   The buffer where the output data will be written.
- *                 It must be writeable and of size \p length Bytes.
- *
- * @note This function operates on full blocks, that is, the input size
- *         must be a multiple of the AES block size of \c 16 Bytes.
- * @note Upon exit, the content of the IV is updated so that you can
- *         call the same function again on the next
- *         block(s) of data and get the same result as if it was
- *         encrypted in one call. This allows a "streaming" usage.
- *         If you need to retain the contents of the IV, you should
- *         either save it manually or use the cipher module instead.
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
- */
 OPERATE_RET tkl_aes_crypt_cbc(TKL_SYMMETRY_HANDLE ctx, int32_t mode, size_t length, uint8_t iv[16],
                               const uint8_t *input, uint8_t *output)
 {
     // --- BEGIN: user implements ---
-    return OPRT_NOT_SUPPORTED;
+    if (ctx == NULL || iv == NULL || input == NULL || output == NULL) {
+        return OPRT_INVALID_PARM;
+    }
+    if ((length % AES_BLOCK_SIZE) != 0) {
+        return OPRT_INVALID_PARM;
+    }
+
+    tkl_aes_ctx_t *c = (tkl_aes_ctx_t*)ctx;
+
+    if (mode == 1) {
+        if (!c->has_enc) return OPRT_INVALID_PARM;
+        AES_cbc_encrypt((const unsigned char*)input,
+                        (unsigned char*)output,
+                        length,
+                        &c->enc_key,
+                        (unsigned char*)iv,
+                        AES_ENCRYPT);
+        return OPRT_OK;
+
+    } else if (mode == 0) {
+        if (!c->has_dec) return OPRT_INVALID_PARM;
+        AES_cbc_encrypt((const unsigned char*)input,
+                        (unsigned char*)output,
+                        length,
+                        &c->dec_key,
+                        (unsigned char*)iv,
+                        AES_DECRYPT);
+        return OPRT_OK;
+    }
+
+    return OPRT_INVALID_PARM;
     // --- END: user implements ---
 }
-
