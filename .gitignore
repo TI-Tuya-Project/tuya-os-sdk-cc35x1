@@ -1,2 +1,5 @@
+network_terminal_LP_EM_CC35X1_freertos_ticlang/Debug/
 CMakeFiles/
 build/
+**/CMakeFiles/
+**/Debug/

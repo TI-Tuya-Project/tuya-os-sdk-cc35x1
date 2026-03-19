@@ -98,6 +98,44 @@ void initialize_mbedtls_threading(); //define prototype
 
 
 /*[TUYA HEADERS]*/
+/*=========================================================================
+ * 🌟 TUYA APPLICATION CONFIGURATION & STRUCTS 🌟
+ *=========================================================================*/
+#include "tkl_board_config.h"  
+#include "wrapper_config.h"
+#include "tal_kv.h"
+
+/* Product Fields */
+#define PRODUCT_ID "tjoktmmglvy4hc9x"
+#define PRODUCT_UUID "uuid4a3e78a4b5695414"
+#define AUTH_KEY "MS37HFWKHv6aff0WeXa8eGXkToZl15vQ"
+#define SOFTWARE_VERSION "1.0.0"
+
+static minimal_config_iot_t config = {
+    .product_id       = PRODUCT_ID,
+    .uuid             = PRODUCT_UUID,
+    .auth_key         = AUTH_KEY,
+    .software_ver     = SOFTWARE_VERSION
+};
+
+static tal_kv_cfg_t kv_cfg = {
+    .seed = "vmlkasdh93dlvlcy",
+    .key  = "dflfuap134ddlduq"
+};
+
+/* Helper function to safely initialize the hardware map */
+static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
+    for(int i = 0; i < TKL_MAX_UART_PORTS;   ++i) map->uart_map[i] = -1;
+    for(int i = 0; i < TKL_MAX_ADC_PORTS;    ++i) map->adc_map[i]  = -1;
+    for(int i = 0; i < TKL_MAX_PWM_CHANNELS; ++i) map->pwm_map[i]  = -1;
+    for(int i = 0; i < TKL_MAX_GPIO_PINS;    ++i) map->gpio_map[i] = -1;
+    for(int i = 0; i < TKL_MAX_SPI_PORTS;    ++i) map->spi_map[i]  = -1;
+    for(int i = 0; i < TKL_MAX_I2C_PORTS;    ++i) map->i2c_map[i]  = -1;
+    for(int i = 0; i < TKL_MAX_I2S_PORTS;    ++i) map->i2s_map[i]  = -1;
+} 
+/*=========================================================================*/
+
+
 /* --- Tuya SDK Includes --- */
 
 #include "tuya_cloud_types.h"
@@ -1383,6 +1421,38 @@ void *network_terminal_entry(void *args)
             "Network Terminal - Unable to retrieve device information \n");
         return(NULL);
     }
+// =========================================================================
+    // 🌟 TUYA INITIALIZATION BLOCK 🌟
+    // OS is running, Network Stack is up. It is safe to talk to the hardware.
+    // =========================================================================
+    
+    UART_PRINT("\nStarting Tuya KV Init...\n");
+    int kv_ret = tal_kv_init(&kv_cfg);
+    if(kv_ret != 0){
+        UART_PRINT("Tuya KV Init Failed with error: %d\n", kv_ret);
+        while(1){} // Catch LittleFS -84 errors here
+    }
+    UART_PRINT("Tuya KV Init Success!\n");
+
+    TKL_BOARD_CONFIG_T tuya_hw_map = {0};
+    init_tuya_map_defaults(&tuya_hw_map);
+    
+    tuya_hw_map.uart_map[0]    = CONFIG_UART2_0;
+    tuya_hw_map.adc_map[0]     = CONFIG_ADC_0;
+    tuya_hw_map.pwm_map[0]     = CONFIG_PWM_0;
+    tuya_hw_map.gpio_map[0]    = CONFIG_GPIO_LED_0;
+    tuya_hw_map.spi_map[0]     = CONFIG_SPI_0;
+
+    tkl_hw_board_init(&tuya_hw_map);
+
+    UART_PRINT("Starting Tuya Minimal Config Init...\n");
+    int ret = config_minimal_init(&config);
+    if(ret != 0) {
+        UART_PRINT("Tuya Minimal Init Failed: %d\n", ret);
+        while(1){};
+    }
+    UART_PRINT("Tuya Minimal Config Success!\n");
+    //=========================================================================
 
     /*
      * Calling UART handling method which serves as the application main loop.

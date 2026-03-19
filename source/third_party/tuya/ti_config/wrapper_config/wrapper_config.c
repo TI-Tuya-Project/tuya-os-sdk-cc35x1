@@ -32,9 +32,23 @@ int config_minimal_init(const minimal_config_iot_t * conf){
     config.authkey      = conf->auth_key;
     config.software_ver = conf->software_ver;
     
+    //app_system_info();
+    tuya_iot_init(&g_client,&config);
 
-    return tuya_iot_init(&g_client,&config);
+    /* Start tuya iot task */
+    tuya_iot_start(&g_client);
+    
 
+    // tkl_wifi_set_lp_mode(0, 0);
+
+    // reset_netconfig_check();
+
+    // for (;;) {
+    //     /* Loop to receive packets, and handles client keepalive */
+    //     tuya_iot_yield(&g_client);
+
+    // }
+    return 0;
 }
 
 void *get_wrapped_client(void){

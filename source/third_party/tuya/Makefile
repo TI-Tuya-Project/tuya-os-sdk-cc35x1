@@ -194,6 +194,30 @@ tuya/fast:
 	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/build
 .PHONY : tuya/fast
 
+__/__/ti/drivers/xmem/XMEMWFF3.obj: __/__/ti/drivers/xmem/XMEMWFF3.c.obj
+.PHONY : __/__/ti/drivers/xmem/XMEMWFF3.obj
+
+# target to build an object file
+__/__/ti/drivers/xmem/XMEMWFF3.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/__/__/ti/drivers/xmem/XMEMWFF3.c.obj
+.PHONY : __/__/ti/drivers/xmem/XMEMWFF3.c.obj
+
+__/__/ti/drivers/xmem/XMEMWFF3.i: __/__/ti/drivers/xmem/XMEMWFF3.c.i
+.PHONY : __/__/ti/drivers/xmem/XMEMWFF3.i
+
+# target to preprocess a source file
+__/__/ti/drivers/xmem/XMEMWFF3.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/__/__/ti/drivers/xmem/XMEMWFF3.c.i
+.PHONY : __/__/ti/drivers/xmem/XMEMWFF3.c.i
+
+__/__/ti/drivers/xmem/XMEMWFF3.s: __/__/ti/drivers/xmem/XMEMWFF3.c.s
+.PHONY : __/__/ti/drivers/xmem/XMEMWFF3.s
+
+# target to generate assembly for a file
+__/__/ti/drivers/xmem/XMEMWFF3.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\CMakeFiles\tuya.dir\build.make source/third_party/tuya/CMakeFiles/tuya.dir/__/__/ti/drivers/xmem/XMEMWFF3.c.s
+.PHONY : __/__/ti/drivers/xmem/XMEMWFF3.c.s
+
 ti_config/tal_integration.obj: ti_config/tal_integration.c.obj
 .PHONY : ti_config/tal_integration.obj
 
@@ -1193,6 +1217,9 @@ help:
 	@echo ... package_source
 	@echo ... rebuild_cache
 	@echo ... tuya
+	@echo ... __/__/ti/drivers/xmem/XMEMWFF3.obj
+	@echo ... __/__/ti/drivers/xmem/XMEMWFF3.i
+	@echo ... __/__/ti/drivers/xmem/XMEMWFF3.s
 	@echo ... ti_config/tal_integration.obj
 	@echo ... ti_config/tal_integration.i
 	@echo ... ti_config/tal_integration.s

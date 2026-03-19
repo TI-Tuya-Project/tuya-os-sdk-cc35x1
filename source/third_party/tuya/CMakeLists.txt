@@ -59,7 +59,8 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/mqtt_service.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c
 
-
+    # NVS driver
+    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/xmem/XMEMWFF3.c"
 
     # wrapper_config
     "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/wrapper_config/wrapper_config.c"
@@ -99,7 +100,9 @@ set(${TARGET_NAME}_INCLUDES
     
     # 5. TI SDK Base
     "C:/ti/simplelink_wifi_sdk_9_21_00_15/source"
-    c:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/fatfs
+    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/fatfs"
+    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/xmem/"
+    "C:/TI_Project/simplelink_wifi_sdk_tuya/network_terminal_LP_EM_CC35X1_freertos_ticlang/Debug/syscfg"
 
     # 6. Cloud Service Subfolders
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/netmgr

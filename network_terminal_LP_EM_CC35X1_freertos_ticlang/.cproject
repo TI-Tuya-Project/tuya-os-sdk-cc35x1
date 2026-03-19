@@ -103,6 +103,7 @@
                                     <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/wrapper_config"/>
                                     <listOptionValue value="c:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/system"/>
                                     <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ticommon/nv"/>
+                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/xmem"/>
                                     <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ASM_SPECIFIC_FLAGS.241960097" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ASM_SPECIFIC_FLAGS" valueType="stringList">
@@ -173,6 +174,8 @@
                                     <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tuya_cloud_service\tuya_cloud_service.a"/>
                                     <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/secure/lib/ticlang/m33f/secure_drivers_cc35xx_mbedtls.a"/>
                                     <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/secure/lib/ticlang/m33f/secure_drivers_cc35xx_mbedtls.a"/>
+                                    <listOptionValue value="c:\TI_Project\simplelink_wifi_sdk_tuya\source\ti\drivers\lib\ticlang\m33f\drivers_cc35xx.a"/>
+                                    <listOptionValue value="c:\TI_Project\simplelink_wifi_sdk_tuya\source\ti\drivers\lib\ticlang\m33f\drivers_cc35xx_log.a"/>
                                 </option>
                             </tool>
                             <tool id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.hex.3467966" name="Arm Hex Utility" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.hex"/>
