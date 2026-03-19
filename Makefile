@@ -64,6 +64,38 @@ CMAKE_BINARY_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target package
+package: preinstall
+	@echo Run CPack packaging tool...
+	C:\cmake-3.21.3\bin\cpack.exe --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@echo Installing the project stripped...
+	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@echo Installing the project stripped...
+	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target package_source
+package_source:
+	@echo Run CPack packaging tool for source...
+	C:\cmake-3.21.3\bin\cpack.exe --config ./CPackSourceConfig.cmake C:/TI_Project/simplelink_wifi_sdk_tuya/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@echo Installing only the local directory...
@@ -116,18 +148,6 @@ list_install_components:
 # Special rule for the target list_install_components
 list_install_components/fast: list_install_components
 .PHONY : list_install_components/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -434,6 +454,84 @@ tuya/fast:
 .PHONY : tuya/fast
 
 #=============================================================================
+# Target rules for targets named libcjson
+
+# Build rule for target.
+libcjson: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 libcjson
+.PHONY : libcjson
+
+# fast build rule for target.
+libcjson/fast:
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\libcjson\CMakeFiles\libcjson.dir\build.make source/third_party/tuya/tuya_src/libcjson/CMakeFiles/libcjson.dir/build
+.PHONY : libcjson/fast
+
+#=============================================================================
+# Target rules for targets named libhttp
+
+# Build rule for target.
+libhttp: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 libhttp
+.PHONY : libhttp
+
+# fast build rule for target.
+libhttp/fast:
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\libhttp\CMakeFiles\libhttp.dir\build.make source/third_party/tuya/tuya_src/libhttp/CMakeFiles/libhttp.dir/build
+.PHONY : libhttp/fast
+
+#=============================================================================
+# Target rules for targets named libmqtt
+
+# Build rule for target.
+libmqtt: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 libmqtt
+.PHONY : libmqtt
+
+# fast build rule for target.
+libmqtt/fast:
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\libmqtt\CMakeFiles\libmqtt.dir\build.make source/third_party/tuya/tuya_src/libmqtt/CMakeFiles/libmqtt.dir/build
+.PHONY : libmqtt/fast
+
+#=============================================================================
+# Target rules for targets named tal_kv
+
+# Build rule for target.
+tal_kv: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 tal_kv
+.PHONY : tal_kv
+
+# fast build rule for target.
+tal_kv/fast:
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tal_kv\CMakeFiles\tal_kv.dir\build.make source/third_party/tuya/tuya_src/tal_kv/CMakeFiles/tal_kv.dir/build
+.PHONY : tal_kv/fast
+
+#=============================================================================
+# Target rules for targets named tal_network
+
+# Build rule for target.
+tal_network: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 tal_network
+.PHONY : tal_network
+
+# fast build rule for target.
+tal_network/fast:
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tal_network\CMakeFiles\tal_network.dir\build.make source/third_party/tuya/tuya_src/tal_network/CMakeFiles/tal_network.dir/build
+.PHONY : tal_network/fast
+
+#=============================================================================
+# Target rules for targets named tuya_cloud_service
+
+# Build rule for target.
+tuya_cloud_service: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 tuya_cloud_service
+.PHONY : tuya_cloud_service
+
+# fast build rule for target.
+tuya_cloud_service/fast:
+	$(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/build
+.PHONY : tuya_cloud_service/fast
+
+#=============================================================================
 # Target rules for targets named ble_interface
 
 # Build rule for target.
@@ -496,6 +594,8 @@ help:
 	@echo ... install/local
 	@echo ... install/strip
 	@echo ... list_install_components
+	@echo ... package
+	@echo ... package_source
 	@echo ... rebuild_cache
 	@echo ... ble_interface
 	@echo ... display_cc35xx
@@ -511,6 +611,9 @@ help:
 	@echo ... json_m33f
 	@echo ... json_m4
 	@echo ... json_m4f
+	@echo ... libcjson
+	@echo ... libhttp
+	@echo ... libmqtt
 	@echo ... log_cc35xx
 	@echo ... lwip
 	@echo ... nimble
@@ -518,7 +621,10 @@ help:
 	@echo ... secure_drivers_cc35xx_mbedtls
 	@echo ... spiffs_m33f
 	@echo ... spiffs_m33f_cc26xx
+	@echo ... tal_kv
+	@echo ... tal_network
 	@echo ... tuya
+	@echo ... tuya_cloud_service
 	@echo ... wifi_host_driver
 	@echo ... wifi_platform_cc35xx
 	@echo ... wifi_stack

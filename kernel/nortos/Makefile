@@ -64,6 +64,38 @@ CMAKE_BINARY_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target package
+package: preinstall
+	@echo Run CPack packaging tool...
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && C:\cmake-3.21.3\bin\cpack.exe --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@echo Installing the project stripped...
+	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@echo Installing the project stripped...
+	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target package_source
+package_source:
+	@echo Run CPack packaging tool for source...
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && C:\cmake-3.21.3\bin\cpack.exe --config ./CPackSourceConfig.cmake C:/TI_Project/simplelink_wifi_sdk_tuya/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@echo Installing only the local directory...
@@ -117,18 +149,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 .PHONY : list_install_components/fast
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@echo Installing the project stripped...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
 	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(CMAKE_COMMAND) -E cmake_progress_start C:\TI_Project\simplelink_wifi_sdk_tuya\CMakeFiles C:\TI_Project\simplelink_wifi_sdk_tuya\kernel\nortos\\CMakeFiles\progress.marks
@@ -171,6 +191,8 @@ help:
 	@echo ... install/local
 	@echo ... install/strip
 	@echo ... list_install_components
+	@echo ... package
+	@echo ... package_source
 	@echo ... rebuild_cache
 .PHONY : help
 

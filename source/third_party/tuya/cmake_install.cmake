@@ -37,6 +37,41 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "C:/mingw64/bin/objdump.exe")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/libcjson/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/libhttp/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/liblvgl/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/libmqtt/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tal_kv/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tal_network/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tuya_cloud_service/cmake_install.cmake")
+endif()
+
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/lib/ticlang/tuya.a")

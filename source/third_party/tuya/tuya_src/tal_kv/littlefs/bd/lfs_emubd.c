@@ -14,8 +14,8 @@
 #include "bd/lfs_emubd.h"
 
 #include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
+#include <fcntl.h> // not found
+#include <unistd.h> // not found
 #include <errno.h>
 #include <time.h>
 

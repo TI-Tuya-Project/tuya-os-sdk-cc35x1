@@ -21,6 +21,23 @@
 #include "mpu_wrappers.h"
 #include "portmacro.h"
 #include "projdefs.h"
+
+
+#ifndef INCLUDE_uxTaskGetStackHighWaterMark
+#define INCLUDE_uxTaskGetStackHighWaterMark 0
+#endif
+
+#if (INCLUDE_uxTaskGetStackHighWaterMark != 1)
+UBaseType_t uxTaskGetStackHighWaterMark(TaskHandle_t xTask)
+{
+    (void)xTask;
+    return 0;
+}
+#endif
+
+
+
+
 // --- END: user defines and implements ---
 
 /**

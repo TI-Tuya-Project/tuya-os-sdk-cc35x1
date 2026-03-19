@@ -31,6 +31,7 @@ int config_minimal_init(const minimal_config_iot_t * conf){
     config.uuid         = conf->uuid;
     config.authkey      = conf->auth_key;
     config.software_ver = conf->software_ver;
+    
 
     return tuya_iot_init(&g_client,&config);
 

@@ -64,18 +64,6 @@ CMAKE_BINARY_DIR = C:\TI_Project\simplelink_wifi_sdk_tuya
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/local
-install/local: preinstall
-	@echo Installing only the local directory...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@echo Installing only the local directory...
-	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
 # Special rule for the target install
 install: preinstall
 	@echo Install the project...
@@ -98,6 +86,26 @@ edit_cache:
 edit_cache/fast: edit_cache
 .PHONY : edit_cache/fast
 
+# Special rule for the target package
+package: preinstall
+	@echo Run CPack packaging tool...
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && C:\cmake-3.21.3\bin\cpack.exe --config ./CPackConfig.cmake
+.PHONY : package
+
+# Special rule for the target package
+package/fast: package
+.PHONY : package/fast
+
+# Special rule for the target package_source
+package_source:
+	@echo Run CPack packaging tool for source...
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && C:\cmake-3.21.3\bin\cpack.exe --config ./CPackSourceConfig.cmake C:/TI_Project/simplelink_wifi_sdk_tuya/CPackSourceConfig.cmake
+.PHONY : package_source
+
+# Special rule for the target package_source
+package_source/fast: package_source
+.PHONY : package_source/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@echo Running CMake to regenerate build system...
@@ -116,6 +124,18 @@ list_install_components:
 # Special rule for the target list_install_components
 list_install_components/fast: list_install_components
 .PHONY : list_install_components/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@echo Installing only the local directory...
+	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@echo Installing only the local directory...
+	C:\cmake-3.21.3\bin\cmake.exe -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target install/strip
 install/strip: preinstall
@@ -1289,6 +1309,8 @@ help:
 	@echo ... install/local
 	@echo ... install/strip
 	@echo ... list_install_components
+	@echo ... package
+	@echo ... package_source
 	@echo ... rebuild_cache
 	@echo ... wifi_stack
 	@echo ... app_entry/init_host.obj

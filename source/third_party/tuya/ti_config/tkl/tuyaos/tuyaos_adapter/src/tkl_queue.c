@@ -22,6 +22,10 @@
 // TI Driver Portability Layer (For HwiP_inISR)
 // safer then a direct (SCB_ICSR & 0x1FF) check.
 #include "ti/drivers/dpl/HwiP.h"
+
+#ifndef TKL_WAIT_FOREVER
+#define TKL_WAIT_FOREVER  0xFFFFFFFF  /* same as portMAX_DELAY in FreeRTOS */
+#endif
 // --- END: user defines and implements ---
 
 /**

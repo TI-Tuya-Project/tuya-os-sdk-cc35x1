@@ -30,35 +30,35 @@ void tkl_hw_board_init(const TKL_BOARD_CONFIG_T *config)
 
 int16_t tkl_hw_get_uart_index(uint8_t tuya_port)
 {
-    CHECK_MAP(tuya_port, TKL_BOAD_MAX_UART_PORTS, uart_map);
+    CHECK_MAP(tuya_port, TKL_MAX_UART_PORTS, uart_map);
 }
 
 int16_t tkl_hw_get_adc_index(uint8_t tuya_port)
 {
-    CHECK_MAP(tuya_port, TKL_BOAD_MAX_ADC_PORTS, adc_map);
+    CHECK_MAP(tuya_port, TKL_MAX_ADC_PORTS, adc_map);
 }
 
 int16_t tkl_hw_get_pwm_index(uint8_t tuya_port)
 {
-    CHECK_MAP(tuya_port, TKL_BOAD_MAX_PWM_CHANNELS, pwm_map);
+    CHECK_MAP(tuya_port, TKL_MAX_PWM_CHANNELS, pwm_map);
 }
 
 int16_t tkl_hw_get_gpio_index(uint8_t tuya_pin)
 {
-    CHECK_MAP(tuya_pin, TKL_BOAD_MAX_GPIO_PINS, gpio_map);
+    CHECK_MAP(tuya_pin, TKL_MAX_GPIO_PINS, gpio_map);
 }
 
 int16_t tkl_hw_get_spi_index(uint8_t tuya_port)
 {
-    CHECK_MAP(tuya_port, TKL_BOAD_MAX_SPI_PORTS, spi_map);
+    CHECK_MAP(tuya_port, TKL_MAX_SPI_PORTS, spi_map);
 }
 
 int16_t tkl_hw_get_i2c_index(uint8_t tuya_port)
 {
-    CHECK_MAP(tuya_port, TKL_BOAD_MAX_I2C_PORTS, i2c_map);
+    CHECK_MAP(tuya_port, TKL_MAX_I2C_PORTS, i2c_map);
 }
 
 int16_t tkl_hw_get_i2s_index(uint8_t tuya_port)
 {
-    CHECK_MAP(tuya_port, TKL_BOAD_MAX_I2S_PORTS, i2s_map);
+    CHECK_MAP(tuya_port, TKL_MAX_I2S_PORTS, i2s_map);
 }

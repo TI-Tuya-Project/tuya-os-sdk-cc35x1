@@ -23,7 +23,7 @@
 
 // Define core reset function for Cortex-M if not already defined
 #ifndef NVIC_SystemReset
-extern void NVIC_SystemReset(void);
+//extern void NVIC_SystemReset(void);
 #endif
 // --- END: user defines and implements ---
 
@@ -41,7 +41,7 @@ void tkl_system_reset(void)
     __asm(" cpsid i ");
     
     // Request System Reset via Cortex-M standard function
-    NVIC_SystemReset();
+    //NVIC_SystemReset();
     
     // Loop forever in case reset takes a moment
     while(1) {}
