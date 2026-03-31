@@ -58,7 +58,7 @@
 #include "ti_drivers_open_close.h"
 #include "ti_board_open_close.h"
 #endif // CC33XX
-
+#include "tuya_test.h"
 /* Example Header files */
 #include "cmd_parser.h"
 #include "wlan_cmd.h"
@@ -104,6 +104,9 @@ void initialize_mbedtls_threading(); //define prototype
 #include "tkl_board_config.h"  
 #include "wrapper_config.h"
 #include "tal_kv.h"
+#include "tal_api.h"
+#include "tkl_output.h"
+
 
 /* Product Fields */
 #define PRODUCT_ID "tjoktmmglvy4hc9x"
@@ -182,60 +185,58 @@ int32_t DisplayAppBanner(char* appName, char* appVersion);
 extern uint32_t ActiveNetIfBitMap;
 
 
-/*[TUYA CMD CHECK]*/
-int32_t cmdTestTuya(void *arg);
-int32_t printTestTuyaUsage(void *arg); 
 
+// ===== CMD Tuya Init =====
+const char tuya_init[] = "tuya_init";
+int32_t printInitTuyaUsage(void *arg);
+int32_t cmd_tuya_init(void *arg);
 
-const char testTuya[] = "test_tuya";
-
-int32_t printTestTuyaUsage(void *arg) {
-    UART_PRINT("Usage: test_tuya\n\r");
-    UART_PRINT("(Runs basic Tuya memory/timer checks)\n\r");
+int32_t printInitTuyaUsage(void *arg) {
+    UART_PRINT("Usage: tuya_init\n\r");
+    UART_PRINT("(Initialize the tuya OS)\n\r");
     return 0;
 }
+int32_t cmd_tuya_init(void *arg) {
+    UART_PRINT("\n====================================\n");
+    UART_PRINT("[*] STARTING TUYA OS INITIALIZATION [*]\n");
+    UART_PRINT("====================================\n");
 
-int32_t cmdTestTuya(void *arg){
+    UART_PRINT("Starting Tuya KV Init...\n");
+    int kv_ret = tal_kv_init(&kv_cfg);
+    if(kv_ret != 0){
+        UART_PRINT("[FAIL] Tuya KV Init Failed: %d\n", kv_ret);
+        return -1; 
+    }
+    UART_PRINT("[PASS] Tuya KV Init Success!\n");
 
-UART_PRINT("\n\r[TEST] entered cmdTestTuya\r\n");
-UART_PRINT("[TEST] arg=%p\r\n", arg);
+    // Initialize Hardware Map
+    TKL_BOARD_CONFIG_T tuya_hw_map = {0};
+    init_tuya_map_defaults(&tuya_hw_map);
+    
+    tuya_hw_map.uart_map[0]    = CONFIG_UART2_0;
+    tuya_hw_map.adc_map[0]     = CONFIG_ADC_0;
+    tuya_hw_map.pwm_map[0]     = CONFIG_PWM_0;
+    tuya_hw_map.gpio_map[0]    = CONFIG_GPIO_LED_0;
+    tuya_hw_map.spi_map[0]     = CONFIG_SPI_0;
 
+    tkl_hw_board_init(&tuya_hw_map);
+    UART_PRINT("[PASS] Board Map Initialized!\n");
 
-/*
-// Memory check
-UART_PRINT("\n\r[TETS] Checking timer...\n\r");
-uint32_t start = tkl_system_get_millisecond();
-tkl_system_delay(100); // 100 ms
+    UART_PRINT("Starting Tuya Minimal Config Init...\n");
+    int ret = config_minimal_init(&config);
+    if(ret != 0) {
+        UART_PRINT("[FAIL] Tuya Minimal Init Failed: %d\n", ret);
+        return -1;
+    }
+    UART_PRINT("[PASS] Tuya Minimal Config Success!\n");
 
-if(tkl_system_get_millisecond() - start >= 100){
-    UART_PRINT("\n\r [PASS] Timer works.\n\r");
-}else
-{
-    UART_PRINT("\n\r [FAIL] Timer does not work.\n\r");
+    return 0;
 }
-
-
-*/
-/*
-// Memory check
-UART_PRINT("\n\r [TEST] Checking malloc\n\r");
-
-void *p = tkl_system_malloc(10);
-if(p){
-    UART_PRINT("\n\r [PASS] Malloc works\n\r");
-    tkl_system_free(p);
-}else{
-    UART_PRINT("\n\r [FAIL] Malloc does not works\n\r");   
-}
-
-*/
-return 0;
-
-}
+// ===== CMD Tuya Init =====
 
 
 
-/*[TUYA CMD CHECK]*/
+
 /****************************************************************************
                       GLOBAL VARIABLES
 ****************************************************************************/
@@ -484,14 +485,18 @@ cmdAction_t gCmdList[] =
 { wlanGetRegDomEntryStr,  cmdWlanGetRegDomainEntryCallback, printWlanGetRegDomainEntryUsage },
 
 #endif // CC35XX
-/* Tuya tests*/
-{testTuya,                  cmdTestTuya,                     printTestTuyaUsage},
-/* Tuya tests*/
+
+{ tuyaMemTestStr, cmdTuyaMemTestCallback, printTuyaMemTestUsage },
+
 
 #ifdef TEST_CMD
 /* test */
-{ testStr,              cmdtestCallback,            printWlanStopUsage      }
+{ testStr,              cmdtestCallback,                      printWlanStopUsage},
 #endif
+{tuya_init,             cmd_tuya_init,                        printInitTuyaUsage},
+{tuyaAdcTestStr,        cmdTuyaAdcTestCallback,               printTuyaAdcTestUsage},
+{tuyaFlashTestStr,      cmdTuyaFlashTestCallback,             printTuyaFlashTestUsage},
+{tuyaFsTestStr,    cmdTuyaFsTestCallback,                printTuyaFsTestUsage},
 {NULL,NULL,NULL}
 };
 
@@ -1421,39 +1426,6 @@ void *network_terminal_entry(void *args)
             "Network Terminal - Unable to retrieve device information \n");
         return(NULL);
     }
-// =========================================================================
-    // 🌟 TUYA INITIALIZATION BLOCK 🌟
-    // OS is running, Network Stack is up. It is safe to talk to the hardware.
-    // =========================================================================
-    
-    UART_PRINT("\nStarting Tuya KV Init...\n");
-    int kv_ret = tal_kv_init(&kv_cfg);
-    if(kv_ret != 0){
-        UART_PRINT("Tuya KV Init Failed with error: %d\n", kv_ret);
-        while(1){} // Catch LittleFS -84 errors here
-    }
-    UART_PRINT("Tuya KV Init Success!\n");
-
-    TKL_BOARD_CONFIG_T tuya_hw_map = {0};
-    init_tuya_map_defaults(&tuya_hw_map);
-    
-    tuya_hw_map.uart_map[0]    = CONFIG_UART2_0;
-    tuya_hw_map.adc_map[0]     = CONFIG_ADC_0;
-    tuya_hw_map.pwm_map[0]     = CONFIG_PWM_0;
-    tuya_hw_map.gpio_map[0]    = CONFIG_GPIO_LED_0;
-    tuya_hw_map.spi_map[0]     = CONFIG_SPI_0;
-
-    tkl_hw_board_init(&tuya_hw_map);
-
-    UART_PRINT("Starting Tuya Minimal Config Init...\n");
-    int ret = config_minimal_init(&config);
-    if(ret != 0) {
-        UART_PRINT("Tuya Minimal Init Failed: %d\n", ret);
-        while(1){};
-    }
-    UART_PRINT("Tuya Minimal Config Success!\n");
-    //=========================================================================
-
     /*
      * Calling UART handling method which serves as the application main loop.
      * Note that this function doesn't return.

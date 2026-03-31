@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
+#include <time.h>
 
 #ifndef BOOL_T
 #define BOOL_T int
@@ -497,4 +498,34 @@ int tkl_ftruncate(int fd, uint64_t length)
     fr = f_sync(fp);
     return _fr_to_ret(fr);
     // --- END: user implements ---
+}
+
+
+/* Dynamic Time Function for FatFs using standard C library */
+uint32_t fatfs_getFatTime(void)
+{
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    // 1. Get standard C time (seconds since 1970)
+    time(&rawtime);
+
+    // 2. Convert to Year, Month, Day, etc.
+    timeinfo = localtime(&rawtime);
+
+    // 3. Fallback in case time isn't set or valid yet
+    if (timeinfo == NULL || timeinfo->tm_year < 80) {
+        // Return Jan 1, 2024 as a safe default if time is corrupted
+        return ((uint32_t)(2024 - 1980) << 25) | (1 << 21) | (1 << 16);
+    }
+
+    // 4. Pack it into the FatFs DWORD format
+    // tm_year is years since 1900. FatFs wants years since 1980. (tm_year - 80)
+    // tm_mon is 0-11. FatFs wants 1-12. (tm_mon + 1)
+    return ((uint32_t)(timeinfo->tm_year - 80) << 25) |
+           ((uint32_t)(timeinfo->tm_mon + 1) << 21) |
+           ((uint32_t)timeinfo->tm_mday << 16) |
+           ((uint32_t)timeinfo->tm_hour << 11) |
+           ((uint32_t)timeinfo->tm_min << 5)  |
+           ((uint32_t)(timeinfo->tm_sec >> 1)); // FatFs seconds are divided by 2
 }
