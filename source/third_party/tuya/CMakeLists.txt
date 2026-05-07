@@ -5,6 +5,21 @@ project(tuya)
 set(TARGET_NAME tuya)
 message(STATUS "Generating target ${TARGET_NAME}")
 
+# Align CMake feature flags with Tuya kconfig defaults so conditional
+# sources in submodules (e.g. netconn_wifi.c) are not accidentally excluded.
+if(NOT DEFINED CONFIG_ENABLE_WIFI)
+    set(CONFIG_ENABLE_WIFI "y")
+endif()
+if(NOT DEFINED CONFIG_ENABLE_BLUETOOTH)
+    set(CONFIG_ENABLE_BLUETOOTH "y")
+endif()
+if(NOT DEFINED CONFIG_ENABLE_WIRED)
+    set(CONFIG_ENABLE_WIRED "n")
+endif()
+if(NOT DEFINED CONFIG_ENABLE_CELLULAR)
+    set(CONFIG_ENABLE_CELLULAR "n")
+endif()
+
 # --- 1. DEFINE SOURCES ---
 set(${TARGET_NAME}_SOURCES
     # Tuya OS Adapter (TKL)
@@ -16,6 +31,7 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_semaphore.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_thread.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_output.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_sleep.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c
@@ -47,33 +63,68 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libcjson/cJSON/cJSON.c
 
     # TAL
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_api.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_event.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_system.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_thread.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_log.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_sleep.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_sw_timer.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_time_serivce.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_workq_service.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_workqueue.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_wifi/src/tal_wifi.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_network/src/tal_network.c
+
+    # TAL Security (mbedTLS)
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_hash.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_symmetry.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_x509.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/mbedtls/mbedtls_hash.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/mbedtls/mbedtls_symmetry.c
+
+    # Tuya TLS wrappers
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/src/cipher_wrapper.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/aes.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/ctr_drbg.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/entropy.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/entropy_poll.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/sha256.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/sha512.c
 
     # Cloud Services
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/tuya_iot.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/mqtt_service.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/protocol/tuya_protocol.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/tuya_ota.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/tuya_health.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/tuya_endpoint.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/tls/tuya_tls.c
 
     # NVS driver
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/xmem/XMEMWFF3.c"
+    "${CMAKE_SOURCE_DIR}/source/ti/drivers/xmem/XMEMWFF3.c"
 
     # wrapper_config
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/wrapper_config/wrapper_config.c"
+    "${CMAKE_SOURCE_DIR}/source/third_party/tuya/ti_config/wrapper_config/wrapper_config.c"
     # wrapper_config
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tal_integration.c"
+    "${CMAKE_SOURCE_DIR}/source/third_party/tuya/ti_config/tal_integration.c"
 
 )
-    set(TI_SYSCONFIG_TOOL "C:/ti/sysconfig_1.26.0/sysconfig_cli.bat")
+    if(NOT DEFINED TI_SYSCONFIG_TOOL)
+        set(TI_SYSCONFIG_TOOL "sysconfig_cli.bat")
+    endif()
 # --- 2. DEFINE INCLUDES ---
+
+set(TUYA_SDK_ROOT ${CMAKE_SOURCE_DIR})
+set(TUYA_FREERTOS_ROOT ${TUYA_SDK_ROOT}/source/third_party/freertos)
+set(TUYA_KERNEL_FREERTOS_ROOT ${TUYA_SDK_ROOT}/kernel/freertos)
+set(TUYA_LWIP_ROOT ${TUYA_SDK_ROOT}/source/third_party/lwip)
+set(TUYA_TI_SOURCE_ROOT ${TUYA_SDK_ROOT}/source/ti)
+set(TI_ARM_CLANG_INCLUDE_DIR "${CG_TOOL_ROOT}/include/c")
 
 set(${TARGET_NAME}_INCLUDES
     # 1. Compiler Toolchain Includes
-    "C:/ti/ccs2031/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/include/c"
+    "${TI_ARM_CLANG_INCLUDE_DIR}"
 
     # 2. Custom and Local Configs
     ${CMAKE_CURRENT_LIST_DIR}/ti_config
@@ -92,17 +143,17 @@ set(${TARGET_NAME}_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_wifi/include
 
     # 4. FreeRTOS Core & Config
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/freertos/include"
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/freertos/portable/GCC/ARM_CM33_NTZ/non_secure"
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/kernel/freertos/builds/.meta/cc35xx/release/pregenerated_configuration"
-    "C:/ti/simplelink_wifi_sdk_tuya/source/ti/drivers"
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/common/nv"
+    "${TUYA_FREERTOS_ROOT}/include"
+    "${TUYA_FREERTOS_ROOT}/portable/GCC/ARM_CM33_NTZ/non_secure"
+    "${TUYA_KERNEL_FREERTOS_ROOT}/builds/.meta/cc35xx/release/pregenerated_configuration"
+    "${TUYA_TI_SOURCE_ROOT}/drivers"
+    "${CMAKE_SOURCE_DIR}/source/ti/common/nv"
     
     # 5. TI SDK Base
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source"
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/fatfs"
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/xmem/"
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/network_terminal_LP_EM_CC35X1_freertos_ticlang/Debug/syscfg"
+    "${TUYA_SDK_ROOT}/source"
+    "${CMAKE_SOURCE_DIR}/source/third_party/fatfs"
+    "${CMAKE_SOURCE_DIR}/source/ti/drivers/xmem/"
+    "${CMAKE_SOURCE_DIR}/network_terminal_LP_EM_CC35X1_freertos_ticlang/Debug/syscfg"
 
     # 6. Cloud Service Subfolders
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/netmgr
@@ -152,19 +203,19 @@ set(${TARGET_NAME}_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include
 
     # 10. Explicit TI SDK Base & LwIP Includes
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi"
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/kernel/freertos/posix"
+    "${TUYA_TI_SOURCE_ROOT}/drivers/net/wifi"
+    "${TUYA_KERNEL_FREERTOS_ROOT}/posix"
 
     # --- LwIP Stack Headers ---
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/lwip/lwip-stack/src/include"
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/net/lwip"
+    "${TUYA_LWIP_ROOT}/lwip-stack/src/include"
+    "${TUYA_TI_SOURCE_ROOT}/net/lwip"
     
     # --- ADDED: LwIP Config/Opts for FreeRTOS (Fixes lwipopts.h error) ---
-    "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/third_party/lwip/ti_config/lwip-port/freertos/include"
+    "${TUYA_LWIP_ROOT}/ti_config/lwip-port/freertos/include"
     # ---------------------------------------------------------------------
 
     # wrapper_config
-    "C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/wrapper_config"
+    "${CMAKE_SOURCE_DIR}/source/third_party/tuya/ti_config/wrapper_config"
     # wrapper_config
 
     # lfs_file
