@@ -104,13 +104,6 @@ OPERATE_RET tkl_adc_init(TUYA_ADC_NUM_E port_num, TUYA_ADC_BASE_CFG_T *cfg)
     // --- END: user implements ---
 }
 
-/* Array to store handles for multiple ADC channels */
-static ADC_Handle g_adc_handles[MAX_ADC_CHANNEL] = {NULL};
-
-/* Helper to check validity */
-static bool is_valid_adc(TUYA_ADC_NUM_E port_num) {
-    return (port_num < MAX_ADC_CHANNEL);
-}
 
 /**
  * @brief adc deinit

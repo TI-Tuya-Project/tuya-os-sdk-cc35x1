@@ -21,6 +21,9 @@
 #include "tkl_board_config.h"
 
 // --- END: user defines and implements ---
+#ifndef TUYA_SPI_MAX_DMA_DEFAULT
+#define TUYA_SPI_MAX_DMA_DEFAULT 0  // 0 means no hard limit or rely on driver defaults
+#endif
 
 static bool s_spi_inited = false;
 
@@ -618,8 +621,8 @@ static void spi_internal_callback(SPI_Handle handle, SPI_Transaction *transactio
 
            
             if (ctx->irq_enabled && ctx->irq_cb) {
-                
-                ctx->irq_cb((TUYA_SPI_NUM_E)port);
+                // Pass the port AND the transfer complete event
+                ctx->irq_cb((TUYA_SPI_NUM_E)port, TUYA_SPI_EVENT_TRANSFER_COMPLETE);
             }
             break;
         }

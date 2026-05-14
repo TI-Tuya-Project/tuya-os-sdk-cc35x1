@@ -139,6 +139,13 @@ static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
 /*=========================================================================*/
 
 
+/* Bridge function for Tuya Logging */
+void tuya_cli_print_bridge(const char *str)
+{
+    // The macro works here because this file has the right TI headers included!
+    UART_PRINT("%s", str); 
+}
+
 /* --- Tuya SDK Includes --- */
 
 #include "tuya_cloud_types.h"
@@ -214,6 +221,7 @@ int32_t cmd_tuya_init(void *arg) {
     init_tuya_map_defaults(&tuya_hw_map);
     
     tuya_hw_map.uart_map[0]    = CONFIG_UART2_0;
+    tuya_hw_map.uart_map[1]    = CONFIG_UART2_1;
     tuya_hw_map.adc_map[0]     = CONFIG_ADC_0;
     tuya_hw_map.pwm_map[0]     = CONFIG_PWM_0;
     tuya_hw_map.gpio_map[0]    = CONFIG_GPIO_LED_0;
@@ -496,7 +504,23 @@ cmdAction_t gCmdList[] =
 {tuya_init,             cmd_tuya_init,                        printInitTuyaUsage},
 {tuyaAdcTestStr,        cmdTuyaAdcTestCallback,               printTuyaAdcTestUsage},
 {tuyaFlashTestStr,      cmdTuyaFlashTestCallback,             printTuyaFlashTestUsage},
-{tuyaFsTestStr,    cmdTuyaFsTestCallback,                printTuyaFsTestUsage},
+{tuyaFsTestStr,         cmdTuyaFsTestCallback,                printTuyaFsTestUsage},
+{tuyaGpioTestStr,       cmdTuyaGpioTestCallback,              printTuyaGpioTestUsage},
+{tuyaHashTestStr,       cmdTuyaHashTestCallback,              printTuyaHashTestUsage},
+{tuyaI2cTestStr,        cmdTuyaI2cTestCallback,               printTuyaI2cTestUsage},
+{tuyaMutexTestStr,      cmdTuyaMutexTestCallback,             printTuyaMutexTestUsage},
+{tuyaNetTestStr,        cmdTuyaNetTestCallback,               printTuyaNetTestUsage},
+{tuyaOutputTestStr,     cmdTuyaOutputTestCallback,            printTuyaOutputTestUsage},
+{tuyaPwmTestStr,        cmdTuyaPwmTestCallback,               printTuyaPwmTestUsage},
+{tuyaQueueTestStr,      cmdTuyaQueueTestCallback,             printTuyaQueueTestUsage},
+{tuyaRtcTestStr,        cmdTuyaRtcTestCallback,               printTuyaRtcTestUsage},
+{tuyaSemTestStr,        cmdTuyaSemTestCallback,               printTuyaSemTestUsage},
+{tuyaSpiTestStr,        cmdTuyaSpiTestCallback,               printTuyaSpiTestUsage},
+{tuyaThreadTestStr,     cmdTuyaThreadTestCallback,            printTuyaThreadTestUsage},
+{tuyaTimerTestStr,      cmdTuyaTimerTestCallback,             printTuyaTimerTestUsage},
+{tuyaUartTestStr,       cmdTuyaUartTestCallback,              printTuyaUartTestUsage},
+{tuyaWakeupTestStr,     cmdTuyaWakeupTestCallback,            printTuyaWakeupTestUsage},
+{tuyaWdgTestStr,        cmdTuyaWdgTestCallback,               printTuyaWdgTestUsage},
 {NULL,NULL,NULL}
 };
 

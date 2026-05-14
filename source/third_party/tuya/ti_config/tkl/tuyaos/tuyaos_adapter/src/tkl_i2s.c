@@ -18,16 +18,16 @@
 #include "tkl_board_config.h"
 
 // Check if I2S max ports is defined, otherwise default to 1 (Typical for MCU)
-#ifndef TKL_BOAD_MAX_I2S_PORTS
-#define TKL_BOAD_MAX_I2S_PORTS 1
+#ifndef TKL_BOARD_MAX_I2S_PORTS
+#define TKL_BOARD_MAX_I2S_PORTS 1
 #endif
 
 // Global array to store handles
-static I2S_Handle g_i2s_handles[TKL_BOAD_MAX_I2S_PORTS] = {NULL};
+static I2S_Handle g_i2s_handles[TKL_BOARD_MAX_I2S_PORTS] = {NULL};
 
 // Helper to check validity
 static bool is_valid_port(TUYA_I2S_NUM_E port) {
-    return (port < TKL_BOAD_MAX_I2S_PORTS);
+    return (port < TKL_BOARD_MAX_I2S_PORTS);
 }
 // --- END: user defines and implements ---
 

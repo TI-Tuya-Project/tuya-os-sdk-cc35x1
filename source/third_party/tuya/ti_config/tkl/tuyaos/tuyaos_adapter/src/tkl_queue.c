@@ -39,24 +39,20 @@
  */
 OPERATE_RET tkl_queue_create_init(TKL_QUEUE_HANDLE *queue, int msgsize, int msgcount)
 {
-    // --- BEGIN: user implements ---
-    // 1. Safety Check: Ensure the pointer where we will store the handle is valid
     if (!queue || msgsize <= 0 || msgcount <= 0) {
         return OPRT_INVALID_PARM;
     }
 
     *queue = NULL;
 
-    // 2. Call FreeRTOS to allocate memory
-    *queue = (TKL_QUEUE_HANDLE)xQueueCreate((UBaseType_t)msgsize, (UBaseType_t)msgcount);
+    // FIX: msgcount comes first (Length), then msgsize (Item Size)
+    *queue = (TKL_QUEUE_HANDLE)xQueueCreate((UBaseType_t)msgcount, (UBaseType_t)msgsize);
 
-    // 3. Check for Out of Memory
     if (*queue == NULL) {
         return OPRT_OS_ADAPTER_QUEUE_CREAT_FAILED;
     }
 
     return OPRT_OK;
-    // --- END: user implements ---
 }
 
 /**

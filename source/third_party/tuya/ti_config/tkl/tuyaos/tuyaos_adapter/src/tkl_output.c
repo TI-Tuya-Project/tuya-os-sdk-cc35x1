@@ -10,7 +10,7 @@
  */
 
 // --- BEGIN: user defines and implements ---
-// YUYA
+// TUYA
 #include "tkl_output.h"
 #include "tuya_error_code.h"
 
@@ -20,6 +20,11 @@
 
 // [DEPENDENCY INJECTION] Include Board Config
 #include "tkl_board_config.h"
+#include <stdio.h>
+#include <stdarg.h>
+
+
+extern void tuya_cli_print_bridge(const char *str);
 
 // Define which Tuya Port ID is used for Logging (Default to 0)
 // NO MAGIC NUMBER: Using constant
@@ -45,21 +50,20 @@ static UART2_Handle uartHandle = NULL;
 void tkl_log_output(const char *str, ...)
 {
     // --- BEGIN: user implements ---
-    // TODO REPORT!
-    if (str == NULL) {
+    if (str == NULL || uartHandle == NULL) {
         return;
     }
 
-    if (uartHandle == NULL){
-        // UART needs to be opened
-        return;
-    }
+    char log_buf[256]; // Buffer to hold the formatted string
+    va_list args;
+    
+    // Format the string with the variadic arguments
+    va_start(args, str);
+    vsnprintf(log_buf, sizeof(log_buf), str, args);
+    va_end(args);
 
     size_t bytesWritten = 0;
-    // TODO: might be a problem with strlen if '/0' is not found
-    UART2_write(uartHandle, str, strlen(str), &bytesWritten);
-    
-    return;
+    UART2_write(uartHandle, log_buf, strlen(log_buf), &bytesWritten);
     // --- END: user implements ---
 }
 
@@ -81,8 +85,8 @@ OPERATE_RET tkl_log_close(void)
 {
     // --- BEGIN: user implements ---
     // TODO Optional: Cancel all ongoing read/write
-    // UART2_readCancel(uartHandle)
-    // UART2_writeCancel(uartHandle)
+    UART2_readCancel(uartHandle);
+    UART2_writeCancel(uartHandle);
 
     if (uartHandle != NULL) {
         UART2_close(uartHandle);
@@ -106,7 +110,7 @@ OPERATE_RET tkl_log_open(void)
 {
     // --- BEGIN: user implements ---
     
-    // [MAPPING] Look up TI index for the Log Port (Default 0)
+    // // [MAPPING] Look up TI index for the Log Port (Default 0)
     int16_t ti_log_index = tkl_hw_get_uart_index(TUYA_LOG_PORT_ID);
 
     // If result is negative, the Application did not map the Log UART.

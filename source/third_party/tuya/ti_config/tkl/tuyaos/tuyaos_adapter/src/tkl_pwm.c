@@ -6,8 +6,8 @@
 // --- BEGIN: user defines and implements ---
 #include "tkl_pwm.h"
 #include "tuya_error_code.h"
-#include "PWMTimerWFF3.h"
 #include <ti/drivers/PWM.h> 
+
 
 // [DEPENDENCY INJECTION] Include Board Config
 #include "tkl_board_config.h"
@@ -68,6 +68,7 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
     }
 
     // Initialize TI PWM parameters with default values
+    PWM_init();
     PWM_Params_init(&params);
 
     // 1. Set frequency (TI uses Hz by default)
@@ -82,7 +83,7 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
     params.dutyValue = (uint32_t)(duty_calc / TUYA_PWM_MAX_DUTY);
     
     // 3. Set Polarity
-    if(cfg->polarity == TUYA_PWM_POLARITY_ACTIVE_HIGH){
+    if(cfg->polarity == TUYA_PWM_POSITIVE){
         params.idleLevel = PWM_IDLE_LOW; // If active high, idle is low
     } else {
         params.idleLevel = PWM_IDLE_HIGH; // If active low, idle is high
