@@ -66,6 +66,14 @@
 #include "wlan_if.h"
 #include "uart_term.h"
 #include "calibrator.h"
+#include "tal_wifi.h"
+#include "tkl_wifi.h"
+#include "netcfg.h"
+
+/* Pairing Command Declarations */
+extern const char tuyaSmartLifeStr[];
+int32_t cmdTuyaSmartLifeCallback(void *arg);
+int32_t printTuyaSmartLifeUsage(void *arg);
 
 //LWIP
 #include "network_lwip.h"
@@ -521,6 +529,7 @@ cmdAction_t gCmdList[] =
 {tuyaUartTestStr,       cmdTuyaUartTestCallback,              printTuyaUartTestUsage},
 {tuyaWakeupTestStr,     cmdTuyaWakeupTestCallback,            printTuyaWakeupTestUsage},
 {tuyaWdgTestStr,        cmdTuyaWdgTestCallback,               printTuyaWdgTestUsage},
+{tuyaSmartLifeStr,      cmdTuyaSmartLifeCallback,      printTuyaSmartLifeUsage},
 {NULL,NULL,NULL}
 };
 
@@ -1467,8 +1476,12 @@ void *network_terminal_entry(void *args)
 
 
 #ifdef CC35XX
+extern void tuya_app_main(void);
+
 void *mainThread(void *args)
 {
+    cmdTuyaSmartLifeCallback(args);
+    tuya_app_main();
     network_terminal_entry(NULL);
     return NULL;
 }
@@ -1530,4 +1543,58 @@ int32_t cmdGetDateTime(void *arg)
     int32_t ret  = 0;
     datetime_printCurTime();
     return ret;
+}
+
+/* Ensure these headers are included at the top */
+#include "tal_wifi.h"
+#include "tkl_wifi.h"
+#include "netcfg.h"
+
+/* This header was in your build logs and contains the Wlan_Get definitions */
+#include <ti/drivers/net/wifi/wifi_host_driver/inc_adapt/wlan_if.h>
+
+const char tuyaSmartLifeStr[] = "tuya_pair";
+int32_t cmdTuyaSmartLifeCallback(void *arg)
+{
+    WlanMacAddress_t macParam = {0};
+    char ssid_name[33]; 
+    WF_AP_CFG_IF_S ap_cfg = {0};
+    int16_t ret;
+
+    /* 1. Ensure NWP is started. 
+       If already started, this call is safely ignored or returns a 'status' */
+    UART_PRINT("[TUYA] Ensuring NWP is active...\n\r");
+    Wlan_Start(WlanStackEventHandler); 
+    tal_system_sleep(200); // Critical "settle" time for the CC35xx
+
+    /* 2. Now pull the MAC - it should no longer be 0000 */
+    macParam.roleType = WLAN_ROLE_STA;
+    ret = Wlan_Get(WLAN_GET_MACADDRESS, &macParam);
+
+    if (ret != 0 || (macParam.pMacAddress[0] == 0 && macParam.pMacAddress[5] == 0)) {
+        UART_PRINT("[TUYA] Error: Still couldn't fetch MAC. Check Wlan_Start.\n\r");
+        return -1;
+    }
+
+    /* 3. Format the SSID */
+    snprintf(ssid_name, sizeof(ssid_name), "%s-%02X%02X", 
+             TUYA_AP_SSID_DEFAULT, macParam.pMacAddress[4], macParam.pMacAddress[5]);
+
+    ap_cfg.s_len = (uint8_t)strlen(ssid_name);
+    memcpy(ap_cfg.ssid, ssid_name, ap_cfg.s_len);
+    ap_cfg.md = WAAM_OPEN; 
+    ap_cfg.chan = 6;       
+
+    UART_PRINT("[TUYA] Success! Starting pairing AP: %s\n\r", ssid_name);
+
+    /* 4. Start the AP */
+    OPERATE_RET rt = tkl_wifi_start_ap(&ap_cfg);
+    
+    return (rt == OPRT_OK) ? 0 : -1;
+}
+
+int32_t printTuyaSmartLifeUsage(void *arg)
+{
+    UART_PRINT("tuya_pair : Starts the SmartLife-<MAC> AP for mobile pairing\n\r");
+    return 0;
 }

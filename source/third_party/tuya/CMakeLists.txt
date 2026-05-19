@@ -34,9 +34,15 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_sleep.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_flash.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_gpio.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_spi.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_uart.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_ota.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_lwip.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_wakeup.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_watchdog.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_pwm.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_queue.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_timer.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/src/tuya_list.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/src/tuya_queue.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/schema/dp_schema.c
@@ -55,7 +61,10 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_system.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c
-
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_i2c.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_pwm.c
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_rtc.c
+    
     # Utilities & JSON Core
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities/crc32i.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities/uni_random.c
@@ -75,6 +84,23 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_workqueue.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_wifi/src/tal_wifi.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_network/src/tal_network.c
+    C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/uart_term.c
+
+    # TAL Security (mbedTLS)
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_hash.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_symmetry.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_x509.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/mbedtls/mbedtls_hash.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/mbedtls/mbedtls_symmetry.c
+
+    # Tuya TLS wrappers
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/src/cipher_wrapper.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/aes.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/ctr_drbg.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/entropy.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/entropy_poll.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/sha256.c
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/libtls/mbedtls-3.1.0/library/sha512.c
 
     # TAL Security (mbedTLS)
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_hash.c
@@ -184,6 +210,7 @@ set(${TARGET_NAME}_INCLUDES
 
     # 9. TI Adaptation Headers (TKL)
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/include
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/system
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wifi
@@ -196,11 +223,15 @@ set(${TARGET_NAME}_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2s
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/pwm
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wakeup
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/watchdog
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/rtc
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/security
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/spi
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/timer
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wifi
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include
+    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/lwip
 
     # 10. Explicit TI SDK Base & LwIP Includes
     "${TUYA_TI_SOURCE_ROOT}/drivers/net/wifi"
@@ -437,8 +468,8 @@ target_link_libraries(${TARGET_NAME} PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}/../../freertos_build/portable/freertos_kernel_port.a
 
     # --- ADD THESE: TI mbedTLS (fixes mbedtls_hardware_poll) ---
-    ${CMAKE_SOURCE_DIR}/source/third_party/mbedtls/ti/lib/ticlang/m33f/mbedtls.a
-    ${CMAKE_SOURCE_DIR}/source/ti/drivers/secure/lib/ticlang/m33f/secure_drivers_cc35xx_mbedtls.a
+    # ${CMAKE_SOURCE_DIR}/source/third_party/mbedtls/ti/lib/ticlang/m33f/mbedtls.a
+    # ${CMAKE_SOURCE_DIR}/source/ti/drivers/secure/lib/ticlang/m33f/secure_drivers_cc35xx_mbedtls.a
 )
 
 install(TARGETS ${TARGET_NAME} DESTINATION ${CMAKE_CURRENT_LIST_DIR}/${LIB_DEST_DIR})

@@ -12,6 +12,7 @@
 #include "tkl_output.h"
 #include <string.h>
 #include <stdio.h>
+#include "uart_term.h"
 
 /* --- LwIP Includes for IP Address Handling --- */
 #include <lwip/netif.h>
@@ -24,6 +25,7 @@
 #ifndef WLAN_MAX_SCAN_COUNT
 #define WLAN_MAX_SCAN_COUNT 20
 #endif
+#define MAX_SSID_LEN 32 
 
 /* --- Global Variables --- */
 static WIFI_EVENT_CB g_wifi_event_cb = NULL;
@@ -282,120 +284,87 @@ OPERATE_RET tkl_wifi_station_get_conn_ap_rssi(int8_t *rssi)
 /* ------------------------------------------------------------------------- */
 /* STUB Functions (Required by tkl_wifi.h but not implemented in this port)  */
 /* ------------------------------------------------------------------------- */
-
+/* Inside tkl_wifi.c -> tkl_wifi_start_ap */
 OPERATE_RET tkl_wifi_start_ap(const WF_AP_CFG_IF_S *cfg)
 {
-    return OPRT_NOT_SUPPORTED;
+    RoleUpApCmd_t apParams = {0};
+    
+    apParams.ssid = (uint8_t *)cfg->ssid;
+    apParams.channel = cfg->chan;
+    
+    /* FIX: Set the country code to stop the Regulatory Domain warning */
+    apParams.countryDomain[0] = 'U';
+    apParams.countryDomain[1] = 'S';
+    apParams.countryDomain[2] = ' ';
+
+    apParams.secParams.Type = WLAN_SEC_TYPE_OPEN;
+
+    
+    /* Start the AP */
+    int ret = Wlan_RoleUp(WLAN_ROLE_AP, &apParams, 0); 
+    if(ret != 0){
+        return OPRT_COM_ERROR;
+    }
+
+    /* 2. Enable DHCP server */
+    if (network_stack_set_dhcp_server_if_ap(1) != 0) {
+        UART_PRINT("[TKL WIFI] DHCP server start failed!\n\r");
+        return OPRT_COM_ERROR;
+    } else{
+        UART_PRINT("!!!!!!!!!!!!!!!! [TKL WIFI] DHCP server Started !!!!!!!!!!!!!!!!");
+    }
 }
 
 OPERATE_RET tkl_wifi_stop_ap(void)
 {
-    return OPRT_NOT_SUPPORTED;
+    // ERROR FIX: Wlan_RoleDown expected 2 arguments (Role, Timeout)
+    int ret = Wlan_RoleDown(WLAN_ROLE_AP, 0); 
+    return (ret == 0) ? OPRT_OK : OPRT_COM_ERROR;
 }
 
-OPERATE_RET tkl_wifi_set_cur_channel(const uint8_t chan)
-{
-    return OPRT_NOT_SUPPORTED;
-}
 
-OPERATE_RET tkl_wifi_get_cur_channel(uint8_t *chan)
-{
-    return OPRT_NOT_SUPPORTED;
-}
+void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg){
 
-OPERATE_RET tkl_wifi_set_sniffer(const BOOL_T en, const SNIFFER_CALLBACK cb)
-{
-    return OPRT_NOT_SUPPORTED;
+    switch(event){
+        case WFE_CONNECTED:
+            UART_PRINT("\n\r[TKL WIFI] Status: Connected to Router\n\r");
+            break;
+        case WFE_CONNECT_FAILED:
+            UART_PRINT("\n\r[TKL WIFI] Status: Connection to the Router Failed \n\r");
+            break;
+        case WFE_DISCONNECTED:
+            UART_PRINT("\n\r[TKL WIFI] Status: Disconnected from the Router \n\r");
+            break;
+        default:
+            UART_PRINT("\n\r[TKL WIFI] Status: Unhandled Event ID: %d\n\r",(int)event);
+            break;        
+    }
 }
 
 OPERATE_RET tkl_wifi_get_ip(const WF_IF_E wf, NW_IP_S *ip)
 {
-    struct netif *nif = netif_default; 
-
     if (ip == NULL) {
         return OPRT_INVALID_PARM;
     }
 
-    if (nif == NULL || !netif_is_up(nif)) {
+    WlanRole_e role   = (wf == WF_AP) ? WLAN_ROLE_AP : WLAN_ROLE_STA;
+    uint32_t raw_ip   = 0u;
+    uint32_t raw_mask = 0u;
+    uint32_t raw_gw   = 0u;
+
+    int8_t ret = network_stack_get_if_ip(role, &raw_ip, &raw_mask, &raw_gw, NULL);
+    if (ret < 0) {
         return OPRT_COM_ERROR;
     }
 
-    if (wf == WF_STATION) {
-        
-        // IP Address
-        const ip4_addr_t *ip_addr = netif_ip4_addr(nif);
-        snprintf(ip->ip, sizeof(ip->ip), "%s", ip4addr_ntoa(ip_addr));
+    ip4_addr_t addr;
 
-        // Subnet Mask
-        const ip4_addr_t *netmask = netif_ip4_netmask(nif);
-        snprintf(ip->mask, sizeof(ip->mask), "%s", ip4addr_ntoa(netmask));
+    addr.addr = raw_ip;
+    strncpy(ip->ip,   ip4addr_ntoa(&addr), sizeof(ip->ip)   - 1);
+    addr.addr = raw_mask;
+    strncpy(ip->mask, ip4addr_ntoa(&addr), sizeof(ip->mask) - 1);
+    addr.addr = raw_gw;
+    strncpy(ip->gw,   ip4addr_ntoa(&addr), sizeof(ip->gw)   - 1);
 
-        // Gateway
-        const ip4_addr_t *gw = netif_ip4_gw(nif);
-        snprintf(ip->gw, sizeof(ip->gw), "%s", ip4addr_ntoa(gw));
-
-        return OPRT_OK;
-    }
-
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_get_ipv6(const WF_IF_E wf, NW_IP_TYPE type, NW_IP_S *ip)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_set_ip(const WF_IF_E wf, NW_IP_S *ip)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_set_mac(const WF_IF_E wf, const NW_MAC_S *mac)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_get_connected_ap_info(FAST_WF_CONNECTED_AP_INFO_T **fast_ap_info)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_get_bssid(uint8_t *mac)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_set_country_code(const COUNTRY_CODE_E ccode)
-{
-    return OPRT_OK; 
-}
-
-OPERATE_RET tkl_wifi_set_rf_calibrated(void)
-{
     return OPRT_OK;
-}
-
-OPERATE_RET tkl_wifi_set_lp_mode(const BOOL_T enable, const uint8_t dtim)
-{
-    return OPRT_OK;
-}
-
-OPERATE_RET tkl_wifi_station_fast_connect(const FAST_WF_CONNECTED_AP_INFO_T *fast_ap_info)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_send_mgnt(const uint8_t *buf, const uint32_t len)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_register_recv_mgnt_callback(const BOOL_T enable, const WIFI_REV_MGNT_CB recv_cb)
-{
-    return OPRT_NOT_SUPPORTED;
-}
-
-OPERATE_RET tkl_wifi_ioctl(WF_IOCTL_CMD_E cmd, void *args)
-{
-    return OPRT_NOT_SUPPORTED;
 }

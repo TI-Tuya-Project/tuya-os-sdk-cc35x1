@@ -67,44 +67,55 @@
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_INSTALL_DIR}/source/third_party/nimble/nimble-src/nimble/transport/include"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_INSTALL_DIR}/source/third_party/nimble/nimble-src/porting/nimble/include"/>
                                     <listOptionValue value="${CG_TOOL_INCLUDE_PATH}"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/common"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/common"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tuya_cloud_service/cloud"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/tal_system"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/libcjson/cJSON"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/libmqtt"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/common/backoffAlgorithm/source/include"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tuya_cloud_service/protocol"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\libtls\include\cipher_wrapper.h"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/libtls"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tuya_cloud_service/schema"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/libhttp"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/network"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/tal_network"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/tal_cli"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tal_driver/include"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tal_kv/include"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tal_kv/littlefs"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/tal_security"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/include/tal_security"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/security"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tuya_cloud_service/tls"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/adc"/>
+                                    <listOptionValue value="${PROJECT_LOC}\..\source\third_party\tuya\tuya_src\libtls\include\c"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_INSTALL_DIR}/source/third_party/mbedtls/ti"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/mbedtls/configs/ext"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/mbedtls/ti/configs"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/tal_kv/port"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/flash"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya_src/common/utilities"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/wrapper_config"/>
-                                    <listOptionValue value="c:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/system"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ticommon/nv"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/xmem"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/common"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/tal_wifi"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/cloud"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/tal_system"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/libcjson/cJSON"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/libmqtt"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/common/backoffAlgorithm/source/include"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/protocol"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/libtls/include/cipher_wrapper.h"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/libtls"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/schema"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/libhttp"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/network"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/tal_network"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/tal_cli"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_driver/include"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_kv/include"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_kv/littlefs"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/include/tal_security"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/security"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/tls"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/mbedtls/configs/ext"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/mbedtls/ti/configs"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_kv/port"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/flash"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/common/utilities"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/wrapper_config"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/system"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/ticommon/nv"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/ti/drivers/xmem"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/ti/drivers"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/gpio/"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2c/"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/pwm"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/rtc/"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/spi"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/timer"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/uart"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/common/include"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/wifi"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/ti_config/tkl/tuyaos/tuyaos_adapter/include/adc"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/netcfg"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ASM_SPECIFIC_FLAGS.241960097" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ASM_SPECIFIC_FLAGS" valueType="stringList">
                                     <listOptionValue value="[asm: -xti-asm]"/>
@@ -136,19 +147,17 @@
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DISPLAY_ERROR_NUMBER.100957451" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DISPLAY_ERROR_NUMBER" value="true" valueType="boolean"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DIAG_WRAP.1883311121" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DIAG_WRAP" value="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DIAG_WRAP.off" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.SEARCH_PATH.847646530" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.SEARCH_PATH" valueType="libPaths">
-                                    <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_LIBRARY_PATH}"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_TOOLBOX_LIBRARY_PATH}"/>
                                     <listOptionValue value="${SYSCONFIG_TOOL_LIBRARY_PATH}"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_INSTALL_DIR}/source"/>
                                     <listOptionValue value="${PROJECT_BUILD_DIR}/syscfg"/>
                                     <listOptionValue value="${CG_TOOL_ROOT}/lib"/>
                                     <listOptionValue value="${CG_TOOL_SEARCH_PATH}"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tuya_cloud_service\tuya_cloud_service.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\libhttp\libhttp.a"/>
                                 </option>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.LIBRARY.296361065" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.LIBRARY" valueType="libs">
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya.a"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_LIBRARIES}"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\mbedtls\ti\lib\ticlang\m33f\mbedtls.a"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_TOOLBOX_LIBRARIES}"/>
                                     <listOptionValue value="${SYSCONFIG_TOOL_LIBRARIES}"/>
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_INSTALL_DIR}/source/third_party/hostap/lib/ticlang/hostap.a"/>
@@ -160,22 +169,23 @@
                                     <listOptionValue value="${COM_TI_SIMPLELINK_WIFI_SDK_INSTALL_DIR}/source/ti/utils/FWU/lib/ticlang/FWU.a"/>
                                     <listOptionValue value="ti_utils_build_linker.cmd.genlibs"/>
                                     <listOptionValue value="libc.a"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/tuya.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\libcjson\libcjson.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\libmqtt\libmqtt.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\libtls\libtls.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tal_kv\tal_kv.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tal_network\tal_network.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tal_security\tal_security.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tal_system\tal_system.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tuya_cloud_service\tuya_cloud_service.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\lwip\lwip.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\libhttp\libhttp.a"/>
-                                    <listOptionValue value="C:\TI_Project\simplelink_wifi_sdk_tuya\source\third_party\tuya\tuya_src\tuya_cloud_service\tuya_cloud_service.a"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/secure/lib/ticlang/m33f/secure_drivers_cc35xx_mbedtls.a"/>
-                                    <listOptionValue value="C:/TI_Project/simplelink_wifi_sdk_tuya/source/ti/drivers/secure/lib/ticlang/m33f/secure_drivers_cc35xx_mbedtls.a"/>
-                                    <listOptionValue value="c:\TI_Project\simplelink_wifi_sdk_tuya\source\ti\drivers\lib\ticlang\m33f\drivers_cc35xx.a"/>
-                                    <listOptionValue value="c:\TI_Project\simplelink_wifi_sdk_tuya\source\ti\drivers\lib\ticlang\m33f\drivers_cc35xx_log.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/libcjson/libcjson.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/libmqtt/libmqtt.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_kv/tal_kv.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_network/tal_network.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_security/tal_security.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tal_system/tal_system.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/tuya_cloud_service.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/lwip/lwip.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/libhttp/libhttp.a"/>
+                                    <listOptionValue value="${PROJECT_LOC}/../source/third_party/tuya/tuya_src/tuya_cloud_service/tuya_cloud_service.a"/>
+                                </option>
+                                <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.OTHER_FLAGS.2093046656" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.OTHER_FLAGS" valueType="stringList">
+                                    <listOptionValue value=""/>
+                                </option>
+                                <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DIAG_SUPPRESS.1610515238" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.linkerID.DIAG_SUPPRESS" valueType="stringList">
+                                    <listOptionValue value="10056"/>
+                                    <listOptionValue value="10056"/>
                                 </option>
                             </tool>
                             <tool id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.hex.3467966" name="Arm Hex Utility" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.hex"/>

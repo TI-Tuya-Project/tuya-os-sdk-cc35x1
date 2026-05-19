@@ -454,6 +454,8 @@ OPERATE_RET tkl_wifi_register_recv_mgnt_callback(const BOOL_T enable, const WIFI
  */
 OPERATE_RET tkl_wifi_ioctl(WF_IOCTL_CMD_E cmd, void *args);
 
+void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

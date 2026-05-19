@@ -1245,7 +1245,7 @@ void initCompletions()
 }
 #endif
 
-
+extern void tuya_app_main(void);
 //OSPREY_MX-38
 #define HWREG(x)                                                              \
         (*((volatile unsigned long *)(x))) //TODO temporary need to be removed
@@ -1315,7 +1315,8 @@ void *network_terminal_entry(void *args)
      * Calling UART handling method which serves as the application main loop.
      * Note that this function doesn't return.
      */
-    RetVal = cmd_prompt(NULL);
+    tuya_app_main()
+    RetVal = cmd_prompt(NULL);   
 #ifdef CC33XX
 #ifdef TERMINAL_TAB_COMPLETION
     freeCompletionArray();
@@ -1391,4 +1392,53 @@ int32_t cmdGetDateTime(void *arg)
     int32_t ret  = 0;
     datetime_printCurTime();
     return ret;
+}
+
+static int cmdTuyaSmartLifeCallback(int argc, char *argv[])
+{
+    NW_MAC_S mac = {0};
+    char ssid_name[33]; 
+    WF_AP_CFG_IF_S ap_cfg = {0};
+    OPERATE_RET rt;
+
+    /* 1. Retrieve the hardware MAC address from your TKL implementation */
+    rt = tkl_wifi_get_mac(WF_STATION, &mac); [cite: 7]
+    if (rt != OPRT_OK) {
+        UART_PRINT("[TUYA] Error: Could not get MAC address (%d)\n\r", (int)rt);
+        return -1;
+    }
+
+    /* 2. Formulate the SSID string using the three components: */
+    /* Component A: TUYA_AP_SSID_DEFAULT ("SmartLife")  */
+    /* Component B: Separator ("-") */
+    /* Component C: Last 2 bytes of MAC in Hex format */
+    snprintf(ssid_name, sizeof(ssid_name), "%s-%02X%02X", 
+             TUYA_AP_SSID_DEFAULT, mac.mac[4], mac.mac[5]); [cite: 7]
+
+    /* 3. Prepare the AP configuration structure */
+    ap_cfg.s_len = (uint8_t)strlen(ssid_name);
+    memcpy(ap_cfg.ssid, ssid_name, ap_cfg.s_len);
+    ap_cfg.md = WAAM_OPEN; // Typically open for pairing
+    ap_cfg.chan = 6;       // Standard 2.4GHz channel
+
+    UART_PRINT("[TUYA] Starting pairing AP: %s\n\r", ssid_name);
+
+    /* 4. Start the Access Point role via TKL */
+    rt = tkl_wifi_start_ap(&ap_cfg); [cite: 7]
+    if (rt != OPRT_OK) {
+        UART_PRINT("[TUYA] Error: Failed to start AP (%d)\n\r", (int)rt);
+        return -1;
+    }
+
+    UART_PRINT("[TUYA] AP Started. Use the Smart Life app to pair.\n\r");
+    return 0;
+}
+
+
+// Define the string in your header or at the top of the file
+static const char* tuyaSmartLifeStr = "tuya_pair";
+
+static void printTuyaSmartLifeUsage(void)
+{
+    UART_PRINT("tuya_pair : Starts the SmartLife-<MAC> AP for mobile app discovery\n\r");
 }
