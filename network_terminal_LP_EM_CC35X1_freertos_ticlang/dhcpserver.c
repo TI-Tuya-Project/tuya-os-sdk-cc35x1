@@ -37,7 +37,7 @@
 #include "lwip/mem.h"
 #include "lwip/ip_addr.h"
 #include "dhcpserver.h"
-
+#include "uart_term.h"
 
 
 #ifdef MEMLEAK_DEBUG
@@ -677,7 +677,7 @@ static void   handle_dhcp(void *arg, struct udp_pcb *pcb, struct pbuf *p,
         u16_t dhcps_msg_cnt = 0;
         u8_t *p_dhcps_msg = NULL;
         u8_t *data = NULL;
-
+        UART_PRINT("\n\r[DHCP] Received %d bytes from IP %s\n\r", p->tot_len, ipaddr_ntoa(addr));
 #if DHCPS_DEBUG
         Report("dhcps: handle_dhcp-> receive a packet\n\r");
 #endif

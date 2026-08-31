@@ -5,6 +5,8 @@
 
 #include "tkl_board_config.h"
 #include <string.h>
+#include <stdbool.h> // Required for bool, true, false
+#include <stdint.h>  // Required for int16_t, uint8_t
 
 /* Global Configuration Storage */
 static TKL_BOARD_CONFIG_T g_board_config;
@@ -12,10 +14,10 @@ static bool g_is_initialized = false;
 
 /* Helper Macro to check bounds and initialization */
 #define CHECK_MAP(port, max, map_array) \
-    do { \
-        if (!g_is_initialized || (port) >= (max)) return -1; \
-        return g_board_config.map_array[(port)]; \
-    } while(0)
+    if (!g_is_initialized || (port) >= (max)) { \
+        return -1; \
+    } \
+    return g_board_config.map_array[(port)];
 
 /**
  * @brief Initialize the Board Configuration

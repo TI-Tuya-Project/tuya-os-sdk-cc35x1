@@ -6,7 +6,7 @@
  * TIMER/RTC sources: not supported here (can be added later using ClockP/Power).
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_wakeup.h"
 #include "tuya_error_code.h"
 
@@ -16,7 +16,7 @@
 
 #include <ti/drivers/GPIO.h>
 #include "ti_drivers_config.h"
-// --- END: user defines and implements ---
+
 
 /* ---------------------------
  * TUYA GPIO -> TI CONFIG mapping (Option 1)

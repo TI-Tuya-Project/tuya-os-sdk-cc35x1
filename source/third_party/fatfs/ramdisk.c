@@ -172,7 +172,6 @@ DRESULT ramdisk_start(BYTE drive, unsigned char *data, int numBytes, int mkfs)
     if (f_mount(&(ramdisk_filesystems[drive]), path, 0) != FR_OK) {
         return RES_ERROR;
     }
-
     if (mkfs) {
         if (f_mkfs(path, FM_ANY, 0, mkfsWorkBuffer, sizeof(mkfsWorkBuffer)) !=
             FR_OK) {

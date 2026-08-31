@@ -3,7 +3,7 @@
  * @brief Tuya Kernel Layer - Generic UART
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_uart.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/UART2.h>
@@ -22,7 +22,7 @@ static UART2_Handle g_uart_handles[MAX_UART_PORTS] = {NULL};
 static bool is_valid_port(TUYA_UART_NUM_E port_id) {
     return (port_id < MAX_UART_PORTS);
 }
-// --- END: user defines and implements ---
+
 
 /**
  * @brief uart init
@@ -61,7 +61,7 @@ OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
     switch (cfg->parity) {
         case TUYA_UART_PARITY_TYPE_EVEN: params.parityType = UART2_Parity_EVEN; break;
         case TUYA_UART_PARITY_TYPE_ODD:  params.parityType = UART2_Parity_ODD; break;
-        case TUYA_UART_PARITY_TYPE_NONE: 
+        case TUYA_UART_PARITY_TYPE_NONE:
         default:                         params.parityType = UART2_Parity_NONE; break;
     }
 
@@ -79,12 +79,12 @@ OPERATE_RET tkl_uart_init(TUYA_UART_NUM_E port_id, TUYA_UART_BASE_CFG_T *cfg)
         params.dataLength = UART2_DataLen_8;
     }
 
-    // Important: Use BLOCKING for now. 
-    // If you need Interrupts later (tkl_uart_rx_irq_cb_reg), 
+    // Important: Use BLOCKING for now.
+    // If you need Interrupts later (tkl_uart_rx_irq_cb_reg),
     // you must change this to UART2_Mode_CALLBACK and store the callbacks.
     params.readMode = UART2_Mode_BLOCKING;
     params.writeMode = UART2_Mode_BLOCKING;
-    
+
     // Open using Mapped Index
     g_uart_handles[port_id] = UART2_open(ti_uart_index, &params);
 
@@ -133,7 +133,7 @@ int tkl_uart_write(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 
     size_t bytesWritten = 0;
     UART2_write(g_uart_handles[port_id], buff, (size_t)len, &bytesWritten);
-    
+
     return (int)bytesWritten;
     // --- END: user implements ---
 }
@@ -155,7 +155,7 @@ int tkl_uart_read(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 
     size_t bytesRead = 0;
     UART2_read(g_uart_handles[port_id], buff, (size_t)len, &bytesRead);
-    
+
     return (int)bytesRead;
     // --- END: user implements ---
 }
@@ -170,7 +170,7 @@ int tkl_uart_read(TUYA_UART_NUM_E port_id, void *buff, uint16_t len)
 void tkl_uart_rx_irq_cb_reg(TUYA_UART_NUM_E port_id, TUYA_UART_IRQ_CB rx_cb)
 {
     // --- BEGIN: user implements ---
-    // Note: Interrupt callbacks require UART2_Mode_CALLBACK. 
+    // Note: Interrupt callbacks require UART2_Mode_CALLBACK.
     // Current implementation uses BLOCKING mode for log stability.
     // Leaving empty to allow compilation.
     return;

@@ -3,12 +3,12 @@
  * @brief Tuya Kernel Layer - GPIO
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_gpio.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/GPIO.h>
 #include <stdbool.h>
-#include <string.h> 
+#include <string.h>
 
 // [DEPENDENCY INJECTION] Include Board Config for dynamic mapping
 #include "tkl_board_config.h"
@@ -18,13 +18,13 @@
  * Tuya Callbacks require the Tuya Pin ID.
  * We map HW Index -> Tuya ID to bridge the interrupt.
  */
-#define TI_HW_GPIO_MAX_INDICES  64 
+#define TI_HW_GPIO_MAX_INDICES  64
 static int8_t sg_ti_to_tuya_lookup[TI_HW_GPIO_MAX_INDICES];
 static bool sg_is_lookup_init = false;
 
 // Callback storage structure
 typedef struct {
-    TUYA_GPIO_IRQ_T callback; 
+    TUYA_GPIO_IRQ_T callback;
 } pin_cb_t;
 
 // Storage for callbacks, indexed by Tuya PIN ID
@@ -63,7 +63,7 @@ static void ti_gpio_callback_bridge(uint_least8_t ti_index)
         }
     }
 }
-// --- END: user defines and implements ---
+
 
 /**
  * @brief gpio init
@@ -117,11 +117,11 @@ OPERATE_RET tkl_gpio_init(TUYA_GPIO_NUM_E pin_id, const TUYA_GPIO_BASE_CFG_T *cf
             } else {
                 config_ti |= GPIO_CFG_OUT_LOW;
             }
-            // Map Output Mode 
+            // Map Output Mode
             // FIX: CC32xx driver does not support Open Drain configuration directly.
             // We map everything to Standard Output to ensure compilation.
             config_ti |= GPIO_CFG_OUT_STD;
-            
+
             // FIX: CC32xx driver does not support Drive Strength configuration.
             // Removed GPIO_CFG_OUT_STR_MED
             break;
@@ -155,7 +155,7 @@ OPERATE_RET tkl_gpio_deinit(TUYA_GPIO_NUM_E pin_id)
 
     // Reset callback map
     cb_gpio_map[pin_id].callback.cb = NULL;
-    
+
     // Clear Reverse Lookup
     if (gpio_index < TI_HW_GPIO_MAX_INDICES) {
         sg_ti_to_tuya_lookup[gpio_index] = -1;
@@ -241,8 +241,8 @@ OPERATE_RET tkl_gpio_irq_init(TUYA_GPIO_NUM_E pin_id, const TUYA_GPIO_IRQ_T *cfg
     switch (cfg->mode) {
         case TUYA_GPIO_IRQ_RISE: int_config = GPIO_CFG_IN_INT_RISING; break;
         case TUYA_GPIO_IRQ_FALL: int_config = GPIO_CFG_IN_INT_FALLING; break;
-        
-        case TUYA_GPIO_IRQ_RISE_FALL: 
+
+        case TUYA_GPIO_IRQ_RISE_FALL:
             // FIX: CC32xx hardware does not support BOTH_EDGES configuration directly.
             // We return NOT_SUPPORTED to avoid build errors.
             return OPRT_NOT_SUPPORTED;
@@ -254,9 +254,9 @@ OPERATE_RET tkl_gpio_irq_init(TUYA_GPIO_NUM_E pin_id, const TUYA_GPIO_IRQ_T *cfg
 
     // Note: We don't overwrite pull settings, assume init() handled it.
     // Just enable interrupt capability in config (TI requires config update for INT type)
-    // We fetch current config to preserve pull/input state? 
+    // We fetch current config to preserve pull/input state?
     // Simplified: Just enable the interrupt on top of Input
-    GPIO_setConfig(gpio_index, GPIO_CFG_INPUT | int_config); 
+    GPIO_setConfig(gpio_index, GPIO_CFG_INPUT | int_config);
 
     return OPRT_OK;
     // --- END: user implements ---

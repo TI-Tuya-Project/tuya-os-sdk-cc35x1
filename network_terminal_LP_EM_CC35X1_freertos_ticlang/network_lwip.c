@@ -214,9 +214,9 @@ const char static_mask[4]   = {255,255,255,0};
 
 
 struct netif staif = {0};
-struct netif apif = { .ip_addr.addr = PP_HTONL(LWIP_MAKEU32(10, 0, 0, 3)),
+struct netif apif = { .ip_addr.addr = PP_HTONL(LWIP_MAKEU32(192, 168, 1, 1)),
                       .netmask.addr = PP_HTONL(LWIP_MAKEU32(255, 255, 255, 0)),
-                      .gw.addr      = PP_HTONL(LWIP_MAKEU32(10, 0, 0, 3)) };
+                      .gw.addr      = PP_HTONL(LWIP_MAKEU32(192, 168, 1, 1)) };
 extern appControlBlock app_CB;
 
 static uint32_t isIpAcquired;
@@ -860,7 +860,7 @@ int8_t network_stack_set_dynamic_ip_if_ap(uint32_t ip, uint32_t netmask, uint32_
 int8_t network_stack_set_dhcp_server_if_ap(int enable)
 {
     struct netif *pNetIf = network_get_ap_if();
-
+    UART_PRINT("\n\r[NETWORK LWIP] pointer to netif is set at address:%p\n\r",pNetIf);
     if (pNetIf == NULL)
     {
         return -1;
@@ -871,6 +871,7 @@ int8_t network_stack_set_dhcp_server_if_ap(int enable)
     if (enable)
     {
         dhcps_start(pNetIf->ip_addr.addr, pNetIf);
+        UART_PRINT("\n\r[NETWORK LWIP] dhcp_start is invoked with netif.ip_addr at:%d\n\r",pNetIf->ip_addr.addr);
     }
     else
     {
@@ -878,7 +879,7 @@ int8_t network_stack_set_dhcp_server_if_ap(int enable)
     }
 
     UNLOCK_TCPIP_CORE();
-
+    UART_PRINT("\n\r[NETWORK LWIP] returning 0 dhcp server is initizalized\n\r");
     return 0;
 }
 

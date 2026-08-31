@@ -3,11 +3,11 @@
  * @brief This file acts as the bridge between Tuya's abstract PWM interface and the TI SimpleLink PWM driver.
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_pwm.h"
 #include "tuya_error_code.h"
-#include "PWMTimerWFF3.h"
-#include <ti/drivers/PWM.h> 
+#include <ti/drivers/PWM.h>
+
 
 // [DEPENDENCY INJECTION] Include Board Config
 #include "tkl_board_config.h"
@@ -42,7 +42,7 @@ static PWM_Handle g_pwm_handles[MAX_PWM_CHANNELS] = {NULL};
         if ((ptr) == NULL) return OPRT_INVALID_PARM; \
     } while(0)
 
-// --- END: user defines and implements ---
+
 
 /**
  * @brief pwm init
@@ -68,6 +68,7 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
     }
 
     // Initialize TI PWM parameters with default values
+    PWM_init();
     PWM_Params_init(&params);
 
     // 1. Set frequency (TI uses Hz by default)
@@ -76,13 +77,13 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
 
     // 2. Set Duty Cycle (Convert Tuya 0-10000 to TI Fraction)
     params.dutyUnits = PWM_DUTY_FRACTION;
-    
+
     // Calculation: (UserDuty / 10000) * Max_Fraction
     uint64_t duty_calc = (uint64_t)cfg->duty * (uint64_t)PWM_DUTY_FRACTION_MAX;
     params.dutyValue = (uint32_t)(duty_calc / TUYA_PWM_MAX_DUTY);
-    
+
     // 3. Set Polarity
-    if(cfg->polarity == TUYA_PWM_POLARITY_ACTIVE_HIGH){
+    if(cfg->polarity == TUYA_PWM_POSITIVE){
         params.idleLevel = PWM_IDLE_LOW; // If active high, idle is low
     } else {
         params.idleLevel = PWM_IDLE_HIGH; // If active low, idle is high
@@ -92,7 +93,7 @@ OPERATE_RET tkl_pwm_init(TUYA_PWM_NUM_E ch_id, const TUYA_PWM_BASE_CFG_T *cfg)
     if (g_pwm_handles[ch_id] == NULL) {
          g_pwm_handles[ch_id] = PWM_open(ti_pwm_index, &params);
     }
-    
+
     if(g_pwm_handles[ch_id] == NULL){
         return OPRT_COM_ERROR;
     }
@@ -132,7 +133,7 @@ OPERATE_RET tkl_pwm_start(TUYA_PWM_NUM_E ch_id)
     CHECK_PWM_HANDLE(ch_id);
 
     PWM_start(g_pwm_handles[ch_id]);
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -149,7 +150,7 @@ OPERATE_RET tkl_pwm_stop(TUYA_PWM_NUM_E ch_id)
     CHECK_PWM_HANDLE(ch_id);
 
     PWM_stop(g_pwm_handles[ch_id]);
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -192,7 +193,7 @@ OPERATE_RET tkl_pwm_multichannel_stop(TUYA_PWM_NUM_E *ch_id, uint8_t num)
     for(int i = 0; i < num; ++i){
         tkl_pwm_stop(ch_id[i]);
     }
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -214,7 +215,7 @@ OPERATE_RET tkl_pwm_duty_set(TUYA_PWM_NUM_E ch_id, uint32_t duty)
     uint32_t ti_duty_fraction = (uint32_t)(duty_calc / TUYA_PWM_MAX_DUTY);
 
     int ret = PWM_setDuty(g_pwm_handles[ch_id], ti_duty_fraction);
-    
+
     if(ret < 0) {
         return OPRT_COM_ERROR;
     }
@@ -234,10 +235,10 @@ OPERATE_RET tkl_pwm_frequency_set(TUYA_PWM_NUM_E ch_id, uint32_t frequency)
 {
     // --- BEGIN: user implements ---
     CHECK_PWM_HANDLE(ch_id);
-    
+
     // Sets the period (frequency) in Hz
     int ret = PWM_setPeriod(g_pwm_handles[ch_id], frequency);
-    
+
     if(ret < 0) {
         return OPRT_COM_ERROR;
     }

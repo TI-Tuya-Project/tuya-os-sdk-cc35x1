@@ -6,7 +6,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_bluetooth.h"
 #include "tuya_error_code.h"
 #include "ble_if.h"
@@ -14,7 +14,7 @@
 #include "uart_hci.h"
 #include "control_cmd_fw.h"
 
-#include <stdint.h> 
+#include <stdint.h>
 #include <string.h>
 
 typedef uint8_t ui8;
@@ -23,9 +23,9 @@ typedef uint16_t ui16;
 static ui8 global_role = 0;
 
 // Callback pointers
-static TKL_BLE_GAP_EVT_FUNC_CB   s_gap_cb  = NULL; 
+static TKL_BLE_GAP_EVT_FUNC_CB   s_gap_cb  = NULL;
 static TKL_BLE_GATT_EVT_FUNC_CB  s_gatt_cb = NULL;
-static TKL_BLE_GAP_ADDR_T        s_local_addr = {0};   
+static TKL_BLE_GAP_ADDR_T        s_local_addr = {0};
 
 // HCI Macros
 #define HCI_COMMAND_PACKET_TYPE      0x01
@@ -37,7 +37,7 @@ static TKL_BLE_GAP_ADDR_T        s_local_addr = {0};
 #define HCI_OCF_LE_SET_ADV_ENABLE    0x000A
 
 #define BLE_ADV_START                0x01
-#define BLE_ADV_STOP                 0x00 
+#define BLE_ADV_STOP                 0x00
 
 #define HCI_OPCODE(ogf, ocf)         (ui16)(((ogf) << 10) | (ocf))
 
@@ -47,12 +47,12 @@ static void ti_to_tuya_bridge(uint8_t* data, uint16_t len)
         // Future implementation: Parse TI events and forward to s_gap_cb
     }
 }
-// --- END: user defines and implements ---
+
 
 OPERATE_RET tkl_ble_stack_init(uint8_t role)
 {
     // --- BEGIN: user implements ---
-    global_role = role; 
+    global_role = role;
     BleIf_OpenTransport();
     BleIf_EnableBLE();
     BleIf_EventCbRegister(ti_to_tuya_bridge);
@@ -83,7 +83,7 @@ OPERATE_RET tkl_ble_gap_callback_register(const TKL_BLE_GAP_EVT_FUNC_CB gap_evt)
 {
     // --- BEGIN: user implements ---
     if (gap_evt == NULL) return OPRT_INVALID_PARAM;
-    s_gap_cb = gap_evt; 
+    s_gap_cb = gap_evt;
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -102,7 +102,7 @@ OPERATE_RET tkl_ble_gap_addr_set(TKL_BLE_GAP_ADDR_T const *p_peer_addr)
     // --- BEGIN: user implements ---
     if(!p_peer_addr) return OPRT_INVALID_PARAM;
     memcpy(&s_local_addr, p_peer_addr, sizeof(TKL_BLE_GAP_ADDR_T));
-    int ret = BleIf_SetBdAddr(p_peer_addr->addr); 
+    int ret = BleIf_SetBdAddr(p_peer_addr->addr);
     return (ret == 0) ? OPRT_OK : OPRT_COM_ERROR;
     // --- END: user implements ---
 }
@@ -156,14 +156,14 @@ OPERATE_RET tkl_ble_gap_adv_rsp_data_set(TKL_BLE_DATA_T const *p_adv, TKL_BLE_DA
 {
     // --- BEGIN: user implements ---
     if(!p_adv && !p_scan_rsp) return OPRT_INVALID_PARAM;
-    
+
     ui16 opcode;
     ui8 hci_packet[36];
 
     if(p_adv && p_adv->p_data){
         opcode = HCI_OPCODE(HCI_OGF_LE_CONTROLLER, HCI_OCF_LE_SET_ADV_DATA);
         memset(hci_packet, 0, sizeof(hci_packet));
-        hci_packet[0] = HCI_COMMAND_PACKET_TYPE; 
+        hci_packet[0] = HCI_COMMAND_PACKET_TYPE;
         hci_packet[1] = (ui8)(opcode & 0xFF);
         hci_packet[2] = (ui8)(opcode >> 8);
         hci_packet[3] = 32;
@@ -183,7 +183,7 @@ OPERATE_RET tkl_ble_gap_adv_rsp_data_set(TKL_BLE_DATA_T const *p_adv, TKL_BLE_DA
         memcpy(&hci_packet[5], p_scan_rsp->p_data, p_scan_rsp->length);
         BleIf_SendCommand(hci_packet, 4 + 32);
     }
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }

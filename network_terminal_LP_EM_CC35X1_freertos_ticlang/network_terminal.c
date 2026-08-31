@@ -49,7 +49,7 @@
 #include "socket_examples.h"
 #include "lwip_iperf_examples.h"
 
-/* Board Header files */
+/* Board and platform headers */
 #include "ti_drivers_config.h"
 #ifdef CC33XX
 #include <kernel/dpl/DebugP.h>
@@ -59,18 +59,30 @@
 #include "ti_board_open_close.h"
 #endif // CC33XX
 #include "tuya_test.h"
-/* Example Header files */
+/* Application and driver headers */
 #include "cmd_parser.h"
 #include "wlan_cmd.h"
 #include "ble_cmd.h"
 #include "wlan_if.h"
 #include "uart_term.h"
 #include "calibrator.h"
+#include "tal_wifi.h"
+#include "tkl_wifi.h"
+#include "netcfg.h"
 
-//LWIP
+/* Tuya pairing entry points */
+extern const char tuyaSmartLifeStr[];
+int32_t cmdTuyaSmartLifeCallback(void *arg);
+int32_t printTuyaSmartLifeUsage(void *arg);
+
+#ifdef CC35XX
+extern void tuya_app_main(void);
+#endif
+
+/* LwIP */
 #include "network_lwip.h"
 
-//ERRORS
+/* Errors */
 #include "errors.h"
 
 #include "osi_kernel.h"
@@ -80,7 +92,7 @@
 #ifdef SNTP_SUPPORT
 #include "sntp_wrapper.h"
 #endif
-// Debug for total allocation
+/* Optional debug counters. */
 #ifdef PRINT_DBG_TOTAL_MALLOC_FREE
 extern volatile UINT32 totalloc;
 #endif
@@ -97,10 +109,7 @@ void initialize_mbedtls_threading(); //define prototype
 
 
 
-/*[TUYA HEADERS]*/
-/*=========================================================================
- * 🌟 TUYA APPLICATION CONFIGURATION & STRUCTS 🌟
- *=========================================================================*/
+/* Tuya application configuration and board mapping. */
 #include "tkl_board_config.h"  
 #include "wrapper_config.h"
 #include "tal_kv.h"
@@ -108,7 +117,7 @@ void initialize_mbedtls_threading(); //define prototype
 #include "tkl_output.h"
 
 
-/* Product Fields */
+/* Tuya product credentials used by the local demo build. */
 #define PRODUCT_ID "tjoktmmglvy4hc9x"
 #define PRODUCT_UUID "uuid4a3e78a4b5695414"
 #define AUTH_KEY "MS37HFWKHv6aff0WeXa8eGXkToZl15vQ"
@@ -126,7 +135,7 @@ static tal_kv_cfg_t kv_cfg = {
     .key  = "dflfuap134ddlduq"
 };
 
-/* Helper function to safely initialize the hardware map */
+/* Initialize the board mapping with invalid defaults. */
 static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
     for(int i = 0; i < TKL_MAX_UART_PORTS;   ++i) map->uart_map[i] = -1;
     for(int i = 0; i < TKL_MAX_ADC_PORTS;    ++i) map->adc_map[i]  = -1;
@@ -139,7 +148,12 @@ static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
 /*=========================================================================*/
 
 
-/* --- Tuya SDK Includes --- */
+/* Bridge Tuya logging into the TI UART console. */
+void tuya_cli_print_bridge(const char *str)
+{
+    // The macro works here because this file has the right TI headers included!
+    UART_PRINT("%s", str); 
+}
 
 #include "tuya_cloud_types.h"
 #include "tuya_iot.h"
@@ -148,17 +162,12 @@ static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
 #endif
 #include "tkl_system.h"
 #include "tkl_memory.h"
-/* --- Tuya SDK Includes --- */
-/*[TUYA HEADERS]*/
-
-/* Application defines */
+/* Application constants. */
 
 #define APP_MCSPI_MSGSIZE       (100U)
 #define CC33XX_MAX_FW_LOGS_BUFFER_SIZE    (4096U)
 
-/****************************************************************************
-                      LOCAL FUNCTION PROTOTYPES
-****************************************************************************/
+/* Local function prototypes. */
 int32_t showAvailableCmd();
 int32_t cmd_prompt(void *arg);
 int32_t cmdClearcallback(void *arg);
@@ -186,7 +195,7 @@ extern uint32_t ActiveNetIfBitMap;
 
 
 
-// ===== CMD Tuya Init =====
+/* Tuya initialization command. */
 const char tuya_init[] = "tuya_init";
 int32_t printInitTuyaUsage(void *arg);
 int32_t cmd_tuya_init(void *arg);
@@ -214,6 +223,7 @@ int32_t cmd_tuya_init(void *arg) {
     init_tuya_map_defaults(&tuya_hw_map);
     
     tuya_hw_map.uart_map[0]    = CONFIG_UART2_0;
+    tuya_hw_map.uart_map[1]    = CONFIG_UART2_1;
     tuya_hw_map.adc_map[0]     = CONFIG_ADC_0;
     tuya_hw_map.pwm_map[0]     = CONFIG_PWM_0;
     tuya_hw_map.gpio_map[0]    = CONFIG_GPIO_LED_0;
@@ -232,7 +242,7 @@ int32_t cmd_tuya_init(void *arg) {
 
     return 0;
 }
-// ===== CMD Tuya Init =====
+/* End Tuya initialization command. */
 
 
 
@@ -496,7 +506,24 @@ cmdAction_t gCmdList[] =
 {tuya_init,             cmd_tuya_init,                        printInitTuyaUsage},
 {tuyaAdcTestStr,        cmdTuyaAdcTestCallback,               printTuyaAdcTestUsage},
 {tuyaFlashTestStr,      cmdTuyaFlashTestCallback,             printTuyaFlashTestUsage},
-{tuyaFsTestStr,    cmdTuyaFsTestCallback,                printTuyaFsTestUsage},
+{tuyaFsTestStr,         cmdTuyaFsTestCallback,                printTuyaFsTestUsage},
+{tuyaGpioTestStr,       cmdTuyaGpioTestCallback,              printTuyaGpioTestUsage},
+{tuyaHashTestStr,       cmdTuyaHashTestCallback,              printTuyaHashTestUsage},
+{tuyaI2cTestStr,        cmdTuyaI2cTestCallback,               printTuyaI2cTestUsage},
+{tuyaMutexTestStr,      cmdTuyaMutexTestCallback,             printTuyaMutexTestUsage},
+{tuyaNetTestStr,        cmdTuyaNetTestCallback,               printTuyaNetTestUsage},
+{tuyaOutputTestStr,     cmdTuyaOutputTestCallback,            printTuyaOutputTestUsage},
+{tuyaPwmTestStr,        cmdTuyaPwmTestCallback,               printTuyaPwmTestUsage},
+{tuyaQueueTestStr,      cmdTuyaQueueTestCallback,             printTuyaQueueTestUsage},
+{tuyaRtcTestStr,        cmdTuyaRtcTestCallback,               printTuyaRtcTestUsage},
+{tuyaSemTestStr,        cmdTuyaSemTestCallback,               printTuyaSemTestUsage},
+{tuyaSpiTestStr,        cmdTuyaSpiTestCallback,               printTuyaSpiTestUsage},
+{tuyaThreadTestStr,     cmdTuyaThreadTestCallback,            printTuyaThreadTestUsage},
+{tuyaTimerTestStr,      cmdTuyaTimerTestCallback,             printTuyaTimerTestUsage},
+{tuyaUartTestStr,       cmdTuyaUartTestCallback,              printTuyaUartTestUsage},
+{tuyaWakeupTestStr,     cmdTuyaWakeupTestCallback,            printTuyaWakeupTestUsage},
+{tuyaWdgTestStr,        cmdTuyaWdgTestCallback,               printTuyaWdgTestUsage},
+{tuyaSmartLifeStr,      cmdTuyaSmartLifeCallback,      printTuyaSmartLifeUsage},
 {NULL,NULL,NULL}
 };
 
@@ -1362,14 +1389,17 @@ void initCompletions()
 #endif
 
 
-//OSPREY_MX-38
-#define HWREG(x)                                                              \
-        (*((volatile unsigned long *)(x))) //TODO temporary need to be removed
-#define ICACHE_BASE 0x41902000  //TODO temporary need to be removed, only for M3, M$ has different address
+#ifdef CC35XX
+#include <ti/devices/cc35xx/inc/hw_icache.h>
+#include <ti/devices/cc35xx/inc/hw_memmap.h>
+#include <ti/devices/cc35xx/inc/hw_types.h>
+#endif
 
 
 void *network_terminal_entry(void *args)
 {
+    (void)args;
+
 #ifdef CC33XX
     int32_t             RetVal = -1;
 
@@ -1392,9 +1422,10 @@ void *network_terminal_entry(void *args)
     wlan_TurnOffWlan();
 #elif defined(CC35XX)
     int32_t             RetVal = -1;
-    HWREG(ICACHE_BASE + 0x84) |= 0x00000001  ;//OSPREY_MX-38
-    HWREG(ICACHE_BASE + 0x4) |= 0xc0000000  ;//OSPREY_MX-38
-    //HWREG(ICACHE_BASE + 0x4) |= 0x80000000  ;//OSPREY_MX-38, this is for 64M cache, instead CRAM
+    /* OSPREY_MX-38: enable cache memory and its memory-error interrupt mask. */
+    HWREG(ICACHE_BASE + ICACHE_O_IRQ_STATUS_MASK) |= ICACHE_IRQ_STATUS_MASK_MEM_ERR;
+    HWREG(ICACHE_BASE + ICACHE_O_CTRL) |=
+        ICACHE_CTRL_MEM_CENABLE | ICACHE_CTRL_MEM_RENABLE;
 
     Board_init();
 
@@ -1418,13 +1449,17 @@ void *network_terminal_entry(void *args)
 
     /* Display Network Terminal API commands */
     showAvailableCmd();
-
-    if(RetVal < 0)
+#ifdef CC35XX
+    /* Start Tuya after the network terminal has initialized the Wi-Fi stack. */
+    extern void tuya_app_main(void);
+    tuya_app_main();
+#endif
+    if (RetVal < 0)
     {
         /* Handle Error */
         UART_PRINT(
             "Network Terminal - Unable to retrieve device information \n");
-        return(NULL);
+        return NULL;
     }
     /*
      * Calling UART handling method which serves as the application main loop.
@@ -1438,13 +1473,14 @@ void *network_terminal_entry(void *args)
     Board_driversClose();
     Drivers_close();
 #endif // CC33XX
-	return NULL;
+    return NULL;
 }
 
 
 #ifdef CC35XX
 void *mainThread(void *args)
 {
+    (void)args;
     network_terminal_entry(NULL);
     return NULL;
 }
@@ -1506,4 +1542,58 @@ int32_t cmdGetDateTime(void *arg)
     int32_t ret  = 0;
     datetime_printCurTime();
     return ret;
+}
+
+/* Ensure these headers are included at the top */
+#include "tal_wifi.h"
+#include "tkl_wifi.h"
+#include "netcfg.h"
+
+/* This header was in your build logs and contains the Wlan_Get definitions */
+#include <ti/drivers/net/wifi/wifi_host_driver/inc_adapt/wlan_if.h>
+
+const char tuyaSmartLifeStr[] = "tuya_pair";
+int32_t cmdTuyaSmartLifeCallback(void *arg)
+{
+    WlanMacAddress_t macParam = {0};
+    char ssid_name[33]; 
+    WF_AP_CFG_IF_S ap_cfg = {0};
+    int16_t ret;
+
+    /* 1. Ensure NWP is started. 
+       If already started, this call is safely ignored or returns a 'status' */
+    UART_PRINT("[TUYA] Ensuring NWP is active...\n\r");
+    Wlan_Start(WlanStackEventHandler); 
+    tal_system_sleep(200); // Critical "settle" time for the CC35xx
+
+    /* 2. Now pull the MAC - it should no longer be 0000 */
+    macParam.roleType = WLAN_ROLE_STA;
+    ret = Wlan_Get(WLAN_GET_MACADDRESS, &macParam);
+
+    if (ret != 0 || (macParam.pMacAddress[0] == 0 && macParam.pMacAddress[5] == 0)) {
+        UART_PRINT("[TUYA] Error: Still couldn't fetch MAC. Check Wlan_Start.\n\r");
+        return -1;
+    }
+
+    /* 3. Format the SSID */
+    snprintf(ssid_name, sizeof(ssid_name), "%s-%02X%02X", 
+             TUYA_AP_SSID_DEFAULT, macParam.pMacAddress[4], macParam.pMacAddress[5]);
+
+    ap_cfg.s_len = (uint8_t)strlen(ssid_name);
+    memcpy(ap_cfg.ssid, ssid_name, ap_cfg.s_len);
+    ap_cfg.md = WAAM_OPEN; 
+    ap_cfg.chan = 6;       
+
+    UART_PRINT("[TUYA] Success! Starting pairing AP: %s\n\r", ssid_name);
+
+    /* 4. Start the AP */
+    OPERATE_RET rt = tkl_wifi_start_ap(&ap_cfg);
+    
+    return (rt == OPRT_OK) ? 0 : -1;
+}
+
+int32_t printTuyaSmartLifeUsage(void *arg)
+{
+    UART_PRINT("tuya_pair : Starts the SmartLife-<MAC> AP for mobile pairing\n\r");
+    return 0;
 }

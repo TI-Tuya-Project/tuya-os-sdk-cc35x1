@@ -9,7 +9,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_i2s.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/I2S.h>
@@ -18,18 +18,18 @@
 #include "tkl_board_config.h"
 
 // Check if I2S max ports is defined, otherwise default to 1 (Typical for MCU)
-#ifndef TKL_BOAD_MAX_I2S_PORTS
-#define TKL_BOAD_MAX_I2S_PORTS 1
+#ifndef TKL_BOARD_MAX_I2S_PORTS
+#define TKL_BOARD_MAX_I2S_PORTS 1
 #endif
 
 // Global array to store handles
-static I2S_Handle g_i2s_handles[TKL_BOAD_MAX_I2S_PORTS] = {NULL};
+static I2S_Handle g_i2s_handles[TKL_BOARD_MAX_I2S_PORTS] = {NULL};
 
 // Helper to check validity
 static bool is_valid_port(TUYA_I2S_NUM_E port) {
-    return (port < TKL_BOAD_MAX_I2S_PORTS);
+    return (port < TKL_BOARD_MAX_I2S_PORTS);
 }
-// --- END: user defines and implements ---
+
 
 /**
  * @brief tuya i2s init
@@ -84,7 +84,7 @@ OPERATE_RET tkl_i2s_init(TUYA_I2S_NUM_E i2s_num, const TUYA_I2S_BASE_CFG_T *i2s_
     // 4. Channels (Mono/Stereo)
     // TI Driver handles channels differently (via phase types), assuming Stereo/Dual Phase standard
     if (i2s_config->channel_num == 1) {
-        params.phaseType = I2S_PHASE_TYPE_SINGLE; 
+        params.phaseType = I2S_PHASE_TYPE_SINGLE;
     } else {
         params.phaseType = I2S_PHASE_TYPE_DUAL; // Stereo
     }
@@ -114,7 +114,7 @@ OPERATE_RET tkl_i2s_send(TUYA_I2S_NUM_E i2s_num, void *buff, uint32_t len)
     if (!is_valid_port(i2s_num) || g_i2s_handles[i2s_num] == NULL) {
         return OPRT_NOT_SUPPORTED;
     }
-    
+
     // Note: TI I2S requires queuing I2S_Transaction structures.
     // A simple blocking 'send' is not natively supported without a wrapper queue.
     // Returning NOT_SUPPORTED until a transaction queue is implemented.
@@ -136,7 +136,7 @@ int tkl_i2s_recv(TUYA_I2S_NUM_E i2s_num, void *buff, uint32_t len)
     if (!is_valid_port(i2s_num) || g_i2s_handles[i2s_num] == NULL) {
         return -1;
     }
-    
+
     // TI I2S Read is also transaction based.
     return 0;
     // --- END: user implements ---
@@ -156,7 +156,7 @@ OPERATE_RET tkl_i2s_send_stop(TUYA_I2S_NUM_E i2s_num)
     if (!is_valid_port(i2s_num) || g_i2s_handles[i2s_num] == NULL) {
         return OPRT_NOT_SUPPORTED;
     }
-    
+
     I2S_stopWrite(g_i2s_handles[i2s_num]);
     return OPRT_OK;
     // --- END: user implements ---
@@ -201,7 +201,7 @@ OPERATE_RET tkl_i2s_deinit(TUYA_I2S_NUM_E i2s_num)
         // Stop any ongoing transfers
         I2S_stopRead(g_i2s_handles[i2s_num]);
         I2S_stopWrite(g_i2s_handles[i2s_num]);
-        
+
         I2S_close(g_i2s_handles[i2s_num]);
         g_i2s_handles[i2s_num] = NULL;
     }

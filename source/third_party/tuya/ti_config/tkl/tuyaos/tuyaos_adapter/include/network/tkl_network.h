@@ -1,11 +1,9 @@
 /**
  * @file tkl_network.h
- * @brief Common process - adapter the network api
+ * @brief Network adapter API for the Tuya integration layer.
  * @version 0.1
  * @date 2020-11-09
- *
  * @copyright Copyright 2020-2021 Tuya Inc. All Rights Reserved.
- *
  */
 
 #ifndef __TKL_NETWORK_H__

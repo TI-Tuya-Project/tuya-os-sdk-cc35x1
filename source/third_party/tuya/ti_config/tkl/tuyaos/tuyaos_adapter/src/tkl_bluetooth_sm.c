@@ -9,10 +9,10 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_bluetooth_sm.h"
 #include "tuya_error_code.h"
-// --- END: user defines and implements ---
+
 
 /**
  * @brief   [Optional][SM Required] Init the Security Manager And Post The Correct Parameters

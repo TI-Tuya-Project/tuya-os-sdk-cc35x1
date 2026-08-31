@@ -9,7 +9,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 // Tuya
 #include "tkl_queue.h"
 #include "tuya_error_code.h"
@@ -26,7 +26,7 @@
 #ifndef TKL_WAIT_FOREVER
 #define TKL_WAIT_FOREVER  0xFFFFFFFF  /* same as portMAX_DELAY in FreeRTOS */
 #endif
-// --- END: user defines and implements ---
+
 
 /**
  * @brief Create message queue
@@ -39,24 +39,20 @@
  */
 OPERATE_RET tkl_queue_create_init(TKL_QUEUE_HANDLE *queue, int msgsize, int msgcount)
 {
-    // --- BEGIN: user implements ---
-    // 1. Safety Check: Ensure the pointer where we will store the handle is valid
     if (!queue || msgsize <= 0 || msgcount <= 0) {
         return OPRT_INVALID_PARM;
     }
 
     *queue = NULL;
 
-    // 2. Call FreeRTOS to allocate memory
-    *queue = (TKL_QUEUE_HANDLE)xQueueCreate((UBaseType_t)msgsize, (UBaseType_t)msgcount);
+    // FIX: msgcount comes first (Length), then msgsize (Item Size)
+    *queue = (TKL_QUEUE_HANDLE)xQueueCreate((UBaseType_t)msgcount, (UBaseType_t)msgsize);
 
-    // 3. Check for Out of Memory
     if (*queue == NULL) {
         return OPRT_OS_ADAPTER_QUEUE_CREAT_FAILED;
     }
 
     return OPRT_OK;
-    // --- END: user implements ---
 }
 
 /**
@@ -80,13 +76,13 @@ OPERATE_RET tkl_queue_post(const TKL_QUEUE_HANDLE queue, void *data, uint32_t ti
     // Check if we are in an ISR (Interrupt)
     if (HwiP_inISR()) {
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-        
+
         // ISRs cannot block, so timeout is ignored (effectively 0)
         ret = xQueueSendFromISR((QueueHandle_t)queue, data, &xHigherPriorityTaskWoken);
-        
+
         // Force context switch if needed
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-    } 
+    }
     else {
         // Normal Thread Context
         TickType_t ticks;
@@ -125,7 +121,7 @@ OPERATE_RET tkl_queue_fetch(const TKL_QUEUE_HANDLE queue, void *msg, uint32_t ti
 
     // TODO: dangerous dummy, ditch the whole NULL option?
     // Support NULL msg if user just wants to wait for a signal
-    uint8_t dummy_buffer[16]; 
+    uint8_t dummy_buffer[16];
     void* p_dest = (msg != NULL) ? msg : dummy_buffer;
 
     BaseType_t ret;
@@ -135,13 +131,13 @@ OPERATE_RET tkl_queue_fetch(const TKL_QUEUE_HANDLE queue, void *msg, uint32_t ti
     // OPTION 1: Interrupt Context
     if (HwiP_inISR()) {
         BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-        
+
         // ISRs CANNOT WAIT. Timeout is ignored (treated as 0).
         ret = xQueueReceiveFromISR((QueueHandle_t)queue, p_dest, &xHigherPriorityTaskWoken);
-        
+
         // If we successfully grabbed an item and it woke up a high-priority task
         portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-    } 
+    }
     // OPTION 2: Thread Context
     else {
         TickType_t ticks;

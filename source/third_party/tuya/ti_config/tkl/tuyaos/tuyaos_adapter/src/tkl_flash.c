@@ -38,7 +38,7 @@ static OPERATE_RET _ensure_flash_open(void) {
     }
 
     XMEMWFF3_init();
-    
+
     static XMEM_Params attrs;
     attrs.regionBase      = nvocmp_physical_slot_address;
     attrs.regionStartAddr = nvocmp_logical_slot_address;
@@ -46,7 +46,7 @@ static OPERATE_RET _ensure_flash_open(void) {
     attrs.deviceNum       = 0;
 
     tuya_xmem_handle = XMEMWFF3_open(&attrs);
-    
+
     return (tuya_xmem_handle == NULL) ? OPRT_COM_ERROR : OPRT_OK;
 }
 
@@ -73,7 +73,7 @@ OPERATE_RET tkl_flash_unlock(uint32_t addr, uint32_t size) {
 OPERATE_RET tkl_flash_read(uint32_t addr, uint8_t *dst, uint32_t size) {
     if (dst == NULL) return OPRT_INVALID_PARM;
     if (_ensure_flash_open() != OPRT_OK) return OPRT_COM_ERROR;
-    
+
     int_fast16_t res = XMEMWFF3_read(tuya_xmem_handle, addr, dst, size, 0);
     return (res >= 0) ? OPRT_OK : OPRT_COM_ERROR;
 }
@@ -88,7 +88,7 @@ OPERATE_RET tkl_flash_write(uint32_t addr, const uint8_t *src, uint32_t size) {
 
 OPERATE_RET tkl_flash_erase(uint32_t addr, uint32_t size) {
     if (_ensure_flash_open() != OPRT_OK) return OPRT_COM_ERROR;
-    
+
     int_fast16_t res = XMEMWFF3_erase(tuya_xmem_handle, addr, size);
     return (res >= 0) ? OPRT_OK : OPRT_COM_ERROR;
 }
@@ -99,7 +99,7 @@ OPERATE_RET tkl_flash_get_one_type_info(TUYA_FLASH_TYPE_E type, TUYA_FLASH_BASE_
 
     info->partition_num = 1;
     info->partition[0].block_size = 4096;
-    info->partition[0].start_addr = 0; 
+    info->partition[0].start_addr = 0;
     info->partition[0].size       = nvocmp_region_size;
     return OPRT_OK;
 }

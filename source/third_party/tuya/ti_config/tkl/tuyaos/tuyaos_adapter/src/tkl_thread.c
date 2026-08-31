@@ -9,7 +9,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 // Tuya
 #include "tkl_thread.h"
 #include "tuya_error_code.h"
@@ -38,7 +38,7 @@ UBaseType_t uxTaskGetStackHighWaterMark(TaskHandle_t xTask)
 
 
 
-// --- END: user defines and implements ---
+
 
 /**
  * @brief Create thread
@@ -61,7 +61,7 @@ OPERATE_RET tkl_thread_create(TKL_THREAD_HANDLE *thread, const char *name, uint3
     if (!thread || !func) {
         return OPRT_INVALID_PARM;
     }
-    
+
     // Convert Stack Size from BYTES to WORDS
     // Tuya sends bytes (e.g., 4096), FreeRTOS on ARM needs words (e.g., 1024)
     uint32_t stack_depth = stack_size / sizeof(portSTACK_TYPE);
@@ -75,7 +75,7 @@ OPERATE_RET tkl_thread_create(TKL_THREAD_HANDLE *thread, const char *name, uint3
         (UBaseType_t)priority,      // Priority
         (TaskHandle_t *)thread      // Handle output
     );
-    
+
     if (ret != pdPASS) {
         return OPRT_OS_ADAPTER_THRD_CREAT_FAILED;
     }

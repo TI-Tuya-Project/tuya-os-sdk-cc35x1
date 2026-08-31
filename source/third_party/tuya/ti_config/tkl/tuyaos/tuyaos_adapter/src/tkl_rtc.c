@@ -1,31 +1,30 @@
 /**
  * @file tkl_rtc.c
- * @brief Tuya Kernel Layer for RTC on TI SimpleLink (using Seconds module)
+ * @brief Tuya Kernel Layer for RTC on TI SimpleLink (FreeRTOS Soft-RTC)
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_rtc.h"
 #include "tuya_error_code.h"
 
-/* TI Drivers includes for RTC/Seconds management */
-#include <ti/drivers/dpl/Seconds.h>
-#include <time.h>
-// --- END: user defines and implements ---
+/* We use FreeRTOS to handle the time tracking */
+#include "FreeRTOS.h"
+#include "task.h"
+
+static TIME_T g_rtc_base_time = 0;
+static uint32_t g_rtc_base_ticks = 0;
+
 
 /**
  * @brief rtc init
  *
  * @param[in] none
  *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ * @return OPRT_OK on success. Others on error
  */
 OPERATE_RET tkl_rtc_init(void)
 {
     // --- BEGIN: user implements ---
-    /* * TI's Seconds module is typically initialized by the OS or Board init.
-     * We don't need explicit hardware initialization here for SimpleLink.
-     * Just returning OK signals to Tuya that RTC is ready.
-     */
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -33,14 +32,11 @@ OPERATE_RET tkl_rtc_init(void)
 /**
  * @brief rtc deinit
  * @param[in] none
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ * @return OPRT_OK on success. Others on error
  */
 OPERATE_RET tkl_rtc_deinit(void)
 {
     // --- BEGIN: user implements ---
-    /* * RTC usually runs continuously. There is no standard "stop" 
-     * for the Seconds module in TI DPL, nor is it usually required.
-     */
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -50,14 +46,15 @@ OPERATE_RET tkl_rtc_deinit(void)
  *
  * @param[in] time_sec: rtc time seconds
  *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ * @return OPRT_OK on success. Others on error
  */
 OPERATE_RET tkl_rtc_time_set(TIME_T time_sec)
 {
     // --- BEGIN: user implements ---
-    /* Set the seconds on the TI RTC hardware */
-    Seconds_set((uint32_t)time_sec);
-    
+    // Save the exact network time and the exact CPU tick it was received
+    g_rtc_base_time = time_sec;
+    g_rtc_base_ticks = xTaskGetTickCount();
+
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -67,7 +64,7 @@ OPERATE_RET tkl_rtc_time_set(TIME_T time_sec)
  *
  * @param[in] time_sec:rtc time seconds
  *
- * @return OPRT_OK on success. Others on error, please refer to tuya_error_code.h
+ * @return OPRT_OK on success. Others on error
  */
 OPERATE_RET tkl_rtc_time_get(TIME_T *time_sec)
 {
@@ -76,9 +73,19 @@ OPERATE_RET tkl_rtc_time_get(TIME_T *time_sec)
         return OPRT_INVALID_PARM;
     }
 
-    /* Get the seconds from the TI RTC hardware */
-    *time_sec = (TIME_T)Seconds_get();
-    
+    // Get current CPU ticks
+    uint32_t current_ticks = xTaskGetTickCount();
+
+    // Calculate how many ticks have passed since we set the time.
+    // Unsigned math naturally handles the 32-bit tick rollover safely.
+    uint32_t elapsed_ticks = current_ticks - g_rtc_base_ticks;
+
+    // Convert elapsed ticks to seconds
+    uint32_t elapsed_sec = elapsed_ticks / configTICK_RATE_HZ;
+
+    // Output the calculated time
+    *time_sec = g_rtc_base_time + elapsed_sec;
+
     return OPRT_OK;
     // --- END: user implements ---
 }

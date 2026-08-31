@@ -218,6 +218,150 @@ authorize/tuya_authorize.c.s:
 	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/authorize/tuya_authorize.c.s
 .PHONY : authorize/tuya_authorize.c.s
 
+ble/ble_channel.obj: ble/ble_channel.c.obj
+.PHONY : ble/ble_channel.obj
+
+# target to build an object file
+ble/ble_channel.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_channel.c.obj
+.PHONY : ble/ble_channel.c.obj
+
+ble/ble_channel.i: ble/ble_channel.c.i
+.PHONY : ble/ble_channel.i
+
+# target to preprocess a source file
+ble/ble_channel.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_channel.c.i
+.PHONY : ble/ble_channel.c.i
+
+ble/ble_channel.s: ble/ble_channel.c.s
+.PHONY : ble/ble_channel.s
+
+# target to generate assembly for a file
+ble/ble_channel.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_channel.c.s
+.PHONY : ble/ble_channel.c.s
+
+ble/ble_cryption.obj: ble/ble_cryption.c.obj
+.PHONY : ble/ble_cryption.obj
+
+# target to build an object file
+ble/ble_cryption.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_cryption.c.obj
+.PHONY : ble/ble_cryption.c.obj
+
+ble/ble_cryption.i: ble/ble_cryption.c.i
+.PHONY : ble/ble_cryption.i
+
+# target to preprocess a source file
+ble/ble_cryption.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_cryption.c.i
+.PHONY : ble/ble_cryption.c.i
+
+ble/ble_cryption.s: ble/ble_cryption.c.s
+.PHONY : ble/ble_cryption.s
+
+# target to generate assembly for a file
+ble/ble_cryption.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_cryption.c.s
+.PHONY : ble/ble_cryption.c.s
+
+ble/ble_dp.obj: ble/ble_dp.c.obj
+.PHONY : ble/ble_dp.obj
+
+# target to build an object file
+ble/ble_dp.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_dp.c.obj
+.PHONY : ble/ble_dp.c.obj
+
+ble/ble_dp.i: ble/ble_dp.c.i
+.PHONY : ble/ble_dp.i
+
+# target to preprocess a source file
+ble/ble_dp.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_dp.c.i
+.PHONY : ble/ble_dp.c.i
+
+ble/ble_dp.s: ble/ble_dp.c.s
+.PHONY : ble/ble_dp.s
+
+# target to generate assembly for a file
+ble/ble_dp.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_dp.c.s
+.PHONY : ble/ble_dp.c.s
+
+ble/ble_mgr.obj: ble/ble_mgr.c.obj
+.PHONY : ble/ble_mgr.obj
+
+# target to build an object file
+ble/ble_mgr.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_mgr.c.obj
+.PHONY : ble/ble_mgr.c.obj
+
+ble/ble_mgr.i: ble/ble_mgr.c.i
+.PHONY : ble/ble_mgr.i
+
+# target to preprocess a source file
+ble/ble_mgr.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_mgr.c.i
+.PHONY : ble/ble_mgr.c.i
+
+ble/ble_mgr.s: ble/ble_mgr.c.s
+.PHONY : ble/ble_mgr.s
+
+# target to generate assembly for a file
+ble/ble_mgr.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_mgr.c.s
+.PHONY : ble/ble_mgr.c.s
+
+ble/ble_netcfg.obj: ble/ble_netcfg.c.obj
+.PHONY : ble/ble_netcfg.obj
+
+# target to build an object file
+ble/ble_netcfg.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_netcfg.c.obj
+.PHONY : ble/ble_netcfg.c.obj
+
+ble/ble_netcfg.i: ble/ble_netcfg.c.i
+.PHONY : ble/ble_netcfg.i
+
+# target to preprocess a source file
+ble/ble_netcfg.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_netcfg.c.i
+.PHONY : ble/ble_netcfg.c.i
+
+ble/ble_netcfg.s: ble/ble_netcfg.c.s
+.PHONY : ble/ble_netcfg.s
+
+# target to generate assembly for a file
+ble/ble_netcfg.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_netcfg.c.s
+.PHONY : ble/ble_netcfg.c.s
+
+ble/ble_trsmitr.obj: ble/ble_trsmitr.c.obj
+.PHONY : ble/ble_trsmitr.obj
+
+# target to build an object file
+ble/ble_trsmitr.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_trsmitr.c.obj
+.PHONY : ble/ble_trsmitr.c.obj
+
+ble/ble_trsmitr.i: ble/ble_trsmitr.c.i
+.PHONY : ble/ble_trsmitr.i
+
+# target to preprocess a source file
+ble/ble_trsmitr.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_trsmitr.c.i
+.PHONY : ble/ble_trsmitr.c.i
+
+ble/ble_trsmitr.s: ble/ble_trsmitr.c.s
+.PHONY : ble/ble_trsmitr.s
+
+# target to generate assembly for a file
+ble/ble_trsmitr.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/ble/ble_trsmitr.c.s
+.PHONY : ble/ble_trsmitr.c.s
+
 cloud/atop_base.obj: cloud/atop_base.c.obj
 .PHONY : cloud/atop_base.obj
 
@@ -698,6 +842,102 @@ lan/tuya_lan.c.s:
 	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/lan/tuya_lan.c.s
 .PHONY : lan/tuya_lan.c.s
 
+netcfg/ap_netcfg.obj: netcfg/ap_netcfg.c.obj
+.PHONY : netcfg/ap_netcfg.obj
+
+# target to build an object file
+netcfg/ap_netcfg.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/ap_netcfg.c.obj
+.PHONY : netcfg/ap_netcfg.c.obj
+
+netcfg/ap_netcfg.i: netcfg/ap_netcfg.c.i
+.PHONY : netcfg/ap_netcfg.i
+
+# target to preprocess a source file
+netcfg/ap_netcfg.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/ap_netcfg.c.i
+.PHONY : netcfg/ap_netcfg.c.i
+
+netcfg/ap_netcfg.s: netcfg/ap_netcfg.c.s
+.PHONY : netcfg/ap_netcfg.s
+
+# target to generate assembly for a file
+netcfg/ap_netcfg.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/ap_netcfg.c.s
+.PHONY : netcfg/ap_netcfg.c.s
+
+netcfg/ap_pbkdf2.obj: netcfg/ap_pbkdf2.c.obj
+.PHONY : netcfg/ap_pbkdf2.obj
+
+# target to build an object file
+netcfg/ap_pbkdf2.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/ap_pbkdf2.c.obj
+.PHONY : netcfg/ap_pbkdf2.c.obj
+
+netcfg/ap_pbkdf2.i: netcfg/ap_pbkdf2.c.i
+.PHONY : netcfg/ap_pbkdf2.i
+
+# target to preprocess a source file
+netcfg/ap_pbkdf2.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/ap_pbkdf2.c.i
+.PHONY : netcfg/ap_pbkdf2.c.i
+
+netcfg/ap_pbkdf2.s: netcfg/ap_pbkdf2.c.s
+.PHONY : netcfg/ap_pbkdf2.s
+
+# target to generate assembly for a file
+netcfg/ap_pbkdf2.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/ap_pbkdf2.c.s
+.PHONY : netcfg/ap_pbkdf2.c.s
+
+netcfg/netcfg.obj: netcfg/netcfg.c.obj
+.PHONY : netcfg/netcfg.obj
+
+# target to build an object file
+netcfg/netcfg.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/netcfg.c.obj
+.PHONY : netcfg/netcfg.c.obj
+
+netcfg/netcfg.i: netcfg/netcfg.c.i
+.PHONY : netcfg/netcfg.i
+
+# target to preprocess a source file
+netcfg/netcfg.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/netcfg.c.i
+.PHONY : netcfg/netcfg.c.i
+
+netcfg/netcfg.s: netcfg/netcfg.c.s
+.PHONY : netcfg/netcfg.s
+
+# target to generate assembly for a file
+netcfg/netcfg.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netcfg/netcfg.c.s
+.PHONY : netcfg/netcfg.c.s
+
+netmgr/netconn_wifi.obj: netmgr/netconn_wifi.c.obj
+.PHONY : netmgr/netconn_wifi.obj
+
+# target to build an object file
+netmgr/netconn_wifi.c.obj:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netmgr/netconn_wifi.c.obj
+.PHONY : netmgr/netconn_wifi.c.obj
+
+netmgr/netconn_wifi.i: netmgr/netconn_wifi.c.i
+.PHONY : netmgr/netconn_wifi.i
+
+# target to preprocess a source file
+netmgr/netconn_wifi.c.i:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netmgr/netconn_wifi.c.i
+.PHONY : netmgr/netconn_wifi.c.i
+
+netmgr/netconn_wifi.s: netmgr/netconn_wifi.c.s
+.PHONY : netmgr/netconn_wifi.s
+
+# target to generate assembly for a file
+netmgr/netconn_wifi.c.s:
+	cd /d C:\TI_Project\simplelink_wifi_sdk_tuya && $(MAKE) $(MAKESILENT) -f source\third_party\tuya\tuya_src\tuya_cloud_service\CMakeFiles\tuya_cloud_service.dir\build.make source/third_party/tuya/tuya_src/tuya_cloud_service/CMakeFiles/tuya_cloud_service.dir/netmgr/netconn_wifi.c.s
+.PHONY : netmgr/netconn_wifi.c.s
+
 netmgr/netmgr.obj: netmgr/netmgr.c.obj
 .PHONY : netmgr/netmgr.obj
 
@@ -956,6 +1196,24 @@ help:
 	@echo ... authorize/tuya_authorize.obj
 	@echo ... authorize/tuya_authorize.i
 	@echo ... authorize/tuya_authorize.s
+	@echo ... ble/ble_channel.obj
+	@echo ... ble/ble_channel.i
+	@echo ... ble/ble_channel.s
+	@echo ... ble/ble_cryption.obj
+	@echo ... ble/ble_cryption.i
+	@echo ... ble/ble_cryption.s
+	@echo ... ble/ble_dp.obj
+	@echo ... ble/ble_dp.i
+	@echo ... ble/ble_dp.s
+	@echo ... ble/ble_mgr.obj
+	@echo ... ble/ble_mgr.i
+	@echo ... ble/ble_mgr.s
+	@echo ... ble/ble_netcfg.obj
+	@echo ... ble/ble_netcfg.i
+	@echo ... ble/ble_netcfg.s
+	@echo ... ble/ble_trsmitr.obj
+	@echo ... ble/ble_trsmitr.i
+	@echo ... ble/ble_trsmitr.s
 	@echo ... cloud/atop_base.obj
 	@echo ... cloud/atop_base.i
 	@echo ... cloud/atop_base.s
@@ -1016,6 +1274,18 @@ help:
 	@echo ... lan/tuya_lan.obj
 	@echo ... lan/tuya_lan.i
 	@echo ... lan/tuya_lan.s
+	@echo ... netcfg/ap_netcfg.obj
+	@echo ... netcfg/ap_netcfg.i
+	@echo ... netcfg/ap_netcfg.s
+	@echo ... netcfg/ap_pbkdf2.obj
+	@echo ... netcfg/ap_pbkdf2.i
+	@echo ... netcfg/ap_pbkdf2.s
+	@echo ... netcfg/netcfg.obj
+	@echo ... netcfg/netcfg.i
+	@echo ... netcfg/netcfg.s
+	@echo ... netmgr/netconn_wifi.obj
+	@echo ... netmgr/netconn_wifi.i
+	@echo ... netmgr/netconn_wifi.s
 	@echo ... netmgr/netmgr.obj
 	@echo ... netmgr/netmgr.i
 	@echo ... netmgr/netmgr.s
