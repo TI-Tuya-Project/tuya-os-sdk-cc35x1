@@ -9,7 +9,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_spi.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/SPI.h>
@@ -20,7 +20,7 @@
 // [DEPENDENCY INJECTION] Include Board Config
 #include "tkl_board_config.h"
 
-// --- END: user defines and implements ---
+
 #ifndef TUYA_SPI_MAX_DMA_DEFAULT
 #define TUYA_SPI_MAX_DMA_DEFAULT 0  // 0 means no hard limit or rely on driver defaults
 #endif
@@ -74,7 +74,7 @@ OPERATE_RET tkl_spi_init(TUYA_SPI_NUM_E port, const TUYA_SPI_BASE_CFG_T *cfg)
 
     // [MAPPING] Look up TI index dynamically
     int16_t ti_index = tkl_hw_get_spi_index((uint8_t)port);
-    
+
     // Check if the application mapped this SPI port
     if (ti_index < 0) {
         return OPRT_NOT_SUPPORTED;
@@ -134,7 +134,7 @@ OPERATE_RET tkl_spi_init(TUYA_SPI_NUM_E port, const TUYA_SPI_BASE_CFG_T *cfg)
 
     /* ensure driver initialized and open the peripheral */
     if (!s_spi_inited) { SPI_init(); s_spi_inited = true; }
-    
+
     // Open using mapped TI index
     ctx->handle = SPI_open((uint_least8_t)ti_index, &ctx->params);
     if (ctx->handle == NULL) {
@@ -450,11 +450,11 @@ OPERATE_RET tkl_spi_irq_init(TUYA_SPI_NUM_E port, TUYA_SPI_IRQ_CB cb)
 
     tkl_spi_ctx_t *ctx = &g_spi[port];
 
-    
+
     ctx->irq_cb = cb;
     ctx->irq_enabled = false;
 
-   
+
     ctx->params.transferCallbackFxn = spi_internal_callback;
 
     return OPRT_OK;
@@ -507,14 +507,14 @@ OPERATE_RET tkl_spi_irq_enable(TUYA_SPI_NUM_E port)
     // Use mapped index
     ctx->handle = SPI_open((uint_least8_t)ti_index, &ctx->params);
     if (ctx->handle == NULL) {
-       
+
         ctx->params = old_params;
         ctx->handle = SPI_open((uint_least8_t)ti_index, &ctx->params);
         if (ctx->handle == NULL) {
             ctx->irq_enabled = false;
             return OPRT_COM_ERROR;
         }
-       
+
         return OPRT_NOT_SUPPORTED;
     }
 
@@ -587,12 +587,12 @@ OPERATE_RET tkl_spi_ioctl(TUYA_SPI_NUM_E port, uint32_t cmd, void *args)
  * @brief spi get max supported dma data length.
  * * @param[in] NULL
  *
- * @return >=0,number of supported dma data length. <0,err. 
+ * @return >=0,number of supported dma data length. <0,err.
  * during  tkl_spi_send, tkl_spi_recv and tkl_spi_transfer operation.
  */
 uint32_t tkl_spi_get_max_dma_data_length(void)
 {
-  
+
 
 #ifdef SPICC26X2DMA_CMD_GET_MAX_XFER
     for (int port = 0; port < TKL_MAX_SPI_PORTS; ++port) {
@@ -606,20 +606,20 @@ uint32_t tkl_spi_get_max_dma_data_length(void)
     }
 #endif
 
-  
+
     return TUYA_SPI_MAX_DMA_DEFAULT;
 }
 
 static void spi_internal_callback(SPI_Handle handle, SPI_Transaction *transaction)
 {
-  
+
     for (int port = 0; port < TKL_MAX_SPI_PORTS; ++port) {
         tkl_spi_ctx_t *ctx = &g_spi[port];
         if (ctx->handle == handle) {
             ctx->last_count_frames = transaction ? (uint32_t)transaction->count : 0;
             ctx->busy = false;
 
-           
+
             if (ctx->irq_enabled && ctx->irq_cb) {
                 // Pass the port AND the transfer complete event
                 ctx->irq_cb((TUYA_SPI_NUM_E)port, TUYA_SPI_EVENT_TRANSFER_COMPLETE);

@@ -1,4 +1,4 @@
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_i2c.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/I2C.h>
@@ -17,7 +17,7 @@ static I2C_Handle g_i2c_handles[TKL_MAX_I2C_PORTS] = {NULL};
 static bool is_valid_port(TUYA_I2C_NUM_E port) {
     return (port < TKL_MAX_I2C_PORTS);
 }
-// --- END: user defines and implements ---
+
 
 /**
  * @brief i2c init
@@ -47,11 +47,11 @@ OPERATE_RET tkl_i2c_init(TUYA_I2C_NUM_E port, const TUYA_IIC_BASE_CFG_T *cfg)
     // FIX: Changed to TUYA_IIC_MODE_MASTER
     if (cfg->role == TUYA_IIC_MODE_MASTER) {
         params.transferMode = I2C_MODE_BLOCKING;
-        
+
         // FIX: Bypassed volatile Tuya speed enums. Default to safe 100kHz.
-        params.bitRate = I2C_100kHz; 
+        params.bitRate = I2C_100kHz;
     } else {
-        return OPRT_NOT_SUPPORTED; 
+        return OPRT_NOT_SUPPORTED;
     }
 
     I2C_init();
@@ -80,12 +80,12 @@ OPERATE_RET tkl_i2c_master_send(TUYA_I2C_NUM_E port, uint16_t dev_addr, const vo
 
     I2C_Transaction transaction;
     // FIX: Replaced slaveAddress with targetAddress for TI SDK 9.x compliance
-    transaction.targetAddress = dev_addr; 
+    transaction.targetAddress = dev_addr;
     transaction.writeBuf = (void *)data;
     transaction.writeCount = size;
     transaction.readBuf = NULL;
     transaction.readCount = 0;
-    
+
     if (I2C_transfer(g_i2c_handles[port], &transaction)) {
         return OPRT_OK;
     }
@@ -107,12 +107,12 @@ OPERATE_RET tkl_i2c_master_receive(TUYA_I2C_NUM_E port, uint16_t dev_addr, void 
 
     I2C_Transaction transaction;
     // FIX: Replaced slaveAddress with targetAddress for TI SDK 9.x compliance
-    transaction.targetAddress = dev_addr; 
+    transaction.targetAddress = dev_addr;
     transaction.writeBuf = NULL;
     transaction.writeCount = 0;
     transaction.readBuf = data;
     transaction.readCount = size;
-    
+
     if (I2C_transfer(g_i2c_handles[port], &transaction)) {
         return OPRT_OK;
     }

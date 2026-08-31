@@ -9,10 +9,10 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_lwip.h"
 #include "tuya_error_code.h"
-// --- END: user defines and implements ---
+
 
 /**
  * @brief ethernet interface hardware init

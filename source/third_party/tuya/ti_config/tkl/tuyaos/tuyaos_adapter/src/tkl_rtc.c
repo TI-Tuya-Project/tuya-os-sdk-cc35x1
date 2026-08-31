@@ -3,7 +3,7 @@
  * @brief Tuya Kernel Layer for RTC on TI SimpleLink (FreeRTOS Soft-RTC)
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_rtc.h"
 #include "tuya_error_code.h"
 
@@ -13,7 +13,7 @@
 
 static TIME_T g_rtc_base_time = 0;
 static uint32_t g_rtc_base_ticks = 0;
-// --- END: user defines and implements ---
+
 
 /**
  * @brief rtc init
@@ -54,7 +54,7 @@ OPERATE_RET tkl_rtc_time_set(TIME_T time_sec)
     // Save the exact network time and the exact CPU tick it was received
     g_rtc_base_time = time_sec;
     g_rtc_base_ticks = xTaskGetTickCount();
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }
@@ -75,17 +75,17 @@ OPERATE_RET tkl_rtc_time_get(TIME_T *time_sec)
 
     // Get current CPU ticks
     uint32_t current_ticks = xTaskGetTickCount();
-    
+
     // Calculate how many ticks have passed since we set the time.
     // Unsigned math naturally handles the 32-bit tick rollover safely.
     uint32_t elapsed_ticks = current_ticks - g_rtc_base_ticks;
-    
+
     // Convert elapsed ticks to seconds
     uint32_t elapsed_sec = elapsed_ticks / configTICK_RATE_HZ;
-    
+
     // Output the calculated time
     *time_sec = g_rtc_base_time + elapsed_sec;
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }

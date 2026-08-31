@@ -9,7 +9,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_memory.h"
 #include "tuya_error_code.h"
 #include <stdlib.h>
@@ -18,7 +18,7 @@
 /* TI SimpleLink CC35x1 FreeRTOS headers */
 #include "FreeRTOS.h"
 #include "task.h"
-// --- END: user defines and implements ---
+
 
 /**
  * @brief Alloc memory of system
@@ -32,7 +32,7 @@
 void *tkl_system_malloc(size_t size)
 {
     // --- BEGIN: user implements ---
-    // Using FreeRTOS heap allocation for thread safety 
+    // Using FreeRTOS heap allocation for thread safety
     return pvPortMalloc(size);
     // --- END: user implements ---
 }
@@ -124,7 +124,7 @@ void *tkl_system_realloc(void *ptr, size_t size)
         if (ptr) vPortFree(ptr);
         return NULL;
     }
-    
+
     void *new_ptr = pvPortMalloc(size);
     if (new_ptr) {
         if (ptr) {

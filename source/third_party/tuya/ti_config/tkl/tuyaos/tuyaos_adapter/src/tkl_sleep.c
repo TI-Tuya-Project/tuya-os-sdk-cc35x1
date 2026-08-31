@@ -9,12 +9,12 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_sleep.h"
 #include "tuya_error_code.h"
 #include <FreeRTOS.h>
 #include <task.h>
-// --- END: user defines and implements ---
+
 
 /**
  * @brief sleep callback register
@@ -26,12 +26,12 @@
 
 
 static TUYA_SLEEP_CB_T *g_sleep_cb = NULL;
- 
+
 OPERATE_RET tkl_cpu_sleep_callback_register(TUYA_SLEEP_CB_T *sleep_cb)
 {
     // --- BEGIN: user implements ---
     g_sleep_cb = sleep_cb;
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }

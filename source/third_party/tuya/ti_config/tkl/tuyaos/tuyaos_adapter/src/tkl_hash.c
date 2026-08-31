@@ -3,7 +3,7 @@
  * @brief This file acts as the bridge between Tuya's abstract hash interface and the actual mbedTLS library.
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_hash.h"           // Include Tuya's Hash Interface definition
 #include "tuya_error_code.h"    // Include Tuya's standard error codes (OPRT_OK, etc.)
 #include <string.h>             // Include standard string manipulation functions
@@ -13,7 +13,7 @@
 #include <mbedtls/md5.h>        // Driver for MD5 hashing
 #include <mbedtls/sha1.h>       // Driver for SHA1 hashing
 #include <mbedtls/sha256.h>     // Driver for SHA256 hashing
-// --- END: user defines and implements ---
+
 
 // ============================================================
 //                          SHA256
@@ -32,7 +32,7 @@ OPERATE_RET tkl_sha256_create_init(TKL_HASH_HANDLE *ctx)
     // 2. Allocate memory for the actual mbedTLS context struct
     // We cast the void* return of malloc to a specific mbedtls_sha256_context*
     mbedtls_sha256_context *mbed_ctx = (mbedtls_sha256_context *)malloc(sizeof(mbedtls_sha256_context)); // Allocate heap memory
-    
+
     if (mbed_ctx == NULL) {                             // Check if the allocation succeeded
         return OPRT_MALLOC_FAILED;                      // Return system out-of-memory error if NULL
     }
@@ -43,7 +43,7 @@ OPERATE_RET tkl_sha256_create_init(TKL_HASH_HANDLE *ctx)
     // 4. Start the SHA256 calculation
     // Second argument '0' selects SHA-256 mode (passing '1' would select SHA-224)
     int ret = mbedtls_sha256_starts_ret(mbed_ctx, 0);   // Start the engine. Returns 0 on success
-    
+
     if (ret != 0) {                                     // Check if the library returned an error
         mbedtls_sha256_free(mbed_ctx);                  // Clean up internal mbedTLS resources
         free(mbed_ctx);                                 // Free the memory we just allocated
@@ -174,7 +174,7 @@ OPERATE_RET tkl_md5_create_init(TKL_HASH_HANDLE *ctx)
 
     // Start the MD5 engine (Note: MD5 has no "mode" parameter like SHA256)
     int ret = mbedtls_md5_starts_ret(mbed_ctx);         // Start the calculation
-    
+
     if (ret != 0) {                                     // Check for start errors
         mbedtls_md5_free(mbed_ctx);                     // Clean up internal resources
         free(mbed_ctx);                                 // Free the heap memory
@@ -295,7 +295,7 @@ OPERATE_RET tkl_sha1_create_init(TKL_HASH_HANDLE *ctx)
     mbedtls_sha1_init(mbed_ctx);                        // Initialize the SHA1 struct
 
     int ret = mbedtls_sha1_starts_ret(mbed_ctx);        // Start the SHA1 engine
-    
+
     if (ret != 0) {                                     // Check for start errors
         mbedtls_sha1_free(mbed_ctx);                    // Clean up internal resources
         free(mbed_ctx);                                 // Free the heap memory

@@ -9,10 +9,10 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_symmetry.h"
 #include "tuya_error_code.h"
-// --- END: user defines and implements ---
+
 
 /**
  * @brief This function Create&initializes a aes context.

@@ -9,12 +9,12 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_mutex.h"
 #include "tuya_error_code.h"
 #include <FreeRTOS.h>
 #include <semphr.h>
-// --- END: user defines and implements ---
+
 
 /**
  * @brief Create mutex
@@ -135,7 +135,7 @@ OPERATE_RET tkl_mutex_release(const TKL_MUTEX_HANDLE mutexHandle)
     }
 
     vSemaphoreDelete((SemaphoreHandle_t)mutexHandle);
-    
+
     return OPRT_OK;
     // --- END: user implements ---
 }

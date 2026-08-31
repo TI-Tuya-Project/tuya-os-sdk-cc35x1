@@ -9,7 +9,7 @@
  *
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and definitions. */
 #include "tkl_watchdog.h"
 #include "tuya_error_code.h"
 #include <ti/drivers/Watchdog.h>
@@ -22,7 +22,7 @@ static Watchdog_Handle g_watchdog_handle = NULL;
 #ifndef CONFIG_WATCHDOG_0
 #define CONFIG_WATCHDOG_0 0
 #endif
-// --- END: user defines and implements ---
+
 
 /**
  * @brief watchdog init
@@ -41,8 +41,8 @@ uint32_t tkl_watchdog_init(TUYA_WDOG_BASE_CFG_T *cfg)
     // HARDWARE LIMIT CHECK
     // TI CC32xx Watchdog maxes out around ~53 seconds (at 80MHz).
     // T5AI clamped to 30s. We do the same to prevent overflow.
-    const uint32_t MAX_WDOG_MS = 30000; 
-    
+    const uint32_t MAX_WDOG_MS = 30000;
+
     if (cfg->interval_ms > MAX_WDOG_MS) {
         cfg->interval_ms = MAX_WDOG_MS;
     }

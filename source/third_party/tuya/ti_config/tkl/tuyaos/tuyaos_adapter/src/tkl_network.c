@@ -4,36 +4,34 @@
  * @version 1.0
  */
 
-// --- BEGIN: user defines and implements ---
+/* Adapter-specific includes and helper functions. */
 #include "tkl_network.h"
 #include "tuya_error_code.h"
 
-/* --- LwIP & BSD Socket Includes --- */
+/* LwIP and BSD socket headers. */
 #include <lwip/sockets.h>
 #include <lwip/netdb.h>
 #include <lwip/errno.h>
 #include <lwip/inet.h>
-#include <lwip/sockets.h> // For O_NONBLOCK
+#include <lwip/sockets.h> /* For O_NONBLOCK */
 
 #include <string.h>
 
-/* Helper to convert Tuya Protocol type to BSD Socket type */
-static int _get_socket_type(TUYA_PROTOCOL_TYPE_E type) {
+/* Convert Tuya protocol type to BSD socket type. */
+static int _get_socket_type(TUYA_PROTOCOL_TYPE_E type)
+{
     if (type == PROTOCOL_TCP) return SOCK_STREAM;
     if (type == PROTOCOL_UDP) return SOCK_DGRAM;
-    return SOCK_STREAM; // Default
+    return SOCK_STREAM;
 }
-// --- END: user defines and implements ---
 
 /**
  * @brief Get error code of network
  */
 TUYA_ERRNO tkl_net_get_errno(void)
 {
-    // --- BEGIN: user implements ---
-    /* LwIP maps errno correctly, so we just return the global errno */
+    /* LwIP maps errno correctly, so return the global errno. */
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -41,11 +39,9 @@ TUYA_ERRNO tkl_net_get_errno(void)
  */
 OPERATE_RET tkl_net_fd_set(const int fd, TUYA_FD_SET_T *fds)
 {
-    // --- BEGIN: user implements ---
     if (fds == NULL) return OPRT_INVALID_PARM;
     FD_SET(fd, (fd_set *)fds);
     return OPRT_OK;
-    // --- END: user implements ---
 }
 
 /**
@@ -53,11 +49,9 @@ OPERATE_RET tkl_net_fd_set(const int fd, TUYA_FD_SET_T *fds)
  */
 OPERATE_RET tkl_net_fd_clear(const int fd, TUYA_FD_SET_T *fds)
 {
-    // --- BEGIN: user implements ---
     if (fds == NULL) return OPRT_INVALID_PARM;
     FD_CLR(fd, (fd_set *)fds);
     return OPRT_OK;
-    // --- END: user implements ---
 }
 
 /**
@@ -65,10 +59,8 @@ OPERATE_RET tkl_net_fd_clear(const int fd, TUYA_FD_SET_T *fds)
  */
 OPERATE_RET tkl_net_fd_isset(const int fd, TUYA_FD_SET_T *fds)
 {
-    // --- BEGIN: user implements ---
     if (fds == NULL) return 0;
     return FD_ISSET(fd, (fd_set *)fds) ? 1 : 0;
-    // --- END: user implements ---
 }
 
 /**
@@ -76,11 +68,9 @@ OPERATE_RET tkl_net_fd_isset(const int fd, TUYA_FD_SET_T *fds)
  */
 OPERATE_RET tkl_net_fd_zero(TUYA_FD_SET_T *fds)
 {
-    // --- BEGIN: user implements ---
     if (fds == NULL) return OPRT_INVALID_PARM;
     FD_ZERO((fd_set *)fds);
     return OPRT_OK;
-    // --- END: user implements ---
 }
 
 /**
@@ -89,18 +79,16 @@ OPERATE_RET tkl_net_fd_zero(TUYA_FD_SET_T *fds)
 int tkl_net_select(const int maxfd, TUYA_FD_SET_T *readfds, TUYA_FD_SET_T *writefds, TUYA_FD_SET_T *errorfds,
                    const uint32_t ms_timeout)
 {
-    // --- BEGIN: user implements ---
     struct timeval timeout;
     struct timeval *pto = NULL;
 
-    if (ms_timeout != 0xFFFFFFFF) { // Check for infinite wait
+    if (ms_timeout != 0xFFFFFFFF) {
         timeout.tv_sec = ms_timeout / 1000;
         timeout.tv_usec = (ms_timeout % 1000) * 1000;
         pto = &timeout;
     }
 
     return select(maxfd, (fd_set *)readfds, (fd_set *)writefds, (fd_set *)errorfds, pto);
-    // --- END: user implements ---
 }
 
 /**
@@ -108,11 +96,9 @@ int tkl_net_select(const int maxfd, TUYA_FD_SET_T *readfds, TUYA_FD_SET_T *write
  */
 int tkl_net_get_nonblock(const int fd)
 {
-    // --- BEGIN: user implements ---
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) return -1;
     return (flags & O_NONBLOCK) ? 1 : 0;
-    // --- END: user implements ---
 }
 
 /**
@@ -120,21 +106,19 @@ int tkl_net_get_nonblock(const int fd)
  */
 OPERATE_RET tkl_net_set_block(const int fd, const BOOL_T block)
 {
-    // --- BEGIN: user implements ---
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1) return OPRT_COM_ERROR;
 
     if (block) {
-        flags &= ~O_NONBLOCK; // Clear Non-Block (Enable Block)
+        flags &= ~O_NONBLOCK;
     } else {
-        flags |= O_NONBLOCK;  // Set Non-Block
+        flags |= O_NONBLOCK;
     }
 
     if (fcntl(fd, F_SETFL, flags) == -1) {
         return OPRT_COM_ERROR;
     }
     return OPRT_OK;
-    // --- END: user implements ---
 }
 
 /**
@@ -142,12 +126,10 @@ OPERATE_RET tkl_net_set_block(const int fd, const BOOL_T block)
  */
 TUYA_ERRNO tkl_net_close(const int fd)
 {
-    // --- BEGIN: user implements ---
     if (close(fd) == 0) {
         return 0;
     }
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -155,12 +137,10 @@ TUYA_ERRNO tkl_net_close(const int fd)
  */
 TUYA_ERRNO tkl_net_shutdown(const int fd, const int how)
 {
-    // --- BEGIN: user implements ---
     if (shutdown(fd, how) == 0) {
         return 0;
     }
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -168,11 +148,9 @@ TUYA_ERRNO tkl_net_shutdown(const int fd, const int how)
  */
 int tkl_net_socket_create(const TUYA_PROTOCOL_TYPE_E type)
 {
-    // --- BEGIN: user implements ---
     int sock_type = _get_socket_type(type);
     int fd = socket(AF_INET, sock_type, 0);
-    return fd; // Return the FD or -1 on error (standard behavior)
-    // --- END: user implements ---
+    return fd;
 }
 
 /**
@@ -180,19 +158,17 @@ int tkl_net_socket_create(const TUYA_PROTOCOL_TYPE_E type)
  */
 TUYA_ERRNO tkl_net_connect(const int fd, const TUYA_IP_ADDR_T addr, const uint16_t port)
 {
-    // --- BEGIN: user implements ---
     struct sockaddr_in server_addr;
 
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
-    server_addr.sin_addr.s_addr = addr; // Tuya passes IP in Network Byte Order usually
+    server_addr.sin_addr.s_addr = addr;
 
     if (connect(fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) == 0) {
         return 0;
     }
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -200,12 +176,10 @@ TUYA_ERRNO tkl_net_connect(const int fd, const TUYA_IP_ADDR_T addr, const uint16
  */
 TUYA_ERRNO tkl_net_connect_raw(const int fd, void *p_socket_addr, const int len)
 {
-    // --- BEGIN: user implements ---
     if (connect(fd, (struct sockaddr *)p_socket_addr, len) == 0) {
         return 0;
     }
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -213,7 +187,6 @@ TUYA_ERRNO tkl_net_connect_raw(const int fd, void *p_socket_addr, const int len)
  */
 TUYA_ERRNO tkl_net_bind(const int fd, const TUYA_IP_ADDR_T addr, const uint16_t port)
 {
-    // --- BEGIN: user implements ---
     struct sockaddr_in bind_addr;
 
     memset(&bind_addr, 0, sizeof(bind_addr));
@@ -225,7 +198,6 @@ TUYA_ERRNO tkl_net_bind(const int fd, const TUYA_IP_ADDR_T addr, const uint16_t 
         return 0;
     }
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -233,12 +205,10 @@ TUYA_ERRNO tkl_net_bind(const int fd, const TUYA_IP_ADDR_T addr, const uint16_t 
  */
 TUYA_ERRNO tkl_net_listen(const int fd, const int backlog)
 {
-    // --- BEGIN: user implements ---
     if (listen(fd, backlog) == 0) {
         return 0;
     }
     return errno;
-    // --- END: user implements ---
 }
 
 /**
@@ -246,7 +216,6 @@ TUYA_ERRNO tkl_net_listen(const int fd, const int backlog)
  */
 TUYA_ERRNO tkl_net_accept(const int fd, TUYA_IP_ADDR_T *addr, uint16_t *port)
 {
-    // --- BEGIN: user implements ---
     struct sockaddr_in client_addr;
     socklen_t addr_len = sizeof(client_addr);
     int client_fd = accept(fd, (struct sockaddr *)&client_addr, &addr_len);
@@ -254,10 +223,9 @@ TUYA_ERRNO tkl_net_accept(const int fd, TUYA_IP_ADDR_T *addr, uint16_t *port)
     if (client_fd >= 0) {
         if (addr) *addr = client_addr.sin_addr.s_addr;
         if (port) *port = ntohs(client_addr.sin_port);
-        return client_fd; // Return the new FD
+        return client_fd;
     }
-    return -1; // Standard error indication
-    // --- END: user implements ---
+    return -1;
 }
 
 /**
@@ -267,7 +235,7 @@ TUYA_ERRNO tkl_net_send(const int fd, const void *buf, const uint32_t nbytes)
 {
     // --- BEGIN: user implements ---
     /* Return number of bytes sent or -1 on error */
-    return send(fd, buf, nbytes, 0); 
+    return send(fd, buf, nbytes, 0);
     // --- END: user implements ---
 }
 
@@ -334,7 +302,7 @@ OPERATE_RET tkl_net_gethostbyname(const char *domain, TUYA_IP_ADDR_T *addr)
 {
     // --- BEGIN: user implements ---
     struct hostent *h;
-    
+
     if (domain == NULL || addr == NULL) return OPRT_INVALID_PARM;
 
     h = gethostbyname(domain);
@@ -371,9 +339,9 @@ OPERATE_RET tkl_net_socket_bind(const int fd, const char *ip)
 OPERATE_RET tkl_net_set_cloexec(const int fd)
 {
     // --- BEGIN: user implements ---
-    // LwIP doesn't typically support FD_CLOEXEC logic like Linux, 
+    // LwIP doesn't typically support FD_CLOEXEC logic like Linux,
     // but usually it's not needed for embedded single-process systems.
-    return OPRT_OK; 
+    return OPRT_OK;
     // --- END: user implements ---
 }
 
@@ -535,7 +503,7 @@ OPERATE_RET tkl_net_set_keepalive(int fd, const BOOL_T alive, const uint32_t idl
     // --- BEGIN: user implements ---
     int keepalive = alive ? 1 : 0;
     if (setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &keepalive, sizeof(int)) != 0) return OPRT_COM_ERROR;
-    
+
     // Note: LwIP may not support setting IDLE/INTVL/CNT per socket on all versions,
     // but basic Keepalive enable/disable is standard.
     // If supported by LwIP config:

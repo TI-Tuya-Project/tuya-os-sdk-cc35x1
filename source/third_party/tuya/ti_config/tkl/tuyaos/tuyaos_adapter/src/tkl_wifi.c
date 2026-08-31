@@ -15,15 +15,15 @@
 #include "uart_term.h"
 #include "tkl_system.h"
 
-/* --- LwIP Includes for IP Address Handling --- */
+/* LwIP includes for IP address handling. */
 #include <lwip/netif.h>
 #include <lwip/ip_addr.h>
 #include "network_lwip.h"
 
-/* --- Absolute Path to TI SDK Header --- */
+/* TI Wi-Fi host driver header. */
 #include "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi/wifi_host_driver/inc_adapt/wlan_if.h"
 
-/* Constants */
+/* Adapter constants. */
 #ifndef WLAN_MAX_SCAN_COUNT
 #define WLAN_MAX_SCAN_COUNT 20U
 #endif
@@ -42,13 +42,13 @@
 /* TI expects a two-letter country code followed by the indoor-operation flag. */
 static const uint8_t s_wifi_country_domain[] = {'E', 'U', 'I'};
 
-/* --- Global Variables --- */
+/* Global variables. */
 static WIFI_EVENT_CB g_wifi_event_cb = NULL;
 static TKL_SEM_HANDLE g_scan_sem = NULL;
 static AP_IF_S *g_scan_results_ptr = NULL;
 static uint32_t g_scan_count = 0;
 
-/* New: Track current connection status locally */
+/* Track current connection status locally. */
 static WF_STATION_STAT_E g_wifi_status = WSS_IDLE;
 
 /* Helper utilities. */
@@ -62,9 +62,9 @@ static WF_AP_AUTH_MODE_E _ti_sec_to_tuya(uint16_t security_info)
 
     switch (sec_bitmap) {
         case WLAN_SEC_TYPE_OPEN:      return WAAM_OPEN;
-        case WLAN_SEC_TYPE_WPA_WPA2:  return WAAM_WPA2_PSK; 
+        case WLAN_SEC_TYPE_WPA_WPA2:  return WAAM_WPA2_PSK;
         case WLAN_SEC_TYPE_WPA2_PLUS: return WAAM_WPA2_PSK;
-        case WLAN_SEC_TYPE_WPA3:      return WAAM_WPA_WPA3_SAE; 
+        case WLAN_SEC_TYPE_WPA3:      return WAAM_WPA_WPA3_SAE;
         default:                      return WAAM_WPA2_PSK;
     }
 }
@@ -77,7 +77,7 @@ void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
     switch (pWlanEvent->Id)
     {
         case WLAN_EVENT_CONNECT:
-            /* Update Status: Connected */
+            /* Update status: connected. */
             g_wifi_status = WSS_CONN_SUCCESS;
             if (g_wifi_event_cb) {
                 g_wifi_event_cb(WFE_CONNECTED, NULL);
@@ -85,8 +85,8 @@ void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
             break;
 
         case WLAN_EVENT_DISCONNECT:
-            /* Update Status: Disconnected */
-            g_wifi_status = WSS_IDLE; // Or WSS_CONN_FAIL depending on context
+            /* Update status: disconnected. */
+            g_wifi_status = WSS_IDLE;
             if (g_wifi_event_cb) {
                 g_wifi_event_cb(WFE_DISCONNECTED, NULL);
             }
@@ -97,17 +97,17 @@ void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
             if (g_scan_sem != NULL) {
                 WlanEventScanResult_t *scan_data = &pWlanEvent->Data.ScanResult;
                 uint32_t count = scan_data->NetworkListResultLen;
-                
+
                 if (count > WLAN_MAX_SCAN_COUNT) count = WLAN_MAX_SCAN_COUNT;
 
                 g_scan_results_ptr = (AP_IF_S *)tkl_system_malloc(sizeof(AP_IF_S) * count);
-                
+
                 if (g_scan_results_ptr != NULL) {
                     memset(g_scan_results_ptr, 0, sizeof(AP_IF_S) * count);
-                    
+
                     for (uint32_t i = 0; i < count; i++) {
                         WlanNetworkEntry_t *entry = &scan_data->NetworkListResult[i];
-                        
+
                         g_scan_results_ptr[i].s_len = entry->SsidLen;
                         if (g_scan_results_ptr[i].s_len > WIFI_SSID_LEN) {
                             g_scan_results_ptr[i].s_len = WIFI_SSID_LEN;
@@ -125,7 +125,7 @@ void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
                 } else {
                     g_scan_count = 0;
                 }
-                
+
                 tkl_semaphore_post(g_scan_sem);
             }
             break;
@@ -220,11 +220,11 @@ OPERATE_RET tkl_wifi_station_connect(const int8_t *ssid, const int8_t *passwd)
     }
 
     ret = Wlan_Connect((signed char *)ssid, strlen((char*)ssid),
-                       NULL,          
-                       sec_type,      
-                       password_ptr,  
-                       password_len,  
-                       0);            
+                       NULL,
+                       sec_type,
+                       password_ptr,
+                       password_len,
+                       0);
 
     if (ret != 0) {
         g_wifi_status = WSS_CONN_FAIL;
@@ -288,8 +288,8 @@ OPERATE_RET tkl_wifi_station_get_conn_ap_rssi(int8_t *rssi)
     WlanBeaconRssi_t beaconRssi;
 
     if (rssi == NULL) return OPRT_INVALID_PARM;
-    
-    /* Only valid if connected */
+
+    /* Only valid if connected. */
     if (g_wifi_status != WSS_CONN_SUCCESS) {
         return OPRT_COM_ERROR;
     }
@@ -298,7 +298,7 @@ OPERATE_RET tkl_wifi_station_get_conn_ap_rssi(int8_t *rssi)
     ret = Wlan_Get(WLAN_GET_RSSI, &beaconRssi);
 
     if (ret == 0) {
-        /* Use avg data RSSI or beacon RSSI */
+        /* Use average data RSSI. */
         *rssi = beaconRssi.rssi_data;
         return OPRT_OK;
     }
@@ -369,7 +369,7 @@ OPERATE_RET tkl_wifi_stop_ap(void)
 void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg)
 {
 
-    switch(event){
+    switch (event) {
         case WFE_CONNECTED:
             UART_PRINT("\n\r[TKL WIFI] Status: Connected to Router\n\r");
             break;
@@ -380,8 +380,8 @@ void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg)
             UART_PRINT("\n\r[TKL WIFI] Status: Disconnected from the Router \n\r");
             break;
         default:
-            UART_PRINT("\n\r[TKL WIFI] Status: Unhandled Event ID: %d\n\r",(int)event);
-            break;        
+            UART_PRINT("\n\r[TKL WIFI] Status: Unhandled Event ID: %d\n\r", (int)event);
+            break;
     }
 }
 
