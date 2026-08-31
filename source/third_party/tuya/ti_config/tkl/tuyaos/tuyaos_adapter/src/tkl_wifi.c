@@ -13,19 +13,34 @@
 #include <string.h>
 #include <stdio.h>
 #include "uart_term.h"
+#include "tkl_system.h"
 
 /* --- LwIP Includes for IP Address Handling --- */
 #include <lwip/netif.h>
 #include <lwip/ip_addr.h>
+#include "network_lwip.h"
 
 /* --- Absolute Path to TI SDK Header --- */
 #include "C:/ti/simplelink_wifi_sdk_9_21_00_15/source/ti/drivers/net/wifi/wifi_host_driver/inc_adapt/wlan_if.h"
 
-/* --- Macros & Constants --- */
+/* Constants */
 #ifndef WLAN_MAX_SCAN_COUNT
-#define WLAN_MAX_SCAN_COUNT 20
+#define WLAN_MAX_SCAN_COUNT 20U
 #endif
-#define MAX_SSID_LEN 32 
+
+#define SCAN_SEMAPHORE_INITIAL_COUNT 0U
+#define SCAN_SEMAPHORE_MAX_COUNT 1U
+
+/* Delays preserve the existing hardware/network-stack sequencing. */
+#define WIFI_SCAN_TIMEOUT_MS 3000U
+#define WIFI_ROLE_TRANSITION_DELAY_MS 500U
+#define AP_NETWORK_INTERFACE_DELAY_MS 100U
+
+/* The TI AP implementation accepts at most four associated stations. */
+#define AP_MAX_STATIONS 4U
+
+/* TI expects a two-letter country code followed by the indoor-operation flag. */
+static const uint8_t s_wifi_country_domain[] = {'E', 'U', 'I'};
 
 /* --- Global Variables --- */
 static WIFI_EVENT_CB g_wifi_event_cb = NULL;
@@ -36,7 +51,7 @@ static uint32_t g_scan_count = 0;
 /* New: Track current connection status locally */
 static WF_STATION_STAT_E g_wifi_status = WSS_IDLE;
 
-/* --- Helpers --- */
+/* Helper utilities. */
 
 /**
  * @brief Convert TI Security Bitmap to Tuya Auth Mode
@@ -54,7 +69,7 @@ static WF_AP_AUTH_MODE_E _ti_sec_to_tuya(uint16_t security_info)
     }
 }
 
-/* --- TI Event Handler --- */
+/* TI WLAN event handler. */
 void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
 {
     if (pWlanEvent == NULL) return;
@@ -101,7 +116,7 @@ void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
                         memcpy(g_scan_results_ptr[i].ssid, entry->Ssid, g_scan_results_ptr[i].s_len);
                         g_scan_results_ptr[i].ssid[g_scan_results_ptr[i].s_len] = '\0';
 
-                        memcpy(g_scan_results_ptr[i].bssid, entry->Bssid, 6);
+                        memcpy(g_scan_results_ptr[i].bssid, entry->Bssid, MAC_ADDR_LEN);
                         g_scan_results_ptr[i].rssi = entry->Rssi;
                         g_scan_results_ptr[i].channel = entry->Channel;
                         g_scan_results_ptr[i].security = _ti_sec_to_tuya(entry->SecurityInfo);
@@ -121,29 +136,35 @@ void TiWlanEventHandler(WlanEvent_t *pWlanEvent)
     }
 }
 
-/* --- Core TKL Functions --- */
+/* Core TKL Wi-Fi functions. */
 
 OPERATE_RET tkl_wifi_init(WIFI_EVENT_CB cb)
 {
     int ret;
     g_wifi_event_cb = cb;
-
-    if (tkl_semaphore_create_init(&g_scan_sem, 0, 1) != OPRT_OK) {
+    ret = tkl_semaphore_create_init(&g_scan_sem,
+                                    SCAN_SEMAPHORE_INITIAL_COUNT,
+                                    SCAN_SEMAPHORE_MAX_COUNT);
+    if (ret != OPRT_OK) {
         return OPRT_COM_ERROR;
     }
 
     ret = Wlan_Start(TiWlanEventHandler);
-    if (ret != 0) return OPRT_COM_ERROR;
-
+    if (ret != 0) {
+        return OPRT_COM_ERROR;
+    }
+    tkl_system_sleep(WIFI_ROLE_TRANSITION_DELAY_MS);
     RoleUpStaCmd_t staParams = {0};
-    staParams.countryDomain[0] = 'E';
-    staParams.countryDomain[1] = 'U';
-    staParams.countryDomain[2] = 'I'; 
-    staParams.wpsDisabled = TRUE; 
+    memcpy(staParams.countryDomain,
+           s_wifi_country_domain,
+           sizeof(staParams.countryDomain));
+    staParams.wpsDisabled = TRUE;
     staParams.p2pDeviceEnabled = FALSE;
 
-    ret = Wlan_RoleUp(WLAN_ROLE_STA, &staParams, 0);
-    if (ret != 0) return OPRT_COM_ERROR;
+    ret = Wlan_RoleUp(WLAN_ROLE_STA, &staParams, WLAN_WAIT_FOREVER);
+    if (ret != 0) {
+        return OPRT_COM_ERROR;
+    }
 
     return OPRT_OK;
 }
@@ -157,7 +178,7 @@ OPERATE_RET tkl_wifi_scan_ap(const int8_t *ssid, AP_IF_S **ap_ary, uint32_t *num
     ret = Wlan_Scan(WLAN_ROLE_STA, NULL, WLAN_MAX_SCAN_COUNT);
     if (ret != 0) return OPRT_COM_ERROR;
 
-    ret = tkl_semaphore_wait(g_scan_sem, 3000); 
+    ret = tkl_semaphore_wait(g_scan_sem, WIFI_SCAN_TIMEOUT_MS);
     if (ret != OPRT_OK) return OPRT_TIMEOUT;
 
     if (g_scan_results_ptr != NULL) {
@@ -185,7 +206,7 @@ OPERATE_RET tkl_wifi_station_connect(const int8_t *ssid, const int8_t *passwd)
     char *password_ptr = NULL;
     int password_len = 0;
 
-    /* Update status to connecting */
+    /* Track connection state locally before the driver callback arrives. */
     g_wifi_status = WSS_CONNECTING;
 
     if (ssid == NULL) return OPRT_INVALID_PARM;
@@ -221,19 +242,23 @@ OPERATE_RET tkl_wifi_station_disconnect(void)
 
 OPERATE_RET tkl_wifi_get_mac(const WF_IF_E wf, NW_MAC_S *mac)
 {
-    WlanMacAddress_t macParam;
+    WlanMacAddress_t macParam = {0};
     int ret;
 
     if (mac == NULL) return OPRT_INVALID_PARM;
 
+    /* Retrieve the station MAC used to form Tuya's SmartLife AP name. */
     macParam.roleType = WLAN_ROLE_STA;
     ret = Wlan_Get(WLAN_GET_MACADDRESS, &macParam);
 
-    if (ret == 0) {
-        memcpy(mac->mac, macParam.pMacAddress, 6);
-        return OPRT_OK;
+    if (ret != 0 ||
+        (macParam.pMacAddress[0] == 0 &&
+         macParam.pMacAddress[MAC_ADDR_LEN - 1U] == 0)) {
+        return OPRT_COM_ERROR;
     }
-    return OPRT_COM_ERROR;
+
+    memcpy(mac->mac, macParam.pMacAddress, MAC_ADDR_LEN);
+    return OPRT_OK;
 }
 
 OPERATE_RET tkl_wifi_get_work_mode(WF_WK_MD_E *mode)
@@ -281,49 +306,68 @@ OPERATE_RET tkl_wifi_station_get_conn_ap_rssi(int8_t *rssi)
     return OPRT_COM_ERROR;
 }
 
-/* ------------------------------------------------------------------------- */
-/* STUB Functions (Required by tkl_wifi.h but not implemented in this port)  */
-/* ------------------------------------------------------------------------- */
-/* Inside tkl_wifi.c -> tkl_wifi_start_ap */
+/* Soft AP support. */
 OPERATE_RET tkl_wifi_start_ap(const WF_AP_CFG_IF_S *cfg)
 {
+    int ret;
     RoleUpApCmd_t apParams = {0};
-    
-    apParams.ssid = (uint8_t *)cfg->ssid;
+    static char safe_ssid[WIFI_SSID_LEN + 1U];
+
+    if (cfg == NULL || cfg->s_len > WIFI_SSID_LEN) {
+        return OPRT_INVALID_PARM;
+    }
+
+    /* Switch from station mode before configuring the provisioning AP. */
+    ret = Wlan_RoleDown(WLAN_ROLE_STA, WLAN_WAIT_FOREVER);
+    if (ret != 0) {
+        return OPRT_COM_ERROR;
+    }
+    tkl_system_sleep(WIFI_ROLE_TRANSITION_DELAY_MS);
+
+    /* TI requires a null-terminated SSID, while Tuya provides an explicit length. */
+    memset(safe_ssid, 0, sizeof(safe_ssid));
+    memcpy(safe_ssid, cfg->ssid, cfg->s_len);
+    apParams.ssid = (uint8_t *)safe_ssid;
+
     apParams.channel = cfg->chan;
-    
-    /* FIX: Set the country code to stop the Regulatory Domain warning */
-    apParams.countryDomain[0] = 'U';
-    apParams.countryDomain[1] = 'S';
-    apParams.countryDomain[2] = ' ';
+
+    /* Use the same regulatory domain as the station role. */
+    memcpy(apParams.countryDomain,
+           s_wifi_country_domain,
+           sizeof(apParams.countryDomain));
+
+    apParams.sta_limit = AP_MAX_STATIONS;
+    apParams.wpsDisabled = TRUE;
+    apParams.p2pDeviceEnabled = FALSE;
 
     apParams.secParams.Type = WLAN_SEC_TYPE_OPEN;
 
-    
-    /* Start the AP */
-    int ret = Wlan_RoleUp(WLAN_ROLE_AP, &apParams, 0); 
-    if(ret != 0){
+    ret = Wlan_RoleUp(WLAN_ROLE_AP, &apParams, WLAN_WAIT_FOREVER);
+    if (ret != 0) {
         return OPRT_COM_ERROR;
     }
 
-    /* 2. Enable DHCP server */
+    /* Attach the AP interface before starting its DHCP server. */
+    network_stack_add_if_ap();
+    tkl_system_sleep(AP_NETWORK_INTERFACE_DELAY_MS);
+
     if (network_stack_set_dhcp_server_if_ap(1) != 0) {
-        UART_PRINT("[TKL WIFI] DHCP server start failed!\n\r");
         return OPRT_COM_ERROR;
-    } else{
-        UART_PRINT("!!!!!!!!!!!!!!!! [TKL WIFI] DHCP server Started !!!!!!!!!!!!!!!!");
     }
+
+    return OPRT_OK;
 }
 
 OPERATE_RET tkl_wifi_stop_ap(void)
 {
-    // ERROR FIX: Wlan_RoleDown expected 2 arguments (Role, Timeout)
-    int ret = Wlan_RoleDown(WLAN_ROLE_AP, 0); 
+    int ret = Wlan_RoleDown(WLAN_ROLE_AP, WLAN_WAIT_FOREVER);
     return (ret == 0) ? OPRT_OK : OPRT_COM_ERROR;
 }
 
 
-void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg){
+/* Default Wi-Fi event bridge used by higher-level Tuya code. */
+void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg)
+{
 
     switch(event){
         case WFE_CONNECTED:
@@ -341,6 +385,7 @@ void tkl_wifi_default_event_cb(WF_EVENT_E event, void *arg){
     }
 }
 
+/* Read the current interface IP configuration. */
 OPERATE_RET tkl_wifi_get_ip(const WF_IF_E wf, NW_IP_S *ip)
 {
     if (ip == NULL) {

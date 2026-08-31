@@ -49,7 +49,7 @@
 #include "socket_examples.h"
 #include "lwip_iperf_examples.h"
 
-/* Board Header files */
+/* Board and platform headers */
 #include "ti_drivers_config.h"
 #ifdef CC33XX
 #include <kernel/dpl/DebugP.h>
@@ -59,7 +59,7 @@
 #include "ti_board_open_close.h"
 #endif // CC33XX
 #include "tuya_test.h"
-/* Example Header files */
+/* Application and driver headers */
 #include "cmd_parser.h"
 #include "wlan_cmd.h"
 #include "ble_cmd.h"
@@ -70,15 +70,19 @@
 #include "tkl_wifi.h"
 #include "netcfg.h"
 
-/* Pairing Command Declarations */
+/* Tuya pairing entry points */
 extern const char tuyaSmartLifeStr[];
 int32_t cmdTuyaSmartLifeCallback(void *arg);
 int32_t printTuyaSmartLifeUsage(void *arg);
 
-//LWIP
+#ifdef CC35XX
+extern void tuya_app_main(void);
+#endif
+
+/* LwIP */
 #include "network_lwip.h"
 
-//ERRORS
+/* Errors */
 #include "errors.h"
 
 #include "osi_kernel.h"
@@ -88,7 +92,7 @@ int32_t printTuyaSmartLifeUsage(void *arg);
 #ifdef SNTP_SUPPORT
 #include "sntp_wrapper.h"
 #endif
-// Debug for total allocation
+/* Optional debug counters. */
 #ifdef PRINT_DBG_TOTAL_MALLOC_FREE
 extern volatile UINT32 totalloc;
 #endif
@@ -105,10 +109,7 @@ void initialize_mbedtls_threading(); //define prototype
 
 
 
-/*[TUYA HEADERS]*/
-/*=========================================================================
- * 🌟 TUYA APPLICATION CONFIGURATION & STRUCTS 🌟
- *=========================================================================*/
+/* Tuya application configuration and board mapping. */
 #include "tkl_board_config.h"  
 #include "wrapper_config.h"
 #include "tal_kv.h"
@@ -116,7 +117,7 @@ void initialize_mbedtls_threading(); //define prototype
 #include "tkl_output.h"
 
 
-/* Product Fields */
+/* Tuya product credentials used by the local demo build. */
 #define PRODUCT_ID "tjoktmmglvy4hc9x"
 #define PRODUCT_UUID "uuid4a3e78a4b5695414"
 #define AUTH_KEY "MS37HFWKHv6aff0WeXa8eGXkToZl15vQ"
@@ -134,7 +135,7 @@ static tal_kv_cfg_t kv_cfg = {
     .key  = "dflfuap134ddlduq"
 };
 
-/* Helper function to safely initialize the hardware map */
+/* Initialize the board mapping with invalid defaults. */
 static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
     for(int i = 0; i < TKL_MAX_UART_PORTS;   ++i) map->uart_map[i] = -1;
     for(int i = 0; i < TKL_MAX_ADC_PORTS;    ++i) map->adc_map[i]  = -1;
@@ -147,14 +148,12 @@ static void init_tuya_map_defaults(TKL_BOARD_CONFIG_T *map) {
 /*=========================================================================*/
 
 
-/* Bridge function for Tuya Logging */
+/* Bridge Tuya logging into the TI UART console. */
 void tuya_cli_print_bridge(const char *str)
 {
     // The macro works here because this file has the right TI headers included!
     UART_PRINT("%s", str); 
 }
-
-/* --- Tuya SDK Includes --- */
 
 #include "tuya_cloud_types.h"
 #include "tuya_iot.h"
@@ -163,17 +162,12 @@ void tuya_cli_print_bridge(const char *str)
 #endif
 #include "tkl_system.h"
 #include "tkl_memory.h"
-/* --- Tuya SDK Includes --- */
-/*[TUYA HEADERS]*/
-
-/* Application defines */
+/* Application constants. */
 
 #define APP_MCSPI_MSGSIZE       (100U)
 #define CC33XX_MAX_FW_LOGS_BUFFER_SIZE    (4096U)
 
-/****************************************************************************
-                      LOCAL FUNCTION PROTOTYPES
-****************************************************************************/
+/* Local function prototypes. */
 int32_t showAvailableCmd();
 int32_t cmd_prompt(void *arg);
 int32_t cmdClearcallback(void *arg);
@@ -201,7 +195,7 @@ extern uint32_t ActiveNetIfBitMap;
 
 
 
-// ===== CMD Tuya Init =====
+/* Tuya initialization command. */
 const char tuya_init[] = "tuya_init";
 int32_t printInitTuyaUsage(void *arg);
 int32_t cmd_tuya_init(void *arg);
@@ -248,7 +242,7 @@ int32_t cmd_tuya_init(void *arg) {
 
     return 0;
 }
-// ===== CMD Tuya Init =====
+/* End Tuya initialization command. */
 
 
 
@@ -1395,14 +1389,17 @@ void initCompletions()
 #endif
 
 
-//OSPREY_MX-38
-#define HWREG(x)                                                              \
-        (*((volatile unsigned long *)(x))) //TODO temporary need to be removed
-#define ICACHE_BASE 0x41902000  //TODO temporary need to be removed, only for M3, M$ has different address
+#ifdef CC35XX
+#include <ti/devices/cc35xx/inc/hw_icache.h>
+#include <ti/devices/cc35xx/inc/hw_memmap.h>
+#include <ti/devices/cc35xx/inc/hw_types.h>
+#endif
 
 
 void *network_terminal_entry(void *args)
 {
+    (void)args;
+
 #ifdef CC33XX
     int32_t             RetVal = -1;
 
@@ -1425,9 +1422,10 @@ void *network_terminal_entry(void *args)
     wlan_TurnOffWlan();
 #elif defined(CC35XX)
     int32_t             RetVal = -1;
-    HWREG(ICACHE_BASE + 0x84) |= 0x00000001  ;//OSPREY_MX-38
-    HWREG(ICACHE_BASE + 0x4) |= 0xc0000000  ;//OSPREY_MX-38
-    //HWREG(ICACHE_BASE + 0x4) |= 0x80000000  ;//OSPREY_MX-38, this is for 64M cache, instead CRAM
+    /* OSPREY_MX-38: enable cache memory and its memory-error interrupt mask. */
+    HWREG(ICACHE_BASE + ICACHE_O_IRQ_STATUS_MASK) |= ICACHE_IRQ_STATUS_MASK_MEM_ERR;
+    HWREG(ICACHE_BASE + ICACHE_O_CTRL) |=
+        ICACHE_CTRL_MEM_CENABLE | ICACHE_CTRL_MEM_RENABLE;
 
     Board_init();
 
@@ -1451,13 +1449,17 @@ void *network_terminal_entry(void *args)
 
     /* Display Network Terminal API commands */
     showAvailableCmd();
-
-    if(RetVal < 0)
+#ifdef CC35XX
+    /* Start Tuya after the network terminal has initialized the Wi-Fi stack. */
+    extern void tuya_app_main(void);
+    tuya_app_main();
+#endif
+    if (RetVal < 0)
     {
         /* Handle Error */
         UART_PRINT(
             "Network Terminal - Unable to retrieve device information \n");
-        return(NULL);
+        return NULL;
     }
     /*
      * Calling UART handling method which serves as the application main loop.
@@ -1471,17 +1473,14 @@ void *network_terminal_entry(void *args)
     Board_driversClose();
     Drivers_close();
 #endif // CC33XX
-	return NULL;
+    return NULL;
 }
 
 
 #ifdef CC35XX
-extern void tuya_app_main(void);
-
 void *mainThread(void *args)
 {
-    cmdTuyaSmartLifeCallback(args);
-    tuya_app_main();
+    (void)args;
     network_terminal_entry(NULL);
     return NULL;
 }

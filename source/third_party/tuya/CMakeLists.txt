@@ -20,7 +20,7 @@ if(NOT DEFINED CONFIG_ENABLE_CELLULAR)
     set(CONFIG_ENABLE_CELLULAR "n")
 endif()
 
-# --- 1. DEFINE SOURCES ---
+# Source list for the Tuya static library.
 set(${TARGET_NAME}_SOURCES
     # Tuya OS Adapter (TKL)
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_system.c
@@ -47,7 +47,7 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/src/tuya_queue.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/schema/dp_schema.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_board.c
-    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities/mix_method.c 
+    ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities/mix_method.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tal_integration.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tuya_mbedtls_port.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tuya_cloud_service/cloud/tuya_register_center.c
@@ -62,9 +62,8 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_network.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/init/src/tkl_init_wifi.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_i2c.c
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_pwm.c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/src/tkl_rtc.c
-    
+
     # Utilities & JSON Core
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities/crc32i.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/common/utilities/uni_random.c
@@ -84,7 +83,7 @@ set(${TARGET_NAME}_SOURCES
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_system/src/tal_workqueue.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_wifi/src/tal_wifi.c
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_network/src/tal_network.c
-    C:/TI_Project/simplelink_wifi_sdk_tuya/source/third_party/tuya/uart_term.c
+    ${CMAKE_CURRENT_LIST_DIR}/uart_term.c
 
     # TAL Security (mbedTLS)
     ${CMAKE_CURRENT_LIST_DIR}/tuya_src/tal_security/src/tal_hash.c
@@ -136,10 +135,13 @@ set(${TARGET_NAME}_SOURCES
     "${CMAKE_SOURCE_DIR}/source/third_party/tuya/ti_config/tal_integration.c"
 
 )
-    if(NOT DEFINED TI_SYSCONFIG_TOOL)
-        set(TI_SYSCONFIG_TOOL "sysconfig_cli.bat")
-    endif()
-# --- 2. DEFINE INCLUDES ---
+
+# Keep the SysConfig tool overridable from the environment or parent build.
+if(NOT DEFINED TI_SYSCONFIG_TOOL)
+    set(TI_SYSCONFIG_TOOL "sysconfig_cli.bat")
+endif()
+
+# Include paths required by the Tuya library and its local TI integration.
 
 set(TUYA_SDK_ROOT ${CMAKE_SOURCE_DIR})
 set(TUYA_FREERTOS_ROOT ${TUYA_SDK_ROOT}/source/third_party/freertos)
@@ -220,7 +222,6 @@ set(${TARGET_NAME}_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/bluetooth
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/flash
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/gpio
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2c
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/i2s
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/pwm
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wakeup
@@ -229,7 +230,6 @@ set(${TARGET_NAME}_INCLUDES
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/security
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/spi
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/timer
-    ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/wifi
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/utilities/include
     ${CMAKE_CURRENT_LIST_DIR}/ti_config/tkl/tuyaos/tuyaos_adapter/include/lwip
 
@@ -259,7 +259,7 @@ set(${TARGET_NAME}_INCLUDES
     $<TARGET_PROPERTY:wifi_host_driver,INCLUDE_DIRECTORIES>
 )
 
-# --- 3. COMPILER SETTINGS ---
+# Compiler settings for the Tuya library.
 
 set(${TARGET_NAME}_LIBRARIES ${CMAKE_COMMON_LIBRARY})
 
@@ -280,7 +280,7 @@ set(${TARGET_NAME}_DEFINITIONS
 
 set(${TARGET_NAME}_COMPILER_FLAGS -Ofast -Wno-error)
 
-# --- 4. CREATE LIBRARY ---
+# Subprojects that build the Tuya dependency tree.
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tuya_src/libcjson)
 
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/tuya_src/libhttp)
